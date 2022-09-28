@@ -1,19 +1,8 @@
-import { SPageListProps } from 'servisofts-component';
-import Services from '../Services';
-import Carga from './Carga';
-import entradas from './Entradas';
-import Inicio from './Inicio';
-import reservas from './Reservas';
+import { SPage } from 'servisofts-component';
+import login from './login';
+import root from './root';
 
-
-const Pages: SPageListProps = {
-
-    "/": Carga,
-    "inicio": Inicio,
-    "reservas": reservas,
-    "entradas": entradas,
-    "carga": Carga,
-    ...Services.Pages,
-}
-
-export default Pages;
+export default SPage.combinePages("/", {
+    "": root,
+    "login": login,
+});
