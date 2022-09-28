@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { SButtom, SHr, SPage, SText, SView } from "servisofts-component";
+import { SHr, SPage, SText, SView } from "servisofts-component";
 
 import PBarraFooter from "../Components/PBarraFooter";
+import Http from '../Http';
 
 
 export default class Inicio extends React.Component {
@@ -10,17 +11,66 @@ export default class Inicio extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      saludar:"hola a todos"
+      aeronave: "a",
+      tripulacion: "b",
+      vuelo: "b"
     };
   }
 
   componentDidMount() {
-    this.vuelos();
+    this.listVuelo();
+    this.listTripulacion();
+    this.listAeronave();
   }
 
 
-  async vuelos() {
+  async listVuelo() {
     const api01 = await fetch("http://67.205.155.238/api/vuelo", { method: 'GET' });
+    const dataLibros = await api01.json();
+
+    // verifico conexion con la api
+    if (!api01) {
+      const message = `An error has occured: ${api01.status}`;
+      throw new Error(message);
+    }
+
+    let html1 = ``;
+    Object.keys(dataLibros).map((key) => {
+      var obj = dataLibros[key];
+      html1 += "key " + JSON.stringify(obj.key) + "\n";
+    });
+
+    this.setState({ vuelo: html1 })
+  }
+
+  async listTripulacion() {
+    const api01 = await fetch("http://67.205.155.238/api/tripulacion", { method: 'GET' });
+    const dataLibros = await api01.json();
+
+    // verifico conexion con la api
+    if (!api01) {
+      const message = `An error has occured: ${api01.status}`;
+      throw new Error(message);
+    }
+
+    let html2 = ``;
+    Object.keys(dataLibros).map((key) => {
+      var obj = dataLibros[key];
+      html2 += "key " + JSON.stringify(obj.key) + "\n";
+    });
+
+    this.setState({ tripulacion: html2 })
+  }
+
+  async listAeronave() {
+    Http.post().then(resp=>{
+      console.log(resp)
+    }).catch(e => {
+      console.error(e);
+    })
+    return;
+    
+    const api01 = await fetch("http://159.223.109.162/api/aeronave", { method: 'GET' });
     const dataLibros = await api01.json();
 
     // verifico conexion con la api
@@ -32,13 +82,10 @@ export default class Inicio extends React.Component {
     let html = ``;
     Object.keys(dataLibros).map((key) => {
       var obj = dataLibros[key];
-      html += "key "+ JSON.stringify(obj.key)+"\n";
+      html += "key " + JSON.stringify(obj.key) + "\n";
     });
 
-    this.setState({saludar : html})
-    // imprimo los datos
-    // html += `</br> `;
-    // return html;
+    this.setState({ aeronave: html })
   }
 
 
@@ -56,13 +103,9 @@ export default class Inicio extends React.Component {
           </SView>
           <SView flex center>
             <SView col={"xs-5"} height={200}>
-
-              {/* <SButtom props={{ type: "danger" }} onPress={() => {
-                this.vuelos()
-              }}>Logout</SButtom> */}
-
-
-              <SText>{this.state.saludar}</SText>
+              <SText style={{ color: "red" }} >{this.state.aeronave}</SText>
+              <SText style={{ color: "yellow" }} >{this.state.tripulacion}</SText>
+              <SText style={{ color: "green" }} >{this.state.vuelo}</SText>
             </SView>
           </SView>
         </SPage>
