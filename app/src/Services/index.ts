@@ -1,7 +1,5 @@
 
 import Casagrande from './Casagrande';
-// import Roles_permisos from './Roles_permisos';
-// import Usuario from './Usuario';
  const Pages = {
     // ...Usuario.Pages,
     // ...Roles_permisos.Pages,

@@ -1,11 +1,10 @@
-import { Text, View } from 'react-native'
-import React from 'react'
-import { SHr, SIcon, SImage, SLoad, SNavigation, SPage, SScrollView2, SText, STheme, SView, SPopup, SForm, SButtom, SDate } from "servisofts-component";
+import React from 'react';
+import { SHr, SIcon, SPage, SText, STheme, SView } from "servisofts-component";
 
 import PBarraFooter from "../Components/PBarraFooter";
 
 
-export default class inicio extends React.Component {
+export default class Inicio extends React.Component {
   render() {
     return (
       <>

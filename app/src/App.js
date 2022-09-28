@@ -1,16 +1,15 @@
-import React from 'react';
-import { SComponentContainer, SIcon, SNavigation, SText, STheme, SView } from 'servisofts-component';
+import { SComponentContainer, SNavigation } from 'servisofts-component';
 
-import Pages from './Pages';
 import Assets from './Assets';
+import Pages from './Pages';
 
 //---------REDUX----------
-import Reducer from './Reducer';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import reduxThunk from 'redux-thunk';
+import Reducer from './Reducer';
 //------------------------
-import SSocket, { setProps } from 'servisofts-socket'
+import SSocket, { setProps } from 'servisofts-socket';
 import NavBar from './Components/NavBar';
 
 import SConfig from './SConfig';
