@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "reactclean_app",
   "scripts": {
-    "start": "react-native start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "web": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
