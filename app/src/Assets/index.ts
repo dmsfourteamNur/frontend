@@ -9,6 +9,9 @@ import Inputs from "./svg/inputs";
 import Reserva from "./svg/reserva";
 import Tarjeta from "./svg/tarjeta";
 
+import Tripulacion from "./svg/tripulacion";
+
+
 //Logo
 import Logo, { ReactComponent as LogoW } from './svg/logo.svg';
 import Logosolo, { ReactComponent as LogosoloW } from './svg/logosolo.svg';
@@ -25,6 +28,7 @@ const Assets: SAssets = {
         ...Inputs,
         ...Reserva,
         ...Tarjeta,
+        ...Tripulacion,
     }
 }
 
