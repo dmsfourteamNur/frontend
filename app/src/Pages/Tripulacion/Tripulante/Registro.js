@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2 } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
 
@@ -6,6 +6,8 @@ import FloatButtom from '../../../Components/FloatButtom';
 
 
 export default (props) => {
+
+    const formulario = useRef();
 
     const [state, setState] = useState({
         data: []
@@ -50,6 +52,8 @@ export default (props) => {
                             row
                             ref={(form) => {
                                 // this.form = form;
+                                formulario.current = form;
+
                             }}
                             style={{
                                 justifyContent: 'space-between',
@@ -72,7 +76,7 @@ export default (props) => {
                                 apellido: {
                                     label: 'Apellidos',
                                     type: 'text',
-                                    isRequired: false,
+                                    isRequired: true,
                                     // defaultValue: parseFloat(data['precio'] ?? 0).toFixed(2),
                                     // col: 'xs-5.5'
                                 },
@@ -114,7 +118,7 @@ export default (props) => {
                     backgroundColor={STheme.color.card}
                     style={{ borderRadius: 4 }}
                     onPress={() => {
-                        this.form.submit();
+                        formulario.current.submit();
                     }}>
                     <SText color={STheme.color.text} font={'Roboto'} fontSize={14} bold>
                         REGISTRAR

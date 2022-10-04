@@ -37,6 +37,7 @@ const inputs = () => {
             },
             "error": {
                 // borderRadius: 16,
+                borderWidth: 2,
                 borderColor: STheme.color.danger,
             },
         },
@@ -54,7 +55,7 @@ const inputs = () => {
             "View": {
                 height: 55,
                 marginTop: 50,
-                paddingEnd: 10,
+                // paddingEnd: 10,
                 // color: STheme.color.text,
             },
             "InputText": {
@@ -65,7 +66,9 @@ const inputs = () => {
                 borderRadius: 8
             },
             "error": {
+                borderWidth: 2,
                 borderColor: STheme.color.danger,
+                borderRadius: 8
             },
         }
     }
