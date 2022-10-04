@@ -7,37 +7,34 @@ import FloatButtom from '../../../Components/FloatButtom';
 
 export default (props) => {
 
+    const formulario = useRef();
 
     const [state, setState] = useState({
         data: []
     });
 
 
-    useEffect(() => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
+    // useEffect(() => {
+    //     var requestOptions = {
+    //         method: 'GET',
+    //         redirect: 'follow'
+    //     };
 
-        fetch("http://localhost:8080/tripulante", requestOptions)
-            // .then(response => response.text())
-            .then(response => response.json())
-            .then(result => {
-                state.data = result;
-                setState({ ...state })
-                // var obj = JSON.parse(state.data )
-                console.log(state.data)
-            })
-            .catch(error => console.log('error', error));
-    }, [])
+    //     fetch("http://localhost:8080/tripulante", requestOptions)
+    //         // .then(response => response.text())
+    //         .then(response => response.json())
+    //         .then(result => {
+    //             state.data = result;
+    //             setState({ ...state })
+    //             // var obj = JSON.parse(state.data )
+    //             console.log(state.data)
+    //         })
+    //         .catch(error => console.log('error', error));
+    // }, [])
 
 
     let data = {};
     return (
-        // <SPage title={'login'} preventBack>
-        //     <SText>TODO</SText>
-        // </SPage>
-
         <>
             <SPage title={'Registro Cargo'}>
                 <SView col={'xs-12'} backgroundColor={'transparent'} center row>
@@ -51,7 +48,8 @@ export default (props) => {
                             row
                             ref={(form) => {
                                 // this.form = form;
-                                // form = form;
+                                formulario.current = form;
+
                             }}
                             style={{
                                 justifyContent: 'space-between',
@@ -65,7 +63,7 @@ export default (props) => {
                                 // font: "Roboto",
                             }}
                             inputs={{
-                                descripcion: {
+                                Descripcion: {
                                     label: 'Descripción',
                                     type: 'text',
                                     isRequired: true,
@@ -82,6 +80,30 @@ export default (props) => {
                                 //         { ...values, key_evento: this.key_evento },
                                 //         this.props
                                 //     );
+                                var myHeaders = new Headers();
+                                // myHeaders.
+                                // myHeaders.append("Access-Control-Allow-Origin", "http://localhost:8080/cargo/registro")
+                                // myHeaders.append("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+                                // myHeaders.append("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+                                myHeaders.append("Content-Type", "application/json");
+
+                                var raw = JSON.stringify({
+                                    // "Nombre": "Dana Test2",
+                                    // "Apellido": "Portillo Test2"
+                                    ...values
+                                });
+
+                                var requestOptions = {
+                                    method: 'POST',
+                                    //headers: myHeaders,
+                                    body: raw,
+                                   // redirect: 'follow'
+                                };
+
+                                fetch("http://localhost:8080/cargo/registro", requestOptions)
+                                    .then(response => response.json())
+                                    .then(result => console.log(result))
+                                    .catch(error => console.log('error', error));
                                 // }
                             }}
                         />
@@ -97,9 +119,7 @@ export default (props) => {
                     backgroundColor={STheme.color.card}
                     style={{ borderRadius: 4 }}
                     onPress={() => {
-                        //form.submit();
-                        
-
+                        formulario.current.submit();
                     }}>
                     <SText color={STheme.color.text} font={'Roboto'} fontSize={14} bold>
                         REGISTRAR
