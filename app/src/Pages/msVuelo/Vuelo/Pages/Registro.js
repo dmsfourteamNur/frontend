@@ -118,7 +118,10 @@ export default (props) => {
 
                   var requestOptions = {
                     method: "PUT",
+                    // headers: myHeaders,
                     body: raw,
+                    // mode: 'no-cors',
+                    // redirect: "follow",
                   };
 
                   fetch(
