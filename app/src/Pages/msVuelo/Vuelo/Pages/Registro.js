@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   SForm,
   SHr,
@@ -11,6 +11,8 @@ import {
 } from "servisofts-component";
 
 export default (props) => {
+  const formulario = useRef();
+
   const [state, setState] = useState({
     key: SNavigation.getParam("key"),
   });
@@ -47,7 +49,9 @@ export default (props) => {
               center
               row
               ref={(form) => {
-                state.form = form;
+                formulario.current = form;
+
+                // state.form = form;
               }}
               style={{
                 justifyContent: "space-between",
@@ -78,25 +82,25 @@ export default (props) => {
                 },
                 destino: {
                   label: "destino",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
                   defaultValue: state.data?.destino,
                 },
                 fechaSalida: {
                   label: "fecha Salida",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
                   defaultValue: state.data?.fechaSalida,
                 },
                 fechaArribe: {
                   label: "fecha Arribe",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
                   defaultValue: state.data?.fechaArribe,
                 },
                 keyTripulacion: {
                   label: "keyTripulacion",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
                   defaultValue: state.data?.keyTripulacion,
                 },
@@ -104,13 +108,40 @@ export default (props) => {
               onSubmitName={"Registrar"}
               onSubmit={(values) => {
                 // alert(values);
-                console.log("bien");
                 // console.log("hola " + state.nota);
-                // if (state.key) {
-                //   evento.Actions.editar({ ...data, ...values }, this.props);
-                // } else {
-                //   evento.Actions.registro(values, this.props);
-                // }
+                var raw = JSON.stringify(values);
+                console.log(raw);
+
+                if (state.key) {
+                  var myHeaders = new Headers();
+                  myHeaders.append("Content-Type", "application/json");
+
+                  var requestOptions = {
+                    method: "PUT",
+                    body: raw,
+                  };
+
+                  fetch(
+                    "http://localhost:8080/api/vuelo/" + state.key,
+                    requestOptions
+                  )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log("error", error));
+                } else {
+                  var requestOptions = {
+                    method: "POST",
+                    body: raw,
+                    redirect: "follow",
+                  };
+                  fetch(
+                    "http://localhost:8080/api/vuelo/registro",
+                    requestOptions
+                  )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log("error", error));
+                }
               }}
             />
           </SView>
@@ -125,7 +156,8 @@ export default (props) => {
           backgroundColor={STheme.color.card}
           style={{ borderRadius: 4 }}
           onPress={() => {
-            this.form.submit();
+            // this.form.submit();
+            formulario.current.submit();
 
             // var raw = JSON.stringify({
             //   "nroVuelo": "347843784378988434",
@@ -147,7 +179,6 @@ export default (props) => {
             //   .then((response) => response.text())
             //   .then((result) => console.log(result))
             //   .catch((error) => console.log("error", error));
-
           }}
         >
           <SText color={STheme.color.text} font={"Roboto"} fontSize={14} bold>
