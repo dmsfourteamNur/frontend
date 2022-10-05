@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   SForm,
   SHr,
   SLoad,
+  SNavigation,
   SPage,
   SText,
   STheme,
   SView,
 } from "servisofts-component";
-// import FloatButtom from "../../../Components/FloatButtom";
 
 export default (props) => {
+  const formulario = useRef();
+
   const [state, setState] = useState({
-    key: "31af732a-f894-4f2f-9176-87277cbb1355",
+    key: SNavigation.getParam("key"),
   });
 
   useEffect(() => {
@@ -22,97 +24,126 @@ export default (props) => {
     };
 
     fetch("http://localhost:8080/vuelo/" + state.key, requestOptions)
-      // .then(response => response.text())
       .then((response) => response.json())
       .then((result) => {
-        console.log("mopri ", result.data);
         state.data = result.data;
+        state.form = null;
         setState({ ...state });
-        // console.log(state.data);
       })
       .catch((error) => console.log("error", error));
   }, []);
 
-  if (!state.data) return <SLoad />;
-  return (
-    // <SPage title={'login'} preventBack>
-    //     <SText>TODO</SText>
-    // </SPage>
+  if (state.key) {
+    if (!state.data) return <SLoad />;
+  }
 
+  // alert(state.nota);
+  return (
     <>
       <SPage title={"Registro"}>
         <SView col={"xs-12"} backgroundColor={"transparent"} center row>
-          <SView
-            col={"xs-11 sm-10 md-8 lg-6 xl-4"}
-            backgroundColor={"transparent"}
-          >
+          <SView col={"xs-11 sm-10 md-8 lg-6 xl-4"}>
             <SHr height={25} />
 
             <SForm
               center
               row
+              ref={(form) => {
+                formulario.current = form;
+
+                // state.form = form;
+              }}
               style={{
                 justifyContent: "space-between",
               }}
               inputProps={{
                 customStyle: "romeo",
                 separation: 16,
-
                 color: STheme.color.text,
-                // fontSize: 16,
-                // font: "Roboto",
               }}
               inputs={{
                 nroVuelo: {
                   label: "nroVuelo",
                   type: "text",
                   isRequired: true,
-                  defaultValue: state.data.nroVuelo,
+                  defaultValue: state.data?.nroVuelo,
                 },
                 keyAeronave: {
                   label: "keyAeronave",
                   type: "text",
                   isRequired: true,
-                  defaultValue: state.data.keyAeronave,
+                  defaultValue: state.data?.keyAeronave,
                 },
                 origen: {
                   label: "origen",
                   type: "text",
                   isRequired: true,
-                  defaultValue: state.data.origen,
+                  defaultValue: state.data?.origen,
                 },
                 destino: {
                   label: "destino",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
-                  defaultValue: state.data.destino,
+                  defaultValue: state.data?.destino,
                 },
                 fechaSalida: {
                   label: "fecha Salida",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
-                  defaultValue: state.data.fechaSalida,
+                  defaultValue: state.data?.fechaSalida,
                 },
                 fechaArribe: {
                   label: "fecha Arribe",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
-                  defaultValue: state.data.fechaArribe,
+                  defaultValue: state.data?.fechaArribe,
                 },
                 keyTripulacion: {
                   label: "keyTripulacion",
-                  type: "email",
+                  type: "text",
                   isRequired: true,
-                  defaultValue: state.data.keyTripulacion,
+                  defaultValue: state.data?.keyTripulacion,
                 },
               }}
               onSubmitName={"Registrar"}
               onSubmit={(values) => {
-                console.log("hola");
+                // alert(values);
+                // console.log("hola " + state.nota);
+                var raw = JSON.stringify(values);
+                console.log(raw);
+
                 if (state.key) {
-                  //   evento.Actions.editar({ ...data, ...values }, this.props);
+                  var myHeaders = new Headers();
+                  myHeaders.append("Content-Type", "application/json");
+
+                  var requestOptions = {
+                    method: "PUT",
+                    // headers: myHeaders,
+                    body: raw,
+                    // mode: 'no-cors',
+                    // redirect: "follow",
+                  };
+
+                  fetch(
+                    "http://localhost:8080/api/vuelo/" + state.key,
+                    requestOptions
+                  )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log("error", error));
                 } else {
-                  //   evento.Actions.registro(values, this.props);
+                  var requestOptions = {
+                    method: "POST",
+                    body: raw,
+                    redirect: "follow",
+                  };
+                  fetch(
+                    "http://localhost:8080/api/vuelo/registro",
+                    requestOptions
+                  )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log("error", error));
                 }
               }}
             />
@@ -120,7 +151,7 @@ export default (props) => {
         </SView>
       </SPage>
 
-      {/* <SView col={"xs-12"} center style={{ bottom: 0 }}>
+      <SView col={"xs-12"} center style={{ bottom: 0 }}>
         <SView
           col={"xs-11 sm-10 md-8 lg-6 xl-4"}
           height={50}
@@ -128,14 +159,36 @@ export default (props) => {
           backgroundColor={STheme.color.card}
           style={{ borderRadius: 4 }}
           onPress={() => {
-            this.form.submit();
+            // this.form.submit();
+            formulario.current.submit();
+
+            // var raw = JSON.stringify({
+            //   "nroVuelo": "347843784378988434",
+            //   "keyAeronave": "686fc732-d731-4b29-beae-1ff15816eedb",
+            //   "origen": "Beni",
+            //   "destino": "Santacruz1",
+            //   "fechaSalida": "2022-10-10T20:30:56.235-0400",
+            //   "fechaArribe": "2022-10-10T21:30:56.235-0400",
+            //   "keyTripulacion": "5032fb80-5222-4e0d-a2b6-e3536ad16491",
+            // });
+
+            // var requestOptions = {
+            //   method: "POST",
+            //   body: raw,
+            //   redirect: "follow",
+            // };
+
+            // fetch("http://localhost:8080/api/vuelo/registro", requestOptions)
+            //   .then((response) => response.text())
+            //   .then((result) => console.log(result))
+            //   .catch((error) => console.log("error", error));
           }}
         >
           <SText color={STheme.color.text} font={"Roboto"} fontSize={14} bold>
             {state.key ? "EDITAR" : "REGISTRAR"}
           </SText>
         </SView>
-      </SView> */}
+      </SView>
       <SHr height={25} />
     </>
   );

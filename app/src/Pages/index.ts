@@ -19,7 +19,6 @@ export default SPage.combinePages("/", {
   "tripulacion/tripulantes/registro": tripulanteRegistro,
   "tripulacion/cargos": cargos,
   "tripulacion/cargos/registro": cargoRegistro,
-
   vuelo: vuelos,
   "msVuelo/vuelo/registro": Registro,
 });
