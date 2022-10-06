@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SLoad, SNavigation } from 'servisofts-component';
-import Config from '../../../config.json'
+import Configuracion from '../../../configuracion.json'
 
 export default (props) => {
 
@@ -28,7 +28,7 @@ export default (props) => {
                 redirect: 'follow'
             };
 
-            fetch(Config.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
+            fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     state.data = result;
@@ -45,7 +45,7 @@ export default (props) => {
             redirect: 'follow'
         };
 
-        fetch(Config.SERVER_URL_TRIPULACION + "cargo", requestOptions2)
+        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo", requestOptions2)
             .then(response => response.json())
             .then(result => {
                 state.dataCargo = result;
@@ -146,7 +146,7 @@ export default (props) => {
                                         body: raw,
                                     };
 
-                                    fetch(Config.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
                                         .then(response => response.json())
                                         .then(result => console.log(result))
                                         .then(result => SNavigation.goBack())
@@ -157,7 +157,7 @@ export default (props) => {
                                         body: raw,
                                     };
 
-                                    fetch(Config.SERVER_URL_TRIPULACION + "tripulante/registro", requestOptions)
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulante/registro", requestOptions)
                                         .then(response => response.json())
                                         .then(result => console.log(result))
                                         .then(result => SNavigation.goBack())

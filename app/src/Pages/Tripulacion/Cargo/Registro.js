@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
-import Config from '../../../config.json'
+import Configuracion from '../../../configuracion.json'
 
 export default (props) => {
 
@@ -24,7 +24,7 @@ export default (props) => {
                 redirect: 'follow'
             };
 
-            fetch(Config.SERVER_URL_TRIPULACION + "cargo/" + state.key, requestOptions)
+            fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + state.key, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     state.data = result;
@@ -85,7 +85,7 @@ export default (props) => {
                                         body: raw,
                                     };
 
-                                    fetch(Config.SERVER_URL_TRIPULACION + "cargo/" + state.key, requestOptions)
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + state.key, requestOptions)
                                         .then(response => response.json())
                                         .then(result => console.log(result))
                                         .then(result => SNavigation.goBack())
@@ -96,7 +96,7 @@ export default (props) => {
                                         body: raw,
                                     };
 
-                                    fetch(Config.SERVER_URL_TRIPULACION + "cargo/registro", requestOptions)
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/registro", requestOptions)
                                         .then(response => response.json())
                                         .then(result => console.log(result))
                                         .then(result => SNavigation.goBack())

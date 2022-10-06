@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
-import Config from '../../../config.json'
+import Configuracion from '../../../configuracion.json'
 
 export default (props) => {
 
@@ -15,7 +15,7 @@ export default (props) => {
             redirect: 'follow'
         };
 
-        fetch(Config.SERVER_URL_TRIPULACION + "cargo", requestOptions)
+        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo", requestOptions)
             .then(response => response.json())
             .then(result => {
                 state.data = result;
@@ -83,7 +83,7 @@ export default (props) => {
                                                             // redirect: 'follow'
                                                         };
 
-                                                        fetch(Config.SERVER_URL_TRIPULACION + "cargo/" + obj.key, requestOptions)
+                                                        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + obj.key, requestOptions)
                                                             .then(response => response.json())
                                                             .then(result => console.log(result))
                                                             .catch(error => console.log('error', error));

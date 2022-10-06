@@ -13,7 +13,8 @@ import test from "./test";
 import vueloInicio from "./msVuelo/index";
 
 export default SPage.combinePages("/", {
-  "": root,
+  // "": root,
+  "": tripulacionInicio,
   login: login,
   test: test,
   "tripulacion/inicio": tripulacionInicio,
