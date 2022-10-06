@@ -44,25 +44,25 @@ export default (props) => {
                     <SView col={'xs-11 md-10 xl-10'} center row>
                         <SView width={150} height={150} center
                             onPress={() => {
-                                SNavigation.navigate('/vuelo/tripulacion');
+                                SNavigation.navigate('/vuelo/lista');
                             }}>
                             <SHr height={20} />
-                            <SIcon name={'Cargo'} color={STheme.color.primary}></SIcon>
+                            <SIcon name={'BtnVuelo'} color={STheme.color.primary}></SIcon>
                             <SHr height={5} />
-                            <SText>CARGO</SText>
+                            <SText>VUELOS</SText>
                         </SView>
                         <SView width={150} height={150} center
                             onPress={() => {
                                 SNavigation.navigate('/vuelo/aeroanves');
                             }}>
                             <SHr height={20} />
-                            <SIcon name={'Tripulante'} color={STheme.color.primary}></SIcon>
+                            <SIcon name={'BtnAeronave'} color={STheme.color.primary}></SIcon>
                             <SHr height={5} />
-                            <SText>TRIPULANTES</SText>
+                            <SText>AERONAVES</SText>
                         </SView>
                         <SView width={150} height={150} center>
                             <SHr height={20} />
-                            <SIcon name={'Tripulacion'} color={STheme.color.primary}></SIcon>
+                            <SIcon name={'BtnTripulacion'} color={STheme.color.primary}></SIcon>
                             <SHr height={5} />
                             <SText>TRIPULACION</SText>
                         </SView>

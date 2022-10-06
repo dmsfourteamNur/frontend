@@ -8,8 +8,8 @@ import Inicio from "./svg/inicio";
 import Inputs from "./svg/inputs";
 import Reserva from "./svg/reserva";
 import Tarjeta from "./svg/tarjeta";
-
 import Tripulacion from "./svg/tripulacion";
+import Vuelo from "./svg/vuelo";
 
 
 //Logo
@@ -29,6 +29,7 @@ const Assets: SAssets = {
         ...Reserva,
         ...Tarjeta,
         ...Tripulacion,
+        ...Vuelo,
     }
 }
 
