@@ -27,7 +27,7 @@ export default (props) => {
 
     return (
         <>
-            <SPage title={'Tripulación'} disableScroll>
+            <SPage title={'Tripulantes'} disableScroll>
                 <SView center col={'xs-12'} height>
                     <SHr height={50} />
                     <STable2

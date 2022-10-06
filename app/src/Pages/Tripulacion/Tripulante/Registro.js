@@ -18,29 +18,26 @@ export default (props) => {
         key: keyEdit
     });
 
-    if (state.key != "") {
-        useEffect(() => {
+
+    useEffect(() => {
+
+        if (state.key != "") {
             //LIST TRIPULANTE
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow'
             };
 
-            fetch(Config.SERVER_URL_TRIPULACION + "tripulante", requestOptions)
+            fetch(Config.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     state.data = result;
                     setState({ ...state })
+                    if (!state?.data?.Nombre) return <SLoad />
                     console.log(state.data)
                 })
                 .catch(error => console.log('error', error));
-
-                if (!state?.data.Nombre) return <SLoad />
-
-        }, [])
-    }
-
-    useEffect(() => {
+        }
 
         //LIST CARGOS
         var requestOptions2 = {
@@ -54,17 +51,24 @@ export default (props) => {
                 state.dataCargo = result;
                 setState({ ...state })
                 console.log(state.dataCargo)
+                if (!state?.dataCargo?.Descripcion) return <SLoad />
+
             })
             .catch(error => console.log('error', error));
-
-        if (!state?.dataCargo.Descripcion) return <SLoad />
-
     }, [])
 
+
     //CAMBIANDO IDENTIFICADOR CARGO PARA SELECT
+    state.dataCargoOk.push({ key: "", content: "Elegir" })
     state.dataCargo.map((item, index) =>
-        state.dataCargoOk[index] = { key: item.key, content: item.Descripcion }
+        state.dataCargoOk[index + 1] = { key: item.key, content: item.Descripcion }
     )
+    // var objCargo = state.dataCargo.find(o => o.key == state.data["KeyCargo"])
+
+    if (state.key != "") {
+        if (!state?.data?.Nombre) return <SLoad />
+        console.log(state?.data?.Nombre + " tripulante");
+    }
 
     return (
         <>
@@ -96,35 +100,38 @@ export default (props) => {
                                     label: 'Nombres',
                                     type: 'text',
                                     isRequired: true,
-                                    defaultValue: state.data['Nombre']
+                                    defaultValue: state?.data?.Nombre
                                 },
                                 Apellido: {
                                     label: 'Apellidos',
                                     type: 'text',
                                     isRequired: true,
+                                    defaultValue: state.data?.Apellido
                                 },
                                 EmailAddress: {
                                     label: 'Correo',
                                     type: 'email',
                                     isRequired: true,
-                                    // defaultValue: data['descripcion']
+                                    defaultValue: state.data?.EmailAddress
                                 },
                                 Tipo: {
                                     label: 'Personal de',
                                     type: 'select',
                                     // STheme: 'dark',
-                                    options: [{ key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
+                                    options: [{ key: "", content: "Elegir" }, { key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
                                     isRequired: true,
+                                    defaultValue: state.data["Tipo"]
+
                                 },
-                                // Cargo: {
-                                //     label: 'Cargo',
-                                //     type: 'select',
-                                //     // STheme: 'dark',
-                                //     options: state.dataCargoOk,
-                                //     isRequired: true,
-                                // },
-
-
+                                KeyCargo: {
+                                    label: 'Cargo',
+                                    type: 'select',
+                                    // STheme: 'dark',
+                                    options: state.dataCargoOk,
+                                    isRequired: true,
+                                    // defaultValue: objCargo?.key
+                                    defaultValue: state.data["KeyCargo"]
+                                },
                             }}
                             // onSubmitName={"Registrar"}
                             onSubmit={(values) => {
