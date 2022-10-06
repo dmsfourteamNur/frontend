@@ -24,7 +24,7 @@ export default (props) => {
       redirect: "follow",
     };
 
-    fetch("http://localhost:8080/vuelo/" + state.key, requestOptions)
+    fetch("http://190.104.5.211:80/api/vuelo/" + state.key, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         state.data = result.data;
