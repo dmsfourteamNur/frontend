@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   SForm,
   SHr,
+  SIcon,
   SLoad,
   SNavigation,
   SPage,
@@ -67,25 +68,45 @@ export default (props) => {
                   type: "text",
                   isRequired: true,
                   defaultValue: state.data?.nroVuelo,
+                  col: 'lg-5.5'
+
                 },
                 keyAeronave: {
                   label: "keyAeronave",
                   type: "text",
                   isRequired: true,
                   defaultValue: state.data?.keyAeronave,
+                  col: 'lg-5.5'
+
                 },
                 origen: {
                   label: "origen",
-                  type: "text",
+                  type: "select",
                   isRequired: true,
-                  defaultValue: state.data?.origen,
+                  // defaultValue: state.data?.origen,
+                  defaultValue: state.data?.origen ?? false,
+                  options: [
+                    { key: false, content: "NO" },
+                    { key: true, content: "SI" },
+                  ],
                 },
                 destino: {
                   label: "destino",
-                  type: "text",
+                  type: "select",
                   isRequired: true,
-                  defaultValue: state.data?.destino,
+                  // defaultValue: state.data?.destino,
+                  defaultValue: state.data?.destino ?? false,
+                  options: [
+                    { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
+                    { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+                    { key: "cbb", content: "Cochabamba" },
+                    { key: "lpz", content: "La Paz" },
+                    { key: "sucre", content: "Sucre" },
+                    { key: true, content: "SI" },
+                  ],
                 },
+                // requerido: { label: "Requerido?", type: "select", defaultValue: default_data["requerido"] ?? false, options: [{ key: false, content: "NO" }, { key: true, content: "SI" }], style: { backgroundColor: "#FF9AA3", } },
+
                 fechaSalida: {
                   label: "fecha Salida",
                   type: "text",
@@ -104,9 +125,34 @@ export default (props) => {
                   isRequired: true,
                   defaultValue: state.data?.keyTripulacion,
                 },
+                fecha: { label: "fecha", type: "date", isRequired: true, defaultValue: " " },
+                Apellidos: {
+                  placeholder: 'Apellidos',
+                  isRequired: true,
+                  defaultValue: 'siles',
+                  icon: (
+                    <SIcon
+                      name={'InputUser'}
+                      fill={STheme.color.primary}
+                      width={17}
+                      height={20}
+                    />
+                  )
+                },
+
+                hora_inicio: { label: "Hora Inicio", type: "text", isRequired: true, defaultValue: "" },
+                // hora_fin: { label: "Hora Fin", type: "text", isRequired: true, defaultValue: data["hora_fin"] },
+
               }}
               onSubmitName={"Registrar"}
               onSubmit={(values) => {
+
+                var date_regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+                if (!date_regex.test(values.hora_inicio) || !date_regex.test(values.hora_fin)) {
+                    SPopup.alert("Hora no valida")
+                    return;
+                }
+
                 // alert(values);
                 // console.log("hola " + state.nota);
                 var raw = JSON.stringify(values);
@@ -114,14 +160,15 @@ export default (props) => {
 
                 if (state.key) {
                   var myHeaders = new Headers();
-                  myHeaders.append("Content-Type", "application/json");
+                  myHeaders.append("Content-Type", "application/json",'Access-Control-Allow-Origin', );
 
                   var requestOptions = {
                     method: "PUT",
-                    // headers: myHeaders,
+                    headers: myHeaders,
                     body: raw,
-                    // mode: 'no-cors',
-                    // redirect: "follow",
+                    mode: 'no-cors',
+                    redirect: "follow",
+                    
                   };
 
                   fetch(
