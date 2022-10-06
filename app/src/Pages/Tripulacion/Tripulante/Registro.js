@@ -1,44 +1,72 @@
 import { useEffect, useState, useRef } from 'react';
-import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2 } from 'servisofts-component';
-import FloatButtom from '../../../Components/FloatButtom';
-
-
-
+import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SLoad, SNavigation } from 'servisofts-component';
+import Config from '../../../config.json'
 
 export default (props) => {
 
     const formulario = useRef();
 
+    var keyEdit = "";
+    if (SNavigation.getParam('key')) {
+        keyEdit = SNavigation.getParam('key');
+    }
+
     const [state, setState] = useState({
-        data: []
+        data: [],
+        dataCargo: [],
+        dataCargoOk: [],
+        key: keyEdit
     });
 
+    if (state.key != "") {
+        useEffect(() => {
+            //LIST TRIPULANTE
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch(Config.SERVER_URL_TRIPULACION + "tripulante", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    state.data = result;
+                    setState({ ...state })
+                    console.log(state.data)
+                })
+                .catch(error => console.log('error', error));
+
+                if (!state?.data.Nombre) return <SLoad />
+
+        }, [])
+    }
 
     useEffect(() => {
-        var requestOptions = {
+
+        //LIST CARGOS
+        var requestOptions2 = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/tripulante", requestOptions)
-            // .then(response => response.text())
+        fetch(Config.SERVER_URL_TRIPULACION + "cargo", requestOptions2)
             .then(response => response.json())
             .then(result => {
-                state.data = result;
+                state.dataCargo = result;
                 setState({ ...state })
-                // var obj = JSON.parse(state.data )
-                console.log(state.data)
+                console.log(state.dataCargo)
             })
             .catch(error => console.log('error', error));
+
+        if (!state?.dataCargo.Descripcion) return <SLoad />
+
     }, [])
 
+    //CAMBIANDO IDENTIFICADOR CARGO PARA SELECT
+    state.dataCargo.map((item, index) =>
+        state.dataCargoOk[index] = { key: item.key, content: item.Descripcion }
+    )
 
-    let data = {};
     return (
-        // <SPage title={'login'} preventBack>
-        //     <SText>TODO</SText>
-        // </SPage>
-
         <>
             <SPage title={'Registro Tripulante'}>
                 <SView col={'xs-12'} backgroundColor={'transparent'} center row>
@@ -46,14 +74,12 @@ export default (props) => {
                         col={'xs-11 sm-10 md-8 lg-6 xl-4'}
                         backgroundColor={'transparent'}>
                         <SHr height={25} />
-                        
+
                         <SForm
                             center
                             row
                             ref={(form) => {
-                                // this.form = form;
                                 formulario.current = form;
-
                             }}
                             style={{
                                 justifyContent: 'space-between',
@@ -61,49 +87,75 @@ export default (props) => {
                             inputProps={{
                                 customStyle: 'romeo',
                                 separation: 16,
-
                                 color: STheme.color.text
                                 // fontSize: 16,
                                 // font: "Roboto",
                             }}
                             inputs={{
-                                descripcion: {
+                                Nombre: {
                                     label: 'Nombres',
                                     type: 'text',
                                     isRequired: true,
-                                    // defaultValue: data['descripcion']
+                                    defaultValue: state.data['Nombre']
                                 },
-                                apellido: {
+                                Apellido: {
                                     label: 'Apellidos',
                                     type: 'text',
                                     isRequired: true,
-                                    // defaultValue: parseFloat(data['precio'] ?? 0).toFixed(2),
-                                    // col: 'xs-5.5'
                                 },
-                                correo: {
+                                EmailAddress: {
                                     label: 'Correo',
                                     type: 'email',
                                     isRequired: true,
                                     // defaultValue: data['descripcion']
                                 },
-                                tipo: {
+                                Tipo: {
                                     label: 'Personal de',
                                     type: 'select',
-                                    options: [{ key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }] ,
+                                    // STheme: 'dark',
+                                    options: [{ key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
                                     isRequired: true,
                                 },
-                               
+                                // Cargo: {
+                                //     label: 'Cargo',
+                                //     type: 'select',
+                                //     // STheme: 'dark',
+                                //     options: state.dataCargoOk,
+                                //     isRequired: true,
+                                // },
+
+
                             }}
                             // onSubmitName={"Registrar"}
                             onSubmit={(values) => {
-                                // if (this.key) {
-                                //     sector.Actions.editar({ ...data, ...values }, this.props);
-                                // } else {
-                                //     sector.Actions.registro(
-                                //         { ...values, key_evento: this.key_evento },
-                                //         this.props
-                                //     );
-                                // }
+
+                                var raw = JSON.stringify({
+                                    ...values
+                                });
+
+                                if (state.key != "") {
+                                    var requestOptions = {
+                                        method: 'PUT',
+                                        body: raw,
+                                    };
+
+                                    fetch(Config.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
+                                        .then(response => response.json())
+                                        .then(result => console.log(result))
+                                        .then(result => SNavigation.goBack())
+                                        .catch(error => console.log('error', error));
+                                } else {
+                                    var requestOptions = {
+                                        method: 'POST',
+                                        body: raw,
+                                    };
+
+                                    fetch(Config.SERVER_URL_TRIPULACION + "tripulante/registro", requestOptions)
+                                        .then(response => response.json())
+                                        .then(result => console.log(result))
+                                        .then(result => SNavigation.goBack())
+                                        .catch(error => console.log('error', error));
+                                }
                             }}
                         />
                     </SView>

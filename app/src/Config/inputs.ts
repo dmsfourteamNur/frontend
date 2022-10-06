@@ -65,6 +65,13 @@ const inputs = () => {
                 backgroundColor: "#E0E0E0" + "55",
                 borderRadius: 8
             },
+            "Select": {
+                fontSize: 16,
+                paddingStart: 16,
+                // color: STheme.color.text,
+                backgroundColor: "#E0E0E0" + "55",
+                borderRadius: 8
+            },
             "error": {
                 borderWidth: 2,
                 borderColor: STheme.color.danger,
