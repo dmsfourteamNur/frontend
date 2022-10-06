@@ -11,6 +11,8 @@ import {
   STable2,
   SNavigation,
 } from "servisofts-component";
+// import 'bootstrap/dist/css/bootstrap.css';
+
 import FloatButtom from "../../../../Components/FloatButtom";
 
 export default (props) => {
@@ -96,7 +98,7 @@ export default (props) => {
                   return (
                     <SView
                       onPress={() => {
-                        SNavigation.navigate("/msVuelo/vuelo/registro", {key: item});
+                        SNavigation.navigate("/vuelo/registro", {key: item});
                       }}
                     >
                       <SIcon name={"Edit"} width={35} />
@@ -142,6 +144,13 @@ export default (props) => {
           {/* </SView> */}
           {/* <SText>{JSON.stringify(state.data)}</SText> */}
         </SView>
+
+        {/* <form action="/action_page.php">
+    <label for="appt">Select a time:</label>
+    <input type="time" id="appt" name="appt">
+    <input type="submit">
+  </form> */}
+
         <FloatButtom
           onPress={() => {
             SNavigation.navigate("/msVuelo/vuelo/registro");
