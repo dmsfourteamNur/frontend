@@ -153,7 +153,7 @@ export default (props) => {
 
         <FloatButtom
           onPress={() => {
-            SNavigation.navigate("/msVuelo/vuelo/registro");
+            SNavigation.navigate("/vuelo/registro");
           }}
         />
       </SPage>

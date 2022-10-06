@@ -42,8 +42,8 @@ export default (props) => {
   return (
     <>
       <SPage title={"Registro"}>
-        <SView col={"xs-12"} backgroundColor={"transparent"} center row>
-          <SView col={"xs-11 sm-10 md-8 lg-6 xl-4"}>
+        <SView col={"xs-12"} backgroundColor={"red"} center row>
+          <SView col={"xs-11 sm-10 md-8 lg-6 xl-6"}>
             <SHr height={25} />
 
             <SForm
@@ -51,8 +51,6 @@ export default (props) => {
               row
               ref={(form) => {
                 formulario.current = form;
-
-                // state.form = form;
               }}
               style={{
                 justifyContent: "space-between",
@@ -65,92 +63,132 @@ export default (props) => {
               inputs={{
                 nroVuelo: {
                   label: "nroVuelo",
-                  type: "text",
+                  type: "number",
                   isRequired: true,
-                  defaultValue: state.data?.nroVuelo,
-                  col: 'lg-5.5'
+                  placeholder: '0000',
+                  defaultValue: state.data?.nroVuelo ?? "10f45",
+                  col: 'lg-12'
 
                 },
-                keyAeronave: {
-                  label: "keyAeronave",
-                  type: "text",
+                aeronave: {
+                  label: "Aeronaves",
+                  type: "select",
                   isRequired: true,
-                  defaultValue: state.data?.keyAeronave,
-                  col: 'lg-5.5'
-
+                  placeholder: 'Seleccionar aeronave',
+                  defaultValue: state.data?.keyAeronave ?? null,
+                  options: [
+                    { key: "Boeing737", content: "Boeing 737" },
+                    { key: "Boeing777", content: "Boeing 777" },
+                    { key: "Boeing787", content: "Boeing 787" },
+                    { key: "AirbusA310", content: "Airbus A310" },
+                    { key: "Avro748", content: "Avro 748" },
+                  ],
                 },
+                // keyAeronave: {
+                //   label: "keyAeronave",
+                //   type: "text",
+                //   isRequired: true,
+                //   placeholder: 'Seleccionar aeronave',
+                //   defaultValue: state.data?.keyAeronave ?? null,
+                //   col: 'lg-12'
+                // },
                 origen: {
                   label: "origen",
                   type: "select",
                   isRequired: true,
-                  // defaultValue: state.data?.origen,
+                  placeholder: 'Seleccionar aeronave',
+
                   defaultValue: state.data?.origen ?? false,
                   options: [
-                    { key: false, content: "NO" },
-                    { key: true, content: "SI" },
+                    { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
+                    { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+                    { key: "beni-magdalena", content: "Beni - Magdalena" },
+                    { key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
+                    { key: "lpz", content: "La Paz -El Alto" },
+                    { key: "sucre", content: "Sucre" },
+                    { key: "potosi", content: "Potosi" },
                   ],
+                  col: 'lg-5.5'
                 },
                 destino: {
                   label: "destino",
                   type: "select",
                   isRequired: true,
-                  // defaultValue: state.data?.destino,
+                  placeholder: 'Seleccionar aeronave',
                   defaultValue: state.data?.destino ?? false,
                   options: [
                     { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
                     { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+                    { key: "beni-magdalena", content: "Beni - Magdalena" },
                     { key: "cbb", content: "Cochabamba" },
-                    { key: "lpz", content: "La Paz" },
+                    { key: "lpz", content: "La Paz -El Alto" },
                     { key: "sucre", content: "Sucre" },
-                    { key: true, content: "SI" },
+                    { key: "potosi", content: "Potosi" },
                   ],
+                  col: 'lg-5.5'
                 },
-                // requerido: { label: "Requerido?", type: "select", defaultValue: default_data["requerido"] ?? false, options: [{ key: false, content: "NO" }, { key: true, content: "SI" }], style: { backgroundColor: "#FF9AA3", } },
-
                 fechaSalida: {
                   label: "fecha Salida",
-                  type: "text",
+                  type: "date",
                   isRequired: true,
-                  defaultValue: state.data?.fechaSalida,
+                  placeholder: 'ingresar fecha',
+                  defaultValue: state.data?.fechaSalida ?? "2022-10-06",
+                  col: 'lg-5.5'
                 },
                 fechaArribe: {
                   label: "fecha Arribe",
-                  type: "text",
+                  type: "date",
                   isRequired: true,
-                  defaultValue: state.data?.fechaArribe,
+                  defaultValue: state.data?.fechaArribe ?? "2022-10-06",
+                  col: 'lg-5.5'
                 },
-                keyTripulacion: {
-                  label: "keyTripulacion",
-                  type: "text",
+                horaInicio: {
+                  label: "Hora salida",
+                  type: "time",
                   isRequired: true,
-                  defaultValue: state.data?.keyTripulacion,
+                  placeholder: 'ingresar Hora inicio',
+                  defaultValue: state.data?.fechaSalida ?? "20:00 pm",
+                  col: 'lg-5.5'
                 },
-                fecha: { label: "fecha", type: "date", isRequired: true, defaultValue: " " },
-                Apellidos: {
-                  placeholder: 'Apellidos',
+                horaFin: {
+                  label: "Hora Fin",
+                  type: "time",
                   isRequired: true,
-                  defaultValue: 'siles',
-                  icon: (
-                    <SIcon
-                      name={'InputUser'}
-                      fill={STheme.color.primary}
-                      width={17}
-                      height={20}
-                    />
-                  )
-                },
+                  placeholder: 'Seleccionar hora fin',
+                  defaultValue: state.data?.fechaArribe ?? "21:00 pm",
+                  col: 'lg-5.5'
 
-                hora_inicio: { label: "Hora Inicio", type: "text", isRequired: true, defaultValue: "" },
-                // hora_fin: { label: "Hora Fin", type: "text", isRequired: true, defaultValue: data["hora_fin"] },
+                },
+                tripuylacion: {
+                  label: "Tripulacion",
+                  type: "select",
+                  isRequired: true,
+                  placeholder: 'Seleccionar Tripulacion',
+                  defaultValue: state.data?.keyTripulacion ?? false,
+                  options: [
+                    { key: "grupoA", content: "Tripulacion Grupo A" },
+                    { key: "grupoB", content: "Tripulacion Grupo B" },
+                    { key: "grupoC", content: "Tripulacion Grupo C" },
+                    { key: "grupoD", content: "Tripulacion Grupo D" },
 
+                  ],
+                  col: 'lg-5.5'
+                },
+                // keyTripulacion: {
+                //   label: "keyTripulacion",
+                //   type: "text",
+                //   isRequired: true,
+                //   placeholder: 'escribir Tripulacion',
+                //   defaultValue: state.data?.keyTripulacion ?? null,
+                // },
               }}
-              onSubmitName={"Registrar"}
+              // onSubmitName={"Registrar"}
               onSubmit={(values) => {
 
                 var date_regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
                 if (!date_regex.test(values.hora_inicio) || !date_regex.test(values.hora_fin)) {
-                    SPopup.alert("Hora no valida")
-                    return;
+                  SPopup.alert("Hora no valida")
+                  return;
                 }
 
                 // alert(values);
@@ -160,7 +198,7 @@ export default (props) => {
 
                 if (state.key) {
                   var myHeaders = new Headers();
-                  myHeaders.append("Content-Type", "application/json",'Access-Control-Allow-Origin', );
+                  myHeaders.append("Content-Type", "application/json", 'Access-Control-Allow-Origin',);
 
                   var requestOptions = {
                     method: "PUT",
@@ -168,7 +206,7 @@ export default (props) => {
                     body: raw,
                     mode: 'no-cors',
                     redirect: "follow",
-                    
+
                   };
 
                   fetch(
