@@ -77,7 +77,7 @@ export default (props) => {
               height={150}
               center
               onPress={() => {
-                SNavigation.navigate("/vuelo/aeroanves");
+                SNavigation.navigate("/vuelo/aeronaves");
               }}
             >
               <SHr height={20} />
@@ -85,7 +85,11 @@ export default (props) => {
               <SHr height={5} />
               <SText>AERONAVES</SText>
             </SView>
-            <SView width={150} height={150} center>
+            <SView width={150} height={150} center
+              onPress={() => {
+                SNavigation.navigate("/vuelo/tripulaciones");
+              }}
+            >
               <SHr height={20} />
               <SIcon
                 name={"BtnTripulaciones"}
@@ -102,7 +106,7 @@ export default (props) => {
               center
               style={{ borderRadius: 16 }}
               onPress={() => {
-                SNavigation.navigate("/aeronave/inicio");
+                SNavigation.navigate("/vuelo/vueloSalidas");
               }}
             >
               <SText
@@ -112,7 +116,7 @@ export default (props) => {
                   fontSize: 20,
                 }}
               >
-                Vuelos Llegadas
+                Vuelos Salidas
               </SText>{" "}
             </SView>
             <SView width={10} />
@@ -129,7 +133,7 @@ export default (props) => {
                 // alignItems: "center",
               }}
               onPress={() => {
-                SNavigation.navigate("/tripulacion/inicio");
+                SNavigation.navigate("/vuelo/vuelollegadas");
               }}
             >
               <SText
@@ -139,7 +143,7 @@ export default (props) => {
                   fontSize: 20,
                 }}
               >
-                Vuelos Salidas
+                Vuelos LLegadas
               </SText>
             </SView>
             <SView width={10} />

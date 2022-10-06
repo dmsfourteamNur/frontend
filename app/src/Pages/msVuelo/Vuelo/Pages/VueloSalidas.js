@@ -44,7 +44,7 @@ export default (props) => {
     // </SPage>
 
     <>
-      <SPage title={"Vuelos"} disableScroll>
+      <SPage title={"Vuelos Salidas"} disableScroll>
         <SView center col={"xs-12"} height>
           <SHr height={50} />
           {/* <SView col={'xs-11 md-10 xl-10'} center> */}
