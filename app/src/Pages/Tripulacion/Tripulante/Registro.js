@@ -1,42 +1,76 @@
-import { useEffect, useState } from 'react';
-import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2 } from 'servisofts-component';
-import FloatButtom from '../../../Components/FloatButtom';
-
-
-
+import { useEffect, useState, useRef } from 'react';
+import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SLoad, SNavigation } from 'servisofts-component';
+import Configuracion from '../../../configuracion.json'
 
 export default (props) => {
 
+    const formulario = useRef();
+
+    var keyEdit = "";
+    if (SNavigation.getParam('key')) {
+        keyEdit = SNavigation.getParam('key');
+    }
+
     const [state, setState] = useState({
-        data: []
+        data: [],
+        dataCargo: [],
+        dataCargoOk: [],
+        key: keyEdit
     });
 
 
     useEffect(() => {
-        var requestOptions = {
+
+        if (state.key != "") {
+            //LIST TRIPULANTE
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    state.data = result;
+                    setState({ ...state })
+                    if (!state?.data?.Nombre) return <SLoad />
+                    console.log(state.data)
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        //LIST CARGOS
+        var requestOptions2 = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/tripulante", requestOptions)
-            // .then(response => response.text())
+        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo", requestOptions2)
             .then(response => response.json())
             .then(result => {
-                state.data = result;
+                state.dataCargo = result;
                 setState({ ...state })
-                // var obj = JSON.parse(state.data )
-                console.log(state.data)
+                console.log(state.dataCargo)
+                if (!state?.dataCargo?.Descripcion) return <SLoad />
+
             })
             .catch(error => console.log('error', error));
     }, [])
 
 
-    let data = {};
-    return (
-        // <SPage title={'login'} preventBack>
-        //     <SText>TODO</SText>
-        // </SPage>
+    //CAMBIANDO IDENTIFICADOR CARGO PARA SELECT
+    state.dataCargoOk.push({ key: "", content: "Elegir" })
+    state.dataCargo.map((item, index) =>
+        state.dataCargoOk[index + 1] = { key: item.key, content: item.Descripcion }
+    )
+    // var objCargo = state.dataCargo.find(o => o.key == state.data["KeyCargo"])
 
+    if (state.key != "") {
+        if (!state?.data?.Nombre) return <SLoad />
+        console.log(state?.data?.Nombre + " tripulante");
+    }
+
+    return (
         <>
             <SPage title={'Registro Tripulante'}>
                 <SView col={'xs-12'} backgroundColor={'transparent'} center row>
@@ -44,12 +78,12 @@ export default (props) => {
                         col={'xs-11 sm-10 md-8 lg-6 xl-4'}
                         backgroundColor={'transparent'}>
                         <SHr height={25} />
-                        
+
                         <SForm
                             center
                             row
                             ref={(form) => {
-                                // this.form = form;
+                                formulario.current = form;
                             }}
                             style={{
                                 justifyContent: 'space-between',
@@ -57,49 +91,78 @@ export default (props) => {
                             inputProps={{
                                 customStyle: 'romeo',
                                 separation: 16,
-
                                 color: STheme.color.text
                                 // fontSize: 16,
                                 // font: "Roboto",
                             }}
                             inputs={{
-                                descripcion: {
+                                Nombre: {
                                     label: 'Nombres',
                                     type: 'text',
                                     isRequired: true,
-                                    // defaultValue: data['descripcion']
+                                    defaultValue: state?.data?.Nombre
                                 },
-                                apellido: {
+                                Apellido: {
                                     label: 'Apellidos',
                                     type: 'text',
-                                    isRequired: false,
-                                    // defaultValue: parseFloat(data['precio'] ?? 0).toFixed(2),
-                                    // col: 'xs-5.5'
+                                    isRequired: true,
+                                    defaultValue: state.data?.Apellido
                                 },
-                                correo: {
+                                EmailAddress: {
                                     label: 'Correo',
                                     type: 'email',
                                     isRequired: true,
-                                    // defaultValue: data['descripcion']
+                                    defaultValue: state.data?.EmailAddress
                                 },
-                                tipo: {
+                                Tipo: {
                                     label: 'Personal de',
                                     type: 'select',
-                                    options: [{ key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }] ,
+                                    // STheme: 'dark',
+                                    options: [{ key: "", content: "Elegir" }, { key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
                                     isRequired: true,
+                                    defaultValue: state.data["Tipo"]
+
                                 },
-                               
+                                KeyCargo: {
+                                    label: 'Cargo',
+                                    type: 'select',
+                                    // STheme: 'dark',
+                                    options: state.dataCargoOk,
+                                    isRequired: true,
+                                    // defaultValue: objCargo?.key
+                                    defaultValue: state.data["KeyCargo"]
+                                },
                             }}
                             // onSubmitName={"Registrar"}
                             onSubmit={(values) => {
-                                // if (this.key) {
-                                //     sector.Actions.editar({ ...data, ...values }, this.props);
-                                // } else {
-                                //     sector.Actions.registro(
-                                //         { ...values, key_evento: this.key_evento },
-                                //         this.props
-                                //     );
-                                // }
+
+                                var raw = JSON.stringify({
+                                    ...values
+                                });
+
+                                if (state.key != "") {
+                                    var requestOptions = {
+                                        method: 'PUT',
+                                        body: raw,
+                                    };
+
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulante/" + state.key, requestOptions)
+                                        .then(response => response.json())
+                                        .then(result => console.log(result))
+                                        .then(result => SNavigation.goBack())
+                                        .catch(error => console.log('error', error));
+                                } else {
+                                    var requestOptions = {
+                                        method: 'POST',
+                                        body: raw,
+                                    };
+
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulante/registro", requestOptions)
+                                        .then(response => response.json())
+                                        .then(result => console.log(result))
+                                        .then(result => SNavigation.goBack())
+                                        .catch(error => console.log('error', error));
+                                }
                             }}
                         />
                     </SView>
@@ -114,7 +177,7 @@ export default (props) => {
                     backgroundColor={STheme.color.card}
                     style={{ borderRadius: 4 }}
                     onPress={() => {
-                        this.form.submit();
+                        formulario.current.submit();
                     }}>
                     <SText color={STheme.color.text} font={'Roboto'} fontSize={14} bold>
                         REGISTRAR

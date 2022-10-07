@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2,SNavigation } from 'servisofts-component';
+import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
-
-
-
+import Configuracion from '../../../configuracion.json'
 
 export default (props) => {
 
@@ -11,38 +9,27 @@ export default (props) => {
         data: []
     });
 
-
     useEffect(() => {
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/cargo", requestOptions)
-            // .then(response => response.text())
+        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo", requestOptions)
             .then(response => response.json())
             .then(result => {
                 state.data = result;
                 setState({ ...state })
-                // var obj = JSON.parse(state.data )
                 console.log(state.data)
             })
             .catch(error => console.log('error', error));
     }, [])
 
-
-
     return (
-        // <SPage title={'login'} preventBack>
-        //     <SText>TODO</SText>
-        // </SPage>
-
         <>
             <SPage title={'Cargos'} disableScroll>
                 <SView center col={'xs-12'} height>
                     <SHr height={50} />
-                    {/* <SView col={'xs-11 md-10 xl-10'} center> */}
-                    {/* <SView col={'xs-12'} center height={250}> */}
                     <STable2
                         headerColor={STheme.color.info}
                         header={[
@@ -54,21 +41,7 @@ export default (props) => {
                                 fontSize: 16,
                                 font: 'Roboto'
                             },
-                            { key: 'descripcion', label: 'Descripcion', width: 130 },
-                            // { key: 'Apellido', label: 'Apellido', width: 130, center: true, },
-                            // { key: 'EmailAddress', label: 'EmailAddress', width: 130, center: true, },
-                            // { key: 'Tipo', label: 'Personal de', width: 130, center: true, },
-                            // { key: 'Cargo.descripcion', label: 'Cargo', width: 130, center: true, },
-
-                            // {
-                            //     key: 'fecha_on',
-                            //     label: 'Fecha creacion',
-                            //     width: 90,
-                            //     center: true,
-                            //     render: (fecha) => {
-                            //         return !fecha ? '' : new SDate(fecha).toString('yyyy-MM-dd');
-                            //     }
-                            // },
+                            { key: 'Descripcion', label: 'Descripcion', width: 130 },
                             {
                                 key: 'key-editar',
                                 label: 'Editar',
@@ -78,7 +51,7 @@ export default (props) => {
                                     return (
                                         <SView
                                             onPress={() => {
-                                                SNavigation.navigate('admin/sector/registro', {
+                                                SNavigation.navigate('/tripulacion/cargos/registro', {
                                                     key: item
                                                 });
                                             }}>
@@ -98,12 +71,22 @@ export default (props) => {
                                             width={35}
                                             height={35}
                                             onPress={() => {
-                                                var obj = data.find(o => o.key == key);
+                                                var obj = state.data.find(o => o.key == key);
                                                 SPopup.confirm({
                                                     title: 'Eliminar',
                                                     message: '¿Esta seguro de eliminar?',
                                                     onPress: () => {
-                                                        sector.Actions.eliminar(obj, this.props);
+                                                        var raw = "";
+                                                        var requestOptions = {
+                                                            method: 'DELETE'
+                                                            // body: raw,
+                                                            // redirect: 'follow'
+                                                        };
+
+                                                        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + obj.key, requestOptions)
+                                                            .then(response => response.json())
+                                                            .then(result => console.log(result))
+                                                            .catch(error => console.log('error', error));
                                                     }
                                                 });
                                             }}>
@@ -114,15 +97,12 @@ export default (props) => {
                             }
                         ]}
                         data={state.data}
-                        // filter={(dta) => {
-                        //     if (dta.Estado != "1") return false;
-                        //     return true;
-                        // }}
+                    // filter={(dta) => {
+                    //     if (dta.Estado != "1") return false;
+                    //     return true;
+                    // }}
                     />
-                    {/* </SView> */}
                     <SView height={40} />
-                    {/* </SView> */}
-                    {/* <SText>{JSON.stringify(state.data)}</SText> */}
                 </SView>
                 <FloatButtom
                     onPress={() => {
