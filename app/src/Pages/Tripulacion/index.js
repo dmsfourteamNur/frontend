@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation} from 'servisofts-component';
+import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation } from 'servisofts-component';
 
 
 
@@ -41,9 +41,9 @@ export default (props) => {
                     <SHr height={50} />
                     <SView col={'xs-11 md-10 xl-10'} center row>
                         <SView width={150} height={150} center
-                        onPress={() => {
-                            SNavigation.navigate('/tripulacion/cargos');
-                        }}>
+                            onPress={() => {
+                                SNavigation.navigate('/tripulacion/cargos');
+                            }}>
                             <SHr height={20} />
                             <SIcon name={'Cargo'} color={STheme.color.primary}></SIcon>
                             <SHr height={5} />
@@ -58,7 +58,10 @@ export default (props) => {
                             <SHr height={5} />
                             <SText>TRIPULANTES</SText>
                         </SView>
-                        <SView width={150} height={150} center>
+                        <SView width={150} height={150} center
+                            onPress={() => {
+                                SNavigation.navigate('/tripulacion');
+                            }}>
                             <SHr height={20} />
                             <SIcon name={'Tripulacion'} color={STheme.color.primary}></SIcon>
                             <SHr height={5} />

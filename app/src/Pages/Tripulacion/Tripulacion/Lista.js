@@ -15,7 +15,7 @@ export default (props) => {
             redirect: 'follow'
         };
 
-        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo", requestOptions)
+        fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion", requestOptions)
             .then(response => response.json())
             .then(result => {
                 state.data = result;
@@ -27,7 +27,7 @@ export default (props) => {
 
     return (
         <>
-            <SPage title={'Cargos'} disableScroll>
+            <SPage title={'Tripulación'} disableScroll>
                 <SView center col={'xs-12'} height>
                     <SHr height={50} />
                     <STable2
@@ -43,6 +43,28 @@ export default (props) => {
                             },
                             { key: 'Descripcion', label: 'Descripción', width: 130 },
                             {
+                                key: 'Estado',
+                                label: 'Estado',
+                                width: 100,
+                                center: true,
+                                component: (item) => {
+                                    return (
+                                        <SView
+                                            onPress={() => {
+                                                SNavigation.navigate('/tripulacion/registro', {
+                                                    key: item
+                                                });
+                                            }} center>
+                                            <SView width={20} height={20}
+                                            backgroundColor={item == 1 ? STheme.color.success : STheme.color.error}
+                                            style={{borderRadius:25}}>
+                                            </SView>
+                                            <SText fontSize={10}>{item==1 ? "Disponible" : "No disponible"}</SText>
+                                        </SView>
+                                    );
+                                }
+                            },
+                            {
                                 key: 'key-editar',
                                 label: 'Editar',
                                 width: 50,
@@ -51,7 +73,7 @@ export default (props) => {
                                     return (
                                         <SView
                                             onPress={() => {
-                                                SNavigation.navigate('/tripulacion/cargos/registro', {
+                                                SNavigation.navigate('/tripulacion/registro', {
                                                     key: item
                                                 });
                                             }}>
@@ -83,8 +105,8 @@ export default (props) => {
                                                             // redirect: 'follow'
                                                         };
 
-                                                        fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + obj.key, requestOptions)
-                                                            .then(response => response.text())
+                                                        fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion/" + obj.key, requestOptions)
+                                                            .then(response => response.json())
                                                             .then(result => console.log(result))
                                                             .catch(error => console.log('error', error));
                                                     }
@@ -94,19 +116,37 @@ export default (props) => {
                                         </SView>
                                     );
                                 }
-                            }
+                            },
+                            {
+                                key: 'key-tripulacion',
+                                label: 'Editar',
+                                width: 50,
+                                center: true,
+                                component: (item) => {
+                                    return (
+                                        <SView
+                                            onPress={() => {
+                                                SNavigation.navigate('/tripulacion/addTripulante', {
+                                                    key: item
+                                                });
+                                            }}>
+                                            <SIcon name={'AddTripulante'} width={35} />
+                                        </SView>
+                                    );
+                                }
+                            },
                         ]}
                         data={state.data}
-                    // filter={(dta) => {
-                    //     if (dta.Estado != "1") return false;
-                    //     return true;
-                    // }}
+                    filter={(dta) => {
+                        if (dta.Estado == "0") return false;
+                        return true;
+                    }}
                     />
                     <SView height={40} />
                 </SView>
                 <FloatButtom
                     onPress={() => {
-                        SNavigation.navigate('/tripulacion/cargos/registro');
+                        SNavigation.navigate('/tripulacion/registro');
                     }}
                 />
             </SPage>
