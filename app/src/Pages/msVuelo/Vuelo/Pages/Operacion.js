@@ -10,6 +10,7 @@ import {
   STheme,
   SView,
 } from "servisofts-component";
+import FloatButtom from "../../../../Components/FloatButtom";
 
 class Operacion extends Component {
   constructor(props) {
@@ -194,6 +195,13 @@ class Operacion extends Component {
           //     return true;
           // }}
         />
+
+<FloatButtom
+          onPress={() => {
+            SNavigation.navigate("/vuelo/registro");
+          }}
+        />
+
       </SPage>
     );
   }
