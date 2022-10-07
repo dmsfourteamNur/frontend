@@ -4,8 +4,8 @@ import Button from '../../../Components/Button';
 import Config from '../../../Config';
 import Http from '../../../Http';
 
-const Controller = "cargo";
-const API = Config.apis.tripulacion
+const Controller = "marca";
+const API = Config.apis.aeronave
 
 export default (props) => {
 	const formulario = useRef();
@@ -33,11 +33,11 @@ export default (props) => {
 				col={'xs-11 sm-10 md-8 lg-6 xl-4'}
 				center
 				inputs={{
-					Descripcion: {
-						label: 'Descripcion',
+					nombre: {
+						label: 'Nombre',
 						type: 'text',
 						isRequired: true,
-						defaultValue: state.data?.Descripcion
+						defaultValue: state.data?.nombre
 					}
 				}}
 				onSubmit={(values) => {

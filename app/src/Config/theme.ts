@@ -3,10 +3,10 @@ import { SThemeThemes } from 'servisofts-component';
 const theme: SThemeThemes = {
     default: {
         barStyle: "light-content",
-        barColor: "#000000",
+        barColor: "#ffffff",
         text: "#000000",
-        primary: "#000000",
-        secondary: "#ffffff",
+        primary: "#ffffff",
+        secondary: "#000000",
         info: "#DE5738",
         background: "#ffffff",
         card: "#00000015",
@@ -14,10 +14,10 @@ const theme: SThemeThemes = {
     },
     dark: {
         barStyle: "light-content",
-        barColor: "#ffffff",
+        barColor: "#000000",
         text: "#ffffff",
-        primary: "#ffffff",
-        secondary: "#000000",
+        primary: "#000000",
+        secondary: "#ffffff",
         info: "#DE5738",
         background: "#000000",
         card: "#ffffff28"

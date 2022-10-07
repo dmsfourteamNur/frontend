@@ -27,7 +27,7 @@ export default (props) => {
           row
           style={{ borderRadius: 8 }}
           onPress={() => {
-            SNavigation.navigate("/aeronave/inicio");
+            SNavigation.navigate("/aeronave");
           }}
         >
           <SText center col={"xs-12"}>
@@ -44,7 +44,7 @@ export default (props) => {
           row
           style={{ borderRadius: 8 }}
           onPress={() => {
-            SNavigation.navigate("/tripulacion/inicio");
+            SNavigation.navigate("/tripulacion");
           }}
         >
           <SText center col={"xs-12"}>

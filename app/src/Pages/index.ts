@@ -1,10 +1,12 @@
 import { SPage } from "servisofts-component";
 import login from "./login";
-import tripulacionInicio from "./Tripulacion/index";
-import cargos from "./Tripulacion/Cargo/Lista";
-import cargoRegistro from "./Tripulacion/Cargo/Registro";
-import tripulantes from "./Tripulacion/Tripulante/Lista";
-import tripulanteRegistro from "./Tripulacion/Tripulante/Registro";
+// import tripulacionInicio from "./Tripulacion/index";
+// import cargos from "./Tripulacion/Cargo/root";
+// import cargoRegistro from "./Tripulacion/Cargo/Registro";
+// import tripulantes from "./Tripulacion/Tripulante/Lista";
+// import tripulanteRegistro from "./Tripulacion/Tripulante/Registro";
+// import tripulacion from "./Tripulacion/Tripulacion/Lista";
+// import tripulacionRegistro from "./Tripulacion/Tripulacion/Registro";
 import root from "./root";
 import vueloOperacion from "./msVuelo/Vuelo/Pages/Operacion";
 import vueloRegistro from "./msVuelo/Vuelo/Pages/Registro";
@@ -15,17 +17,14 @@ import Aeronaves from "./msVuelo/Vuelo/Pages/Aeronaves";
 import Tripulaciones from "./msVuelo/Vuelo/Pages/Tripulaciones";
 import VueloLLegadas from "./msVuelo/Vuelo/Pages/VueloLLegadas";
 import VueloSalidas from "./msVuelo/Vuelo/Pages/VueloSalidas";
-
+import aeronave from './aeronave'
+import Tripulacion from "./Tripulacion";
 export default SPage.combinePages("/", {
   "": root,
   // "": tripulacionInicio,
   login: login,
   test: test,
-  "tripulacion/inicio": tripulacionInicio,
-  "tripulacion/tripulantes": tripulantes,
-  "tripulacion/tripulantes/registro": tripulanteRegistro,
-  "tripulacion/cargos": cargos,
-  "tripulacion/cargos/registro": cargoRegistro,
+
   "vuelo/inicio": vueloInicio,
   "vuelo/lista": vueloOperacion,
   "vuelo/registro": vueloRegistro,
@@ -33,4 +32,6 @@ export default SPage.combinePages("/", {
   "vuelo/tripulaciones": Tripulaciones,
   "vuelo/vueloSalidas": VueloSalidas,
   "vuelo/vuelollegadas": VueloLLegadas,
+  ...aeronave,
+	...Tripulacion
 });
