@@ -118,7 +118,7 @@ export default (props) => {
                                     label: 'Personal de',
                                     type: 'select',
                                     // STheme: 'dark',
-                                    options: [{ key: "", content: "Elegir" }, { key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
+                                    options: [{ key: "", content: <SText color={"#f0f"}>Elegir</SText> }, { key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
                                     isRequired: true,
                                     defaultValue: state.data["Tipo"]
 
