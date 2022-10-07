@@ -1,6 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { SIcon, SLoad, SNavigation, SPage, STable2, SText, STheme, SView } from 'servisofts-component';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  SIcon,
+  SLoad,
+  SNavigation,
+  SPage,
+  STable2,
+  SText,
+  STheme,
+  SView,
+} from "servisofts-component";
 
 class Operacion extends Component {
   constructor(props) {
@@ -8,68 +17,58 @@ class Operacion extends Component {
     this.state = {
       dataVuelo: [],
       dataAeronave: [],
-      dataTripulacion: []
+      dataTripulacion: [],
     };
   }
 
   componentDidMount() {
     this.cargaAPI();
-
   }
   cargaAPI() {
     var requestOptions = {
       method: "GET",
       redirect: "follow",
     };
-    fetch("http://190.104.5.211:80/api/vuelo", requestOptions)
+    fetch("http://localhost:8080/api/vuelo", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        this.state.dataVuelo = result;
-        this.setState({ ...this.state });
-        // console.log("carga Vuelo ", this.state.dataVuelo);
+        this.setState({ dataVuelo: result });
       })
       .catch((error) => console.log("error", error));
 
-    fetch("http://190.104.5.211:80/api/aeronave", requestOptions)
+    fetch("http://localhost:8080/api/aeronave", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        this.state.dataAeronave = result;
-        this.setState({ ...this.state });
-        // console.log("carga Aeronave ", this.state.dataAeronave);
+        this.setState({ dataAeronave: result });
       })
       .catch((error) => console.log("error", error));
 
-    fetch("http://190.104.5.211:80/api/tripulacion", requestOptions)
+    fetch("http://localhost:8080/api/tripulacion", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        this.state.dataTripulacion = result;
-        this.setState({ ...this.state });
-        // console.log("carga Tripulacion ", this.state.dataTripulacion);
+        this.setState({ dataTripulacion: result });
       })
       .catch((error) => console.log("error", error));
   }
-
-
-
 
   test() {
     var dataas = this.state.dataAeronave;
     Object.keys(dataas).map((key, index) => {
-      let obsj = dataas[key]
-      if(obsj.keyAeronave =="4c1b48bf-52b9-4246-bb87-4f46b1ea506c") return console.log("puta ",obsj.matricula)
-      console.log("chaval " + obsj.matricula)
+      let obsj = dataas[key];
+      if (obsj.keyAeronave == "4c1b48bf-52b9-4246-bb87-4f46b1ea506c")
+        return console.log("puta ", obsj.matricula);
+      console.log("chaval " + obsj.matricula);
     });
   }
 
   render() {
-
     var dataAlvaro = this.state.dataAeronave;
-    if (!dataAlvaro) return <SLoad />
-    // this.test();
+    if (!dataAlvaro) return <SLoad />;
+
+    console.log("si sale  ", dataAlvaro);
+    this.test();
     return (
-      <SPage title={'Operacion'}>
-
-
+      <SPage title={"Operacion"}>
         <STable2
           headerColor={STheme.color.info}
           header={[
@@ -97,15 +96,17 @@ class Operacion extends Component {
               width: 130,
               center: true,
               render: (keyAeronave) => {
-                var obj = this.state.dataAeronave[keyAeronave];
+                // var obj = this.state.dataAeronave;
+                // console.log("bruja " )
 
-                // Object.keys(dataAlvaro).map((key, index) => {
-                  // let obsj = dataAlvaro[key]
-                  // if(obsj.keyAeronave == keyAeronave) 
-                  // return  obsj.matricula;
-                  console.log("bruja ",obj )
-                // });
-              }
+                Object.keys(this.state.dataAeronave).map((key, index) => {
+                  let obsj = this.state.dataAeronave[key];
+                  if (obsj.keyAeronave == keyAeronave) return obsj.matricula;
+                });
+                  return "--";
+
+
+              },
             },
 
             // {
@@ -122,7 +123,6 @@ class Operacion extends Component {
             //     // return obj["matricula"];
             //   }
             // },
-
 
             { key: "origen", label: "origen", width: 130, center: true },
             { key: "destino", label: "destino", width: 130, center: true },
@@ -189,16 +189,16 @@ class Operacion extends Component {
             },
           ]}
           data={this.state.dataVuelo}
-        // filter={(dta) => {
-        //     if (dta.Estado != "1") return false;
-        //     return true;
-        // }}
+          // filter={(dta) => {
+          //     if (dta.Estado != "1") return false;
+          //     return true;
+          // }}
         />
       </SPage>
     );
   }
 }
 const initStates = (state) => {
-  return { state }
+  return { state };
 };
 export default connect(initStates)(Operacion);

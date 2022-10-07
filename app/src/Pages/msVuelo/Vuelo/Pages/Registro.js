@@ -24,7 +24,7 @@ export default (props) => {
       redirect: "follow",
     };
 
-    fetch("http://190.104.5.211:80/api/vuelo/" + state.key, requestOptions)
+    fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         state.data = result.data;
@@ -70,63 +70,81 @@ export default (props) => {
                   col: 'lg-12'
 
                 },
-                aeronave: {
-                  label: "Aeronaves",
-                  type: "select",
-                  isRequired: true,
-                  placeholder: 'Seleccionar aeronave',
-                  defaultValue: state.data?.keyAeronave ?? null,
-                  options: [
-                    { key: "Boeing737", content: "Boeing 737" },
-                    { key: "Boeing777", content: "Boeing 777" },
-                    { key: "Boeing787", content: "Boeing 787" },
-                    { key: "AirbusA310", content: "Airbus A310" },
-                    { key: "Avro748", content: "Avro 748" },
-                  ],
-                },
-                // keyAeronave: {
-                //   label: "keyAeronave",
-                //   type: "text",
+                // aeronave: {
+                //   label: "Aeronaves",
+                //   type: "select",
                 //   isRequired: true,
                 //   placeholder: 'Seleccionar aeronave',
                 //   defaultValue: state.data?.keyAeronave ?? null,
-                //   col: 'lg-12'
+                //   options: [
+                //     { key: "Boeing737", content: "Boeing 737" },
+                //     { key: "Boeing777", content: "Boeing 777" },
+                //     { key: "Boeing787", content: "Boeing 787" },
+                //     { key: "AirbusA310", content: "Airbus A310" },
+                //     { key: "Avro748", content: "Avro 748" },
+                //   ],
                 // },
+                keyAeronave: {
+                  label: "keyAeronave",
+                  type: "text",
+                  isRequired: true,
+                  placeholder: 'Seleccionar aeronave',
+                  defaultValue: state.data?.keyAeronave ?? null,
+                  col: 'lg-12'
+                },
                 origen: {
-                  label: "origen",
-                  type: "select",
+                  label: "keyAeronave",
+                  type: "text",
                   isRequired: true,
                   placeholder: 'Seleccionar aeronave',
+                  defaultValue: state.data?.origen ?? null,
+                  col: 'lg-12'
+                },
+                // origen: {
+                //   label: "origen",
+                //   type: "select",
+                //   isRequired: true,
+                //   placeholder: 'Seleccionar aeronave',
 
-                  defaultValue: state.data?.origen ?? false,
-                  options: [
-                    { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
-                    { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
-                    { key: "beni-magdalena", content: "Beni - Magdalena" },
-                    { key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
-                    { key: "lpz", content: "La Paz -El Alto" },
-                    { key: "sucre", content: "Sucre" },
-                    { key: "potosi", content: "Potosi" },
-                  ],
-                  col: 'lg-5.5'
-                },
-                destino: {
-                  label: "destino",
-                  type: "select",
+                //   defaultValue: state.data?.origen ?? false,
+                //   options: [
+                //     { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
+                //     { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+                //     { key: "beni-magdalena", content: "Beni - Magdalena" },
+                //     { key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
+                //     { key: "lpz", content: "La Paz -El Alto" },
+                //     { key: "sucre", content: "Sucre" },
+                //     { key: "potosi", content: "Potosi" },
+                //   ],
+                //   col: 'lg-5.5'
+                // },
+
+								destino: {
+                  label: "keyAeronave",
+                  type: "text",
                   isRequired: true,
                   placeholder: 'Seleccionar aeronave',
-                  defaultValue: state.data?.destino ?? false,
-                  options: [
-                    { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
-                    { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
-                    { key: "beni-magdalena", content: "Beni - Magdalena" },
-                    { key: "cbb", content: "Cochabamba" },
-                    { key: "lpz", content: "La Paz -El Alto" },
-                    { key: "sucre", content: "Sucre" },
-                    { key: "potosi", content: "Potosi" },
-                  ],
-                  col: 'lg-5.5'
+                  defaultValue: state.data?.destino ?? null,
+                  col: 'lg-12'
                 },
+
+                // destino: {
+                //   label: "destino",
+                //   type: "select",
+                //   isRequired: true,
+                //   placeholder: 'Seleccionar aeronave',
+                //   defaultValue: state.data?.destino ?? false,
+                //   options: [
+                //     { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
+                //     { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+                //     { key: "beni-magdalena", content: "Beni - Magdalena" },
+                //     { key: "cbb", content: "Cochabamba" },
+                //     { key: "lpz", content: "La Paz -El Alto" },
+                //     { key: "sucre", content: "Sucre" },
+                //     { key: "potosi", content: "Potosi" },
+                //   ],
+                //   col: 'lg-5.5'
+                // },
                 fechaSalida: {
                   label: "fecha Salida",
                   type: "date",
@@ -147,7 +165,7 @@ export default (props) => {
                   type: "time",
                   isRequired: true,
                   placeholder: 'ingresar Hora inicio',
-                  defaultValue: state.data?.fechaSalida ?? "20:00 pm",
+                  defaultValue: state.data?.fechaSalida ?? "20:00",
                   col: 'lg-5.5'
                 },
                 horaFin: {
@@ -155,79 +173,85 @@ export default (props) => {
                   type: "time",
                   isRequired: true,
                   placeholder: 'Seleccionar hora fin',
-                  defaultValue: state.data?.fechaArribe ?? "21:00 pm",
+                  defaultValue: state.data?.fechaArribe ?? "21:00",
                   col: 'lg-5.5'
 
                 },
-                tripuylacion: {
-                  label: "Tripulacion",
-                  type: "select",
-                  isRequired: true,
-                  placeholder: 'Seleccionar Tripulacion',
-                  defaultValue: state.data?.keyTripulacion ?? false,
-                  options: [
-                    { key: "grupoA", content: "Tripulacion Grupo A" },
-                    { key: "grupoB", content: "Tripulacion Grupo B" },
-                    { key: "grupoC", content: "Tripulacion Grupo C" },
-                    { key: "grupoD", content: "Tripulacion Grupo D" },
-
-                  ],
-                  col: 'lg-5.5'
-                },
-                // keyTripulacion: {
-                //   label: "keyTripulacion",
-                //   type: "text",
+                // tripuylacion: {
+                //   label: "Tripulacion",
+                //   type: "select",
                 //   isRequired: true,
-                //   placeholder: 'escribir Tripulacion',
-                //   defaultValue: state.data?.keyTripulacion ?? null,
+                //   placeholder: 'Seleccionar Tripulacion',
+                //   defaultValue: state.data?.keyTripulacion ?? false,
+                //   options: [
+                //     { key: "grupoA", content: "Tripulacion Grupo A" },
+                //     { key: "grupoB", content: "Tripulacion Grupo B" },
+                //     { key: "grupoC", content: "Tripulacion Grupo C" },
+                //     { key: "grupoD", content: "Tripulacion Grupo D" },
+
+                //   ],
+                //   col: 'lg-5.5'
                 // },
+                keyTripulacion: {
+                  label: "keyTripulacion",
+                  type: "text",
+                  isRequired: true,
+                  placeholder: 'escribir Tripulacion',
+                  defaultValue: state.data?.keyTripulacion ?? null,
+                },
               }}
               // onSubmitName={"Registrar"}
               onSubmit={(values) => {
 
-                var date_regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-                if (!date_regex.test(values.hora_inicio) || !date_regex.test(values.hora_fin)) {
-                  SPopup.alert("Hora no valida")
-                  return;
-                }
+                // var date_regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+                // if (!date_regex.test(values.hora_inicio) || !date_regex.test(values.hora_fin)) {
+                //   SPopup.alert("Hora no valida")
+                //   return;
+                // }
 
                 // alert(values);
                 // console.log("hola " + state.nota);
                 var raw = JSON.stringify(values);
-                console.log(raw);
+                // console.log(raw);
 
-                if (state.key) {
-                  var myHeaders = new Headers();
-                  myHeaders.append("Content-Type", "application/json", 'Access-Control-Allow-Origin',);
+								var vueloEditado =
+								{
+									"key": "952bcb78-c18a-49ae-b951-32351b5e8900",
+									"nroVuelo": "34784378437834",
+								 "keyAeronave": "a16dc783-85bc-4a24-8d7c-b23eaadb8757",
 
-                  var requestOptions = {
-                    method: "PUT",
-                    headers: myHeaders,
-                    body: raw,
-                    mode: 'no-cors',
-                    redirect: "follow",
+									 "origen": "bbbbb",
+								 "destino": "bbbb",
+								 "fechaSalida": "2022-08-10T20:30:56.235",
+								 "fechaArribe": "2022-08-10T21:30:56.235",
+								 "keyTripulacion": "c47bc2f8-6f64-4d97-9ad0-3d151cfdb145"
+						 }
 
-                  };
 
-                  fetch(
-                    "http://localhost:8080/api/vuelo/" + state.key,
-                    requestOptions
-                  )
-                    .then((response) => response.text())
-                    .then((result) => console.log(result))
-                    .catch((error) => console.log("error", error));
+
+						 if (state.key != "") {
+							var requestOptions = {
+									method: 'PUT',
+									body: vueloEditado,
+							};
+
+							fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
+									.then(response => response.json())
+									.then(result => console.log(result))
+									.then(result => SNavigation.goBack())
+									.catch(error => console.log('error', error));
+
+
                 } else {
                   var requestOptions = {
                     method: "POST",
                     body: raw,
                     redirect: "follow",
                   };
-                  fetch(
-                    "http://localhost:8080/api/vuelo/registro",
-                    requestOptions
-                  )
+                  fetch("http://localhost:8080/api/vuelo/registro",requestOptions)
                     .then((response) => response.text())
                     .then((result) => console.log(result))
+										.then(result => SNavigation.goBack())
                     .catch((error) => console.log("error", error));
                 }
               }}
