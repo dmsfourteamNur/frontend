@@ -1,0 +1,41 @@
+ # Ignore artifacts:
+build
+coverage
+
+# Ignore all extension files:
+# *.html
+# *.html
+# *.js
+# *.java
+*.yaml
+*.md
+*.jpg
+*.png
+*.xml
+
+
+# Ignore all folder con extensions
+**/.git
+**/.svn
+**/.hg
+**/.xml
+
+# Ignore all folder:
+**/node_modules
+**/target
+# **/test
+# **/bin
+**/lib
+.vscode
+public
+src/Assets  
+src/Components  
+src/Config  
+src/Http  
+src/Pages    
+src/Redux    
+src/App.js
+src/index.js
+# src/configuracion.json    
+src/react-app-env.d.ts    
+ 
