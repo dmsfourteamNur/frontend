@@ -15,7 +15,7 @@ import Aeronaves from "./msVuelo/Vuelo/Pages/Aeronaves";
 import Tripulaciones from "./msVuelo/Vuelo/Pages/Tripulaciones";
 import VueloLLegadas from "./msVuelo/Vuelo/Pages/VueloLLegadas";
 import VueloSalidas from "./msVuelo/Vuelo/Pages/VueloSalidas";
-
+import aeronave from './aeronave'
 export default SPage.combinePages("/", {
   "": root,
   // "": tripulacionInicio,
@@ -33,4 +33,5 @@ export default SPage.combinePages("/", {
   "vuelo/tripulaciones": Tripulaciones,
   "vuelo/vueloSalidas": VueloSalidas,
   "vuelo/vuelollegadas": VueloLLegadas,
+  ...aeronave
 });

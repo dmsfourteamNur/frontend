@@ -27,7 +27,7 @@ export default (props) => {
           row
           style={{ borderRadius: 8 }}
           onPress={() => {
-            SNavigation.navigate("/aeronave/inicio");
+            SNavigation.navigate("/aeronave");
           }}
         >
           <SText center col={"xs-12"}>
