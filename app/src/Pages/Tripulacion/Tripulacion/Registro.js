@@ -24,7 +24,7 @@ export default (props) => {
                 redirect: 'follow'
             };
 
-            fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + state.key, requestOptions)
+            fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion/" + state.key, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     state.data = result;
@@ -40,7 +40,7 @@ export default (props) => {
 
     return (
         <>
-            <SPage title={'Registro Cargo'}>
+            <SPage title={'Registro Tripulación'}>
                 <SView col={'xs-12'} backgroundColor={'transparent'} center row>
                     <SView
                         col={'xs-11 sm-10 md-8 lg-6 xl-4'}
@@ -85,8 +85,8 @@ export default (props) => {
                                         body: raw,
                                     };
 
-                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + state.key, requestOptions)
-                                        .then(response => response.text())
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion/" + state.key, requestOptions)
+                                        .then(response => response.json())
                                         .then(result => console.log(result))
                                         .then(result => SNavigation.goBack())
                                         .catch(error => console.log('error', error));
@@ -96,8 +96,8 @@ export default (props) => {
                                         body: raw,
                                     };
 
-                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/registro", requestOptions)
-                                        .then(response => response.text())
+                                    fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion/registro", requestOptions)
+                                        .then(response => response.json())
                                         .then(result => console.log(result))
                                         .then(result => SNavigation.goBack())
                                         .catch(error => console.log('error', error));

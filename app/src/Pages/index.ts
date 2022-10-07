@@ -5,6 +5,8 @@ import cargos from "./Tripulacion/Cargo/Lista";
 import cargoRegistro from "./Tripulacion/Cargo/Registro";
 import tripulantes from "./Tripulacion/Tripulante/Lista";
 import tripulanteRegistro from "./Tripulacion/Tripulante/Registro";
+import tripulacion from "./Tripulacion/Tripulacion/Lista";
+import tripulacionRegistro from "./Tripulacion/Tripulacion/Registro";
 import root from "./root";
 import vueloOperacion from "./msVuelo/Vuelo/Pages/Operacion";
 import vueloRegistro from "./msVuelo/Vuelo/Pages/Registro";
@@ -26,6 +28,8 @@ export default SPage.combinePages("/", {
   "tripulacion/tripulantes/registro": tripulanteRegistro,
   "tripulacion/cargos": cargos,
   "tripulacion/cargos/registro": cargoRegistro,
+  "tripulacion": tripulacion,
+  "tripulacion/registro": tripulacionRegistro,
   "vuelo/inicio": vueloInicio,
   "vuelo/lista": vueloOperacion,
   "vuelo/registro": vueloRegistro,
