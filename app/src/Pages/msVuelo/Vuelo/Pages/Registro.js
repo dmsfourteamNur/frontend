@@ -10,6 +10,7 @@ import {
   STheme,
   SView,
 } from "servisofts-component";
+import Http from "../../../../Http";
 
 export default (props) => {
   const formulario = useRef();
@@ -230,16 +231,19 @@ export default (props) => {
 
 
 						 if (state.key != "") {
-							var requestOptions = {
-									method: 'PUT',
-									body: vueloEditado,
-							};
 
-							fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
-									.then(response => response.json())
-									.then(result => console.log(result))
-									.then(result => SNavigation.goBack())
-									.catch(error => console.log('error', error));
+							Http.PUT("http://localhost:8080/api/vuelo/" + state.key, vueloEditado).then(result => SNavigation.goBack())
+
+							// var requestOptions = {
+							// 		method: 'PUT',
+							// 		body: vueloEditado,
+							// };
+
+							// fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
+							// 		.then(response => response.json())
+							// 		.then(result => console.log(result))
+							// 		.then(result => SNavigation.goBack())
+							// 		.catch(error => console.log('error', error));
 
 
                 } else {
