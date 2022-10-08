@@ -20,24 +20,24 @@ const API = Config.apis.vuelo;
 export default (props) => {
 	const formulario = useRef();
 	const [state, setState] = useState({
-		// data: {},
-		key: SNavigation.getParam('key')
+ 		key: SNavigation.getParam('key')
 	});
 	console.log(state)
-	useEffect(() => {
-    var requestOptions = {method: "GET",redirect: "follow"};
-    fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
-      .then((response) => response.json())
-      .then((result) => { state.data = result.data; setState({ ...state });})
-      .catch((error) => console.log("error", error));}, []);
-
 	// useEffect(() => {
-	// 	if (state.key != "") {
-	// 		Http.GET(API + Controller + "/" + state.key).then(resp => {
-	// 			setState({ ...state, data: resp });
-	// 		})
-	// 	}
-	// }, [])
+  //   var requestOptions = {method: "GET",redirect: "follow"};
+  //   fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((result) => { state.data = result.data; setState({ ...state });})
+  //     .catch((error) => console.log("error", error));}, []);
+
+	useEffect(() => {
+		if (state.key != "") {
+			Http.GET(API + Controller + "/" + state.key).then(resp => {
+				state.data=resp.data;
+				setState({ ...state });
+			})
+		}
+	}, [])
 
 
  	// if (!state?.data.key && state.key) return <SLoad />
@@ -118,16 +118,33 @@ export default (props) => {
 					if (state.key) {
 						Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
 					} else {
- 						// Http.POST(API+Controller+"/registro",values).then(result => SNavigation.goBack);
+						// Http.POST(API + Controller + "/registro", values).then(result =>
+						// 	console.log("aqui "+result)
+						// 	// SNavigation.goBack()
+						// 	)
+
+ 						Http.POST(API+Controller+"/registro",values).then(result => SNavigation.goBack);
 							var requestOptions = {
 							 method: "POST",
  							 redirect: "follow",
 							 body: JSON.stringify(values)
 						 };
 						 fetch("http://localhost:8080/api/vuelo/registro",requestOptions)
-							 .then((response) => response.text())
-							 .then((result) => SNavigation.goBack())
- 							 .catch((error) => console.log("error", error));
+							 .then((response) =>{
+
+							//  if(!response.ok)
+							// 	throw new Error(`HTTP error! Status: ${response.status}`);
+
+							 //  console.log("respuesta ", response.text())
+							//  console.log("respuesta "+ response.status)
+							//  console.log("respuesta ", response.url)
+							 console.log("respuesta ", response.arrayBuffer())
+					})
+
+							//  .then((result) =>
+							//  console.log("resultado ", result)
+							//  )
+ 							 .catch((error) => console.log("aqui hay error", error));
 					}
 				}}
 			/>
