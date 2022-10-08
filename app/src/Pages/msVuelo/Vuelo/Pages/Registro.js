@@ -58,7 +58,7 @@ export default (props) => {
 						type: "text",
 						isRequired: true,
 						placeholder: '0000',
-						defaultValue: state.data?.nroVuelo ?? "787",
+						defaultValue: state.data?.nroVuelo ?? "665",
 						col: 'lg-12'
 					},
 					keyAeronave: {
@@ -123,7 +123,7 @@ export default (props) => {
 						// 	// SNavigation.goBack()
 						// 	)
 
- 						Http.POST(API+Controller+"/registro",values).then(result => SNavigation.goBack);
+ 						// Http.POST(API+Controller+"/registro",values).then(result => SNavigation.goBack);
 							var requestOptions = {
 							 method: "POST",
  							 redirect: "follow",
@@ -131,20 +131,19 @@ export default (props) => {
 						 };
 						 fetch("http://localhost:8080/api/vuelo/registro",requestOptions)
 							 .then((response) =>{
+  							 console.log("response")
+  							 console.log( response.text())
+							})
+							 .then((result) =>{
+							 console.log("resultado")
+							 console.log( result)
+							 })
+ 							 .catch((error) =>{
+							 console.log("aqui hay error")
+							 console.log( error)
+							 console.log("aqui ---")
 
-							//  if(!response.ok)
-							// 	throw new Error(`HTTP error! Status: ${response.status}`);
-
-							 //  console.log("respuesta ", response.text())
-							//  console.log("respuesta "+ response.status)
-							//  console.log("respuesta ", response.url)
-							 console.log("respuesta ", response.arrayBuffer())
-					})
-
-							//  .then((result) =>
-							//  console.log("resultado ", result)
-							//  )
- 							 .catch((error) => console.log("aqui hay error", error));
+							});
 					}
 				}}
 			/>
