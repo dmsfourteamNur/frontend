@@ -64,17 +64,9 @@ export default (props) => {
 										title: 'Eliminar',
 										message: '¿Esta seguro de eliminar?',
 										onPress: () => {
-											var raw = "";
-											var requestOptions = {
-												method: 'DELETE'
-												// body: raw,
-												// redirect: 'follow'
-											};
-
-											fetch(Configuracion.SERVER_URL_TRIPULACION + "cargo/" + obj.key, requestOptions)
-												.then(response => response.text())
-												.then(result => console.log(result))
-												.catch(error => console.log('error', error));
+											Http.DELETE(Config.apis.aeronave + "tripulante/" + obj.key).then(result => {
+												window.location.reload()
+											})
 										}
 									});
 								}}>

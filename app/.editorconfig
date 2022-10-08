@@ -12,7 +12,7 @@ trim_trailing_whitespace = true # regla no espacios
 indent_style             = tab # regla tabs
 charset                  = utf-8 # UTF-8 caracter ASCII para usar puntos de código de 8 bits
 end_of_line              = lf # CRLF y LF son caracteres de control ASCII y Unicode
-indent_size              = 2 # salto de linea
+indent_size              = 4 # salto de linea
 insert_final_newline     = false # agrega una linea al final
 final_newlines = 0 # agrega una linea al final
 
