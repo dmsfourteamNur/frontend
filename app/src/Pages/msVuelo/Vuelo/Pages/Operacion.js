@@ -87,6 +87,19 @@ class Operacion extends Component {
 	// 	return resulado;
 	//   }
 
+	getOrigen() {
+		return [
+			{ key: " ", content: "Elegir lugar Aeronpuerto" },
+			{ key: "sc-vvi", content: "Santa cruz - Viru Viru" },
+			{ key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+			{ key: "beni", content: "Beni - Magdalena" },
+			{ key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
+			{ key: "lpz", content: "Cochabamba - Jorge Wilsterman" },
+			{ key: "sucre", content: "Sucre" },
+			{ key: "potosi", content: "Potosi" }
+		]
+	}
+
 	render() {
 		var aeronaves = this.state.dataAeronave;
 		var tripulacion = this.state.dataTripulacion;
@@ -110,11 +123,11 @@ class Operacion extends Component {
 						{ key: "nroVuelo", label: "nroVuelo", width: 130, center: true },
 						{
 							key: "keyAeronave", label: "Aeronave", width: 130, center: true,
-							// render: (item) => {
-							// 	var obj = aeronaves.find((o) => o.keyAeronave == item);
-							// 	// var obj = this.state.dataAeronave.find((o) => o.keyAeronave == "686fc732-d731-4b29-beae-1ff15816eedb");
-							// 	return "obj.matricula";
-							// }
+							render: (item) => {
+								var obj = aeronaves.find((o) => o.keyAeronave == item);
+								// var obj = this.state.dataAeronave.find((o) => o.keyAeronave == item);
+								return obj;
+							}
 						},
 						{ key: "origen", label: "origen", width: 130, center: true },
 						{ key: "destino", label: "destino", width: 130, center: true },
