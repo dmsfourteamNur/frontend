@@ -49,9 +49,8 @@ export default (props) => {
 
 	}, []);
 
-	if (state.key) {
-		if (!state.data) return <SLoad />;
-	}
+	if (state.key && !state.data) return <SLoad />;
+
 
 	// console.log(state.dataAeronave);
 	// console.log(state.dataTripulacion);
@@ -67,7 +66,7 @@ export default (props) => {
 
 
 
-	console.log(state.cargarAeronaves)
+	// console.log(state.cargarAeronaves)
 
 	return (
 		<>
