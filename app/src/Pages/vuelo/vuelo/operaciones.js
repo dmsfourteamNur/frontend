@@ -142,7 +142,7 @@ class operaciones extends Component {
 						{
 							key: "key-editar", label: "Editar", width: 50, center: true,
 							component: (item) => {
-								return (<SView onPress={() => { SNavigation.navigate("/vuelo/registro", { key: item }); }}><SIcon name={"Edit"} width={35} /> </SView>);
+								return (<SView onPress={() => { SNavigation.navigate("/vuelo/vuelo/registro", { key: item }); }}><SIcon name={"Edit"} width={35} /> </SView>);
 							},
 						},
 						{
@@ -175,7 +175,7 @@ class operaciones extends Component {
 
 				<FloatButtom
 					onPress={() => {
-						SNavigation.navigate("/vuelo/registro");
+						SNavigation.navigate("/vuelo/vuelo/registro");
 					}}
 				/>
 

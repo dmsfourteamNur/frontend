@@ -58,7 +58,7 @@ export default (props) => {
 							height={150}
 							center
 							onPress={() => {
-								SNavigation.navigate("/vuelo/lista");
+								SNavigation.navigate("/vuelo/vuelo/operaciones");
 							}}
 						>
 							<SHr height={20} />
@@ -71,7 +71,7 @@ export default (props) => {
 							height={150}
 							center
 							onPress={() => {
-								SNavigation.navigate("/vuelo/aeronaves");
+								SNavigation.navigate("/vuelo/vuelo/aeronaves");
 							}}
 						>
 							<SHr height={20} />
@@ -81,7 +81,7 @@ export default (props) => {
 						</SView>
 						<SView width={150} height={150} center
 							onPress={() => {
-								SNavigation.navigate("/vuelo/tripulaciones");
+								SNavigation.navigate("/vuelo/vuelo/tripulaciones");
 							}}
 						>
 							<SHr height={20} />
@@ -100,7 +100,7 @@ export default (props) => {
 							center
 							style={{ borderRadius: 16 }}
 							onPress={() => {
-								SNavigation.navigate("/vuelo/vueloSalidas");
+								SNavigation.navigate("/vuelo/vuelo/vuelosalidas");
 							}}
 						>
 							<SText
@@ -127,7 +127,7 @@ export default (props) => {
 								// alignItems: "center",
 							}}
 							onPress={() => {
-								SNavigation.navigate("/vuelo/vuelollegadas");
+								SNavigation.navigate("/vuelo/vuelo/vuelollegadas");
 							}}
 						>
 							<SText
