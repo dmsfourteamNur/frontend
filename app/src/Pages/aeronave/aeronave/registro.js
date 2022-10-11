@@ -5,7 +5,7 @@ import Config from '../../../Config';
 import Http from '../../../Http';
 
 const Controller = "aeronave";
-const API = Config.apis.aeronave
+const API = Config.apis.aeronave;
 
 export default (props) => {
 	const formulario = useRef();
