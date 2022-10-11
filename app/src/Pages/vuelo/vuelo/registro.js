@@ -16,7 +16,6 @@ class registro extends Component {
 		this.state = {
 			key: SNavigation.getParam('key'),
 			dataVuelo: {},
-			// dataVuelo: [],
 			dataAeronave: [],
 			dataTripulacion: [],
 			dataVuelos: [],
@@ -25,7 +24,6 @@ class registro extends Component {
 
 	componentDidMount() {
 		this.cargaAPI();
-		// this.ultimo();
 	}
 
 	cargaAPI() {
@@ -99,10 +97,13 @@ class registro extends Component {
 		this.state.dataVuelos.map((item, index) => {
 			var obj = index[this.state.dataVuelos.length - 1];
 			numero = parseInt(item.nroVuelo) + 1;
+			// this.state.ultimo = numero;
+			// this.setState({ ultimo: numero });
 			return numero;
 		});
 		return numero;
 	}
+
 	validaNroVuelo(numero) {
 		this.state.dataVuelos.map((item, index) => {
 			if (item.nroVuelo == numero) {
@@ -151,15 +152,16 @@ class registro extends Component {
 
 	render() {
 		if (this.state.key && !this.state.dataVuelo.key) return <SLoad />;
+		if (!this.ultimo()) return <SLoad />;
 
 		const salidaDate = this.state.dataVuelo.fechaSalida;
 		const llegadaDate = this.state.dataVuelo.fechaArribe;
-		// console.log(this.state.dataVuelos)
-		this.ultimo();
-		let siles = this.ultimo()
+
+
+		// let seAcabo = this.ultimo()
 		return (
 			<SPage title={"Registro"}>
-				<SText>ultimo {this.ultimo()}</SText>
+				<SText>ultimo   </SText>
 				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >
 					<SView col={'xs-11 sm-10 md-8 lg-6 '} center backgroundColor={"white"}>
 
@@ -177,8 +179,7 @@ class registro extends Component {
 									placeholder: 'NroVuelo *',
 									isRequired: true,
 									col: 'xs-12',
-									defaultValue: this.state.dataVuelo?.nroVuelo ?? null,
-									options: this.ultimo(),
+									defaultValue: this.state.dataVuelo?.nroVuelo ?? this.ultimo(),
 
 								},
 								keyAeronave: {
