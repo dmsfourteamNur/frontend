@@ -24,6 +24,6 @@ charset                  = utf-8 # UTF-8 caracter ASCII para usar puntos de cód
 end_of_line              = lf # CRLF y LF son caracteres de control ASCII y Unicode*********
 indent_size              = 2 # salto de linea
 insert_final_newline     = false # agrega una linea al final
-brake_line_length        = 120 # longitud de linea
+brake_line_length        = 100 # longitud de linea
 bracketSpacing 				 = false # espacio entre llaves
 final_newlines = 0 # agrega una linea al final
