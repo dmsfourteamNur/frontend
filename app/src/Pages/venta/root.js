@@ -8,7 +8,7 @@ export default (props) => {
             <SView center col={'xs-12'} height >
                 <SHr height={50} />
                 <SView col={'xs-11 md-10 xl-10'} center row>
-                    <ButtonCuadrado url="/aeronave/marca" name="MARCA" icon="Cargo" />
+                    {/* <ButtonCuadrado url="/aeronave/marca" name="MARCA" icon="Cargo" /> */}
                 </SView>
             </SView>
         </SPage>
