@@ -25,6 +25,7 @@ class registro extends Component {
 
 	componentDidMount() {
 		this.cargaAPI();
+		// this.ultimo();
 	}
 
 	cargaAPI() {
@@ -72,9 +73,9 @@ class registro extends Component {
 
 		cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
 		this.state.dataAeronave.map((item, index) => {
-			if (item.estado == "1") {
-				cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
-			}
+			// if (item.estado == "1") {
+			cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
+			// }
 		})
 		return cargarAeronaves;
 	}
@@ -84,31 +85,55 @@ class registro extends Component {
 
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
 		this.state.dataTripulacion.map((item, index) => {
-			if (item.estado == "1") {
-				cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
-			}
+			// if (item.estado == "1") {
+			cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
+			// }
 
 		}
 		)
 		return cargarTripulacion;
 	}
 
+	ultimo() {
+		let numero = 0;
+		this.state.dataVuelos.map((item, index) => {
+			var obj = index[this.state.dataVuelos.length - 1];
+			numero = parseInt(item.nroVuelo) + 1;
+			return numero;
+		});
+		return numero;
+	}
 	validaNroVuelo(numero) {
-
-		// if (!numero) {
-		// 	alert("Nro vuelo vacio");
-		// 	return console.log("Nro vuelo vacio");
-		// }
-
-		// var vuelos = [];
 		this.state.dataVuelos.map((item, index) => {
 			if (item.nroVuelo == numero) {
 				alert("Nro ya existe");
 				return console.log("Nro ya existe");
 			}
-			// vuelos.push({ key: index, content: item.nroVuelo })
 		});
-		// console.log(vuelos);
+	}
+
+	validaHoraSalidaPorAeronave(key, fecha) {
+		let bandera = true;
+		this.state.dataVuelos.map((item, index) => {
+			if (item.keyAeronave == key && item.fechaSalida == fecha) {
+				alert("aeronave ya tiene esa hora de salida");
+				console.log("aeronave ya tiene esa hora de salida");
+				bandera = false;
+			}
+		});
+		return bandera;
+	}
+
+	validaHoraSalidaPorTripulacion(key, fecha) {
+		let bandera = true;
+		this.state.dataVuelos.map((item, index) => {
+			if (item.keyTripulacion == key && item.fechaSalida == fecha) {
+				alert("Tripulación ya tiene esa hora de salida");
+				console.log("Tripulación ya tiene esa hora de salida");
+				bandera = false;
+			}
+		});
+		return bandera;
 	}
 
 	getOrigen() {
@@ -130,14 +155,14 @@ class registro extends Component {
 		const salidaDate = this.state.dataVuelo.fechaSalida;
 		const llegadaDate = this.state.dataVuelo.fechaArribe;
 		// console.log(this.state.dataVuelos)
-
+		this.ultimo();
+		let siles = this.ultimo()
 		return (
 			<SPage title={"Registro"}>
-
+				<SText>ultimo {this.ultimo()}</SText>
 				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >
 					<SView col={'xs-11 sm-10 md-8 lg-6 '} center backgroundColor={"white"}>
 
-						<SText> {this.state.dataVuelo.nroVuelo}</SText>
 						<SForm
 							center
 							row
@@ -147,12 +172,14 @@ class registro extends Component {
 							style={{ justifyContent: "space-between", backgroundColor: "#0051c5" + "95" }}
 							inputs={{
 								nroVuelo: {
-									type: "number",
+									type: "text",
 									label: "nroVuelo",
 									placeholder: 'NroVuelo *',
 									isRequired: true,
 									col: 'xs-12',
-									defaultValue: this.state.dataVuelo?.nroVuelo
+									defaultValue: this.state.dataVuelo?.nroVuelo ?? null,
+									options: this.ultimo(),
+
 								},
 								keyAeronave: {
 									type: "select",
@@ -236,7 +263,6 @@ class registro extends Component {
 									this.validaNroVuelo(values.nroVuelo);
 								}
 
-
 								if (values.keyAeronave == " ") {
 									alert("Seleccionar Aeronave");
 									return console.log("Seleccionar Aeronave");
@@ -281,6 +307,11 @@ class registro extends Component {
 									"fechaArribe": values.dateArrival + "T" + values.timeArrival + ":00.000",
 									"keyTripulacion": values.keyTripulacion
 								}
+
+								if (!this.validaHoraSalidaPorAeronave(vueloFormateado.keyAeronave, vueloFormateado.fechaSalida)) return;
+								if (!this.validaHoraSalidaPorTripulacion(vueloFormateado.keyAeronave, vueloFormateado.fechaSalida)) return;
+
+
 
 								if (this.state.key) {
 									console.log(vueloFormateado)

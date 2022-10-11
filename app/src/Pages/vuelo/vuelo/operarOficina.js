@@ -19,6 +19,7 @@ export default (props) => {
 		tripulacion: []
 	});
 
+
 	useEffect(() => {
 		Http.GET(API + ControllerVuelo).then(resp => { setState({ ...state, dataVuelo: resp }); })
 		// Http.GET(API + ControllerAeronave).then(resp => { setState({ ...state, dataAeronave: resp }); })

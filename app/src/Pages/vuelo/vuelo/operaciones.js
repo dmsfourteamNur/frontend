@@ -7,7 +7,7 @@ import {
 	SNavigation,
 	SPage,
 	SPopup,
-	STable2, STheme,
+	STable2, SText, STheme,
 	SView
 } from "servisofts-component";
 import FloatButtom from "../../../Components/FloatButtom";
@@ -84,6 +84,27 @@ class operaciones extends Component {
 		})
 		return aux;
 	}
+
+	observacionEstado(id) {
+		switch (id) {
+			case "en horario":
+				return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+					<SView width={10} height={10} backgroundColor={"#9CFF2E"} style={{ borderRadius: 28 }} center />
+					<SText fontSize={12} center height>   {id}</SText>
+				</SView >);
+			case "confirmado":
+				return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+					<SView width={10} height={10} backgroundColor={"#FFB72B"} style={{ borderRadius: 28 }} center />
+					<SText fontSize={12} center height>   {id}</SText>
+				</SView >);
+			case "pre-embarque":
+				return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+					<SView width={10} height={10} backgroundColor={"#FFE61B"} style={{ borderRadius: 28 }} center />
+					<SText fontSize={12} center height>   {id}</SText>
+				</SView >);
+		}
+	}
+
 	lugares(id) {
 		switch (id) {
 			case "sc-vvi": return "Santa cruz - Viru Viru";
@@ -100,11 +121,10 @@ class operaciones extends Component {
 
 		if (!this.state.dataVuelo && !this.state.dataAeronave && !this.state.dataTripulacion) return <SLoad />;
 
-		var salida;
-		var llegada;
-		// var salida = null;
-		// var llegada = null;
+		var salida = null;
+		var llegada = null;
 
+		// this.test();
 		return (
 			<SPage title={"Operacion"}>
 				<STable2
@@ -121,14 +141,37 @@ class operaciones extends Component {
 						{ key: "horaArribe", label: "Hora Lllegada", width: 130, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
 						{ key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true, render: (item) => { return this.getDescripcion(item) } },
 						// { key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true },
-						{ key: "observacion", label: "observacion", width: 130, center: true },
+						// {
+						// 	key: "observacion", label: "observacion", width: 130, center: true, component: (item) => {
+						// 		return (
+						// 			<SView width={35} height={35}
+						// 			// onPress={() => {
+						// 			// 	var obj = this.state.dataVuelo.find((o) => o.key == key);
+						// 			// 	SPopup.confirm({
+						// 			// 		title: "Eliminar", message: "¿Esta seguro de eliminar?",
+						// 			// 		onPress: () => { Http.DELETE(API + ControllerVuelo + "/" + obj.key).then(result => { window.location.reload() }) },
+						// 			// 	});
+						// 			// }}
+						// 			>
+						// 				<SIcon name={"Delete"} />
+						// 			</SView>
+						// 		);
+						// 	}
+						// },
+
+						// observacionEstado
+						{ key: "observacion", label: "observacion", width: 130, center: false, component: (item) => { return this.observacionEstado(item) } },
+						// { key: "observacion", label: "observacion", width: 130, center: true },
 						{ key: "estado", label: "estado", width: 130, center: true, render: (item) => { return item == 1 ? "activo" : "no funciona" } },
 
 
 						{
 							key: "key-editar", label: "Editar", width: 50, center: true,
 							component: (item) => {
-								return (<SView onPress={() => { SNavigation.navigate("/vuelo/vuelo/registro", { key: item }); }}><SIcon name={"Edit"} width={35} /> </SView>);
+								var obj = this.state.dataVuelo.find((o) => o.key == item);
+								if (obj.observacion == "en horario") {
+									return (<SView onPress={() => { SNavigation.navigate("/vuelo/vuelo/registro", { key: item }); }}><SIcon name={"Edit"} width={35} /> </SView>);
+								}
 							},
 						},
 						{
