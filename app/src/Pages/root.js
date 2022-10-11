@@ -6,11 +6,11 @@ export default (props) => {
 		<SPage title={'Home'} disableScroll>
 			<SView center col={'xs-12'}  >
 				<SView col={'xs-12'} center row>
-					<ButtonCuadrado url="/tripulacion" name="Tripulacion" icon="Ajustes" />
-					<ButtonCuadrado url="/aeronave" name="Aeronave" icon="Ajustes" />
-					<ButtonCuadrado url="/vuelo" name="Vuelo" icon="Ajustes" />
-					<ButtonCuadrado url="/venta" name="Venta" icon="Ajustes" />
-					<ButtonCuadrado url="/checkIn" name="CheckIn" icon="Ajustes" />
+					<ButtonCuadrado url="/tripulacion" name="Tripulacion" icon="Box" fill={"#F0949B"} />
+					<ButtonCuadrado url="/aeronave" name="Aeronave" icon="Box" fill={"#A9B0B6"} />
+					<ButtonCuadrado url="/vuelo" name="Vuelo" icon="Box" fill={"#BEC5DF"} />
+					<ButtonCuadrado url="/venta" name="Venta" icon="Box" fill={"#F0D2A2"} />
+					<ButtonCuadrado url="/checkIn" name="CheckIn" icon="Box" fill={"#AFD1E9"} />
 				</SView>
 			</SView>
 		</SPage>
