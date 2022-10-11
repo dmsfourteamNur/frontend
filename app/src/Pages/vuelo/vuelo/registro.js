@@ -97,8 +97,6 @@ class registro extends Component {
 		this.state.dataVuelos.map((item, index) => {
 			var obj = index[this.state.dataVuelos.length - 1];
 			numero = parseInt(item.nroVuelo) + 1;
-			// this.state.ultimo = numero;
-			// this.setState({ ultimo: numero });
 			return numero;
 		});
 		return numero;
@@ -116,10 +114,15 @@ class registro extends Component {
 	validaHoraSalidaPorAeronave(key, fecha) {
 		let bandera = true;
 		this.state.dataVuelos.map((item, index) => {
-			if (item.keyAeronave == key && item.fechaSalida == fecha) {
-				alert("aeronave ya tiene esa hora de salida");
-				console.log("aeronave ya tiene esa hora de salida");
-				bandera = false;
+			if (item.keyAeronave == key && fecha == item.fechaSalida) {
+				console.log("fecha ", fecha)
+				console.log("fecha ", item.fechaSalida)
+				console.log("fecha ", item.fechaArribe)
+				if (item.fechaArribe <= fecha) {
+					alert("aeronave ya tiene esa hora de salida");
+					console.log("aeronave ya tiene esa hora de salida");
+					bandera = false;
+				}
 			}
 		});
 		return bandera;
@@ -158,7 +161,6 @@ class registro extends Component {
 		const llegadaDate = this.state.dataVuelo.fechaArribe;
 
 
-		// let seAcabo = this.ultimo()
 		return (
 			<SPage title={"Registro"}>
 				<SText>ultimo   </SText>
@@ -310,7 +312,7 @@ class registro extends Component {
 								}
 
 								if (!this.validaHoraSalidaPorAeronave(vueloFormateado.keyAeronave, vueloFormateado.fechaSalida)) return;
-								if (!this.validaHoraSalidaPorTripulacion(vueloFormateado.keyAeronave, vueloFormateado.fechaSalida)) return;
+								// if (!this.validaHoraSalidaPorTripulacion(vueloFormateado.keyAeronave, vueloFormateado.fechaSalida)) return;
 
 
 
