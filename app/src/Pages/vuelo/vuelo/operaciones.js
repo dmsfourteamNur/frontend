@@ -66,35 +66,29 @@ class operaciones extends Component {
 
 
 
-	getAeronaves(sdsd) {
-		// var cargarAeronaves = [];
+	getMatricula(key) {
 
-		var nombre = "nulo wey";
+		var nombre;
 		this.state.dataAeronave.map((item, index) => {
-			if (item.keyAeronave == sdsd) {
-				console.log("si entro")
-				return item.matricula;
+			if (item.keyAeronave == key) {
+				nombre = item.matricula;
+				return nombre;
+			}
+		})
+		return nombre;
+	}
+	getDescripcion(key) {
+		var nombre;
+		this.state.dataTripulacion.map((item, index) => {
+			if (item.keyTripulacion == key) {
+				nombre = item.descripcion;
+				return nombre;
 			}
 		})
 		return nombre;
 	}
 
-	// test(key) {
-	// 	if (!this.state.dataAeronave) return <SLoad />;
 
-	// 	// const datas = this.state.dataAeronave;
-	// 	// var resulado = "nada"
-	// 	// console.log(key)
-	// 	// console.log(this.state.dataAeronave)
-	// 	this.state.dataAeronave.map((key, index) => {
-	// 		let obj = datas[key];
-	// 		console.log(obj.keyAeronave)
-
-	// 		if (obj.keyAeronave == key)
-	// 			resulado = obj.matricula;
-	// 	});
-	// 	return resulado;
-	// }
 
 	lugares(id) {
 		switch (id) {
@@ -123,25 +117,15 @@ class operaciones extends Component {
 					header={[
 						{ key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
 						{ key: "nroVuelo", label: "nroVuelo", width: 130, center: true },
-						{
-							key: "keyAeronave", label: "Aeronave", width: 130, center: true,
-							render: (item) => {
-								if (!this.state.dataAeronave) return <SLoad />;
-								// return this.getAeronaves(item);
-								// return this.test(item);
-								// console.log(this.state.dataAeronave)
-								// console.log("otros")
-								// var obj = this.state.dataAeronave.find((o) => o.keyAeronave == item);
-								return item;
-							}
-						},
+						{ key: "keyAeronave", label: "Aeronave", width: 130, center: true, render: (item) => { return this.getMatricula(item) } },
 						{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return this.lugares(item); } },
 						{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return this.lugares(item); } },
 						{ key: "fechaSalida", label: "Fecha Salida", width: 130, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
 						{ key: "horaSalida", label: "Hora Salida", width: 130, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
 						{ key: "fechaArribe", label: "Fecha Lllegada", width: 130, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
 						{ key: "horaArribe", label: "Hora Lllegada", width: 130, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
-						{ key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true },
+						{ key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true, render: (item) => { return this.getDescripcion(item) } },
+						// { key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true },
 						{ key: "observacion", label: "observacion", width: 130, center: true },
 						{ key: "estado", label: "estado", width: 130, center: true, render: (item) => { return item == 1 ? "activo" : "no funciona" } },
 

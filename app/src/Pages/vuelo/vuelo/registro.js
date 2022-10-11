@@ -16,8 +16,10 @@ class registro extends Component {
 		this.state = {
 			key: SNavigation.getParam('key'),
 			dataVuelo: {},
+			// dataVuelo: [],
 			dataAeronave: [],
 			dataTripulacion: [],
+			dataVuelos: [],
 		};
 	}
 
@@ -55,6 +57,14 @@ class registro extends Component {
 			})
 			.catch((error) => console.log("error", error));
 
+		fetch("http://localhost:8080/api/vuelo", requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				this.state.dataVuelos = result;
+				this.setState({ dataVuelos: result });
+			})
+			.catch((error) => console.log("error", error));
+
 	}
 
 	getAeronaves() {
@@ -83,6 +93,28 @@ class registro extends Component {
 		return cargarTripulacion;
 	}
 
+	validaNroVuelo(numero) {
+
+		// if (!numero) {
+		// 	alert("Nro vuelo vacio");
+		// 	return console.log("Nro vuelo vacio");
+		// }
+
+
+		// var vuelos = [];
+		this.state.dataVuelos.map((item, index) => {
+			if (item.nroVuelo == numero) {
+				alert("Nro ya existe");
+				return console.log("Nro ya existe");
+			}
+			// vuelos.push({ key: index, content: item.nroVuelo })
+		});
+
+		// console.log(vuelos);
+
+
+	}
+
 	getOrigen() {
 		return [
 			{ key: " ", content: "Elegir lugar Aeronpuerto" },
@@ -101,6 +133,7 @@ class registro extends Component {
 
 		const salidaDate = this.state.dataVuelo.fechaSalida;
 		const llegadaDate = this.state.dataVuelo.fechaArribe;
+		// console.log(this.state.dataVuelos)
 
 		return (
 			<SPage title={"Registro"}>
@@ -202,6 +235,11 @@ class registro extends Component {
 									alert("Nro vuelo vacio");
 									return console.log("Nro vuelo vacio");
 								}
+
+
+
+								this.validaNroVuelo(values.nroVuelo);
+
 								if (values.keyAeronave == " ") {
 									alert("Seleccionar Aeronave");
 									return console.log("Seleccionar Aeronave");
@@ -218,27 +256,25 @@ class registro extends Component {
 									alert("origen y destino son iguales");
 									return console.log("origen y destino son iguales");
 								}
-
-
 								if (values.dateDeparture > values.dateArrival) {
 									alert("fecha llegada incorrectas");
 									return console.log("fecha llegada incorrecta");
 								}
-
 								if (values.timeDeparture >= values.timeArrival) {
 									alert("hora llegada incorrecta");
 									return console.log("hora llegada incorrecta");
 								}
-
 								if (values.keyTripulacion == " ") {
 									alert("Seleccionar tripulacion");
 									return console.log("Seleccionar tripulacion");
 								}
 
+								//todo verifica si existe el numeo de vuelo con bd
+								//todo verificar si existe vuelo la aeraonve con esa hora
+								// al actualizar. verificar si existe a esa hora la aeroanve
 
 
-
-								var vueloEditado =
+								var vueloFormateado =
 								{
 									"nroVuelo": values.nroVuelo,
 									"keyAeronave": values.keyAeronave,
@@ -250,13 +286,13 @@ class registro extends Component {
 								}
 
 								if (this.state.key) {
-									console.log(vueloEditado)
+									console.log(vueloFormateado)
 									// Http.PUT(API + ControllerVuelo + "/" + this.state.key, vueloEditado).then(result => SNavigation.goBack())
 
 									var requestOptions = {
 										method: "PUT",
 										redirect: "follow",
-										body: JSON.stringify(vueloEditado)
+										body: JSON.stringify(vueloFormateado)
 									};
 									fetch("http://localhost:8080/api/vuelo/" + this.state.key, requestOptions)
 										// .then((response) => {
@@ -281,13 +317,13 @@ class registro extends Component {
 									var requestOptions = {
 										method: "POST",
 										redirect: "follow",
-										body: JSON.stringify(values)
+										body: JSON.stringify(vueloFormateado)
 									};
 									fetch("http://localhost:8080/api/vuelo/registro", requestOptions)
-										.then((response) => {
-											console.log("response")
-											console.log(response.text())
-										})
+										// .then((response) => {
+										// 	console.log("response")
+										// 	console.log(response.text())
+										// })
 										.then((result) => {
 											console.log("resultado")
 											console.log(result)
