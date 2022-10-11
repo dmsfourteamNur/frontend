@@ -25,8 +25,8 @@ class operaciones extends Component {
 			dataVuelo: [],
 			dataAeronave: [],
 			dataTripulacion: [],
-			aeronaves: [],
-			tripulacion: [],
+			// aeronaves: [],
+			// tripulacion: [],
 		};
 	}
 
@@ -36,21 +36,18 @@ class operaciones extends Component {
 
 
 	cargaAPI() {
-		Http.GET(API + ControllerVuelo).then(resp => { this.setState({ dataVuelo: resp }); })
+		// Http.GET(API + ControllerVuelo).then(resp => { this.setState({ dataVuelo: resp }); })
 		Http.GET(API + ControllerAeronave).then(resp => { this.setState({ dataAeronave: resp }); })
 		Http.GET(API + ControllerTripulacion).then(resp => { this.setState({ dataTripulacion: resp }); })
 
-		// var requestOptions = {
-		//   method: "GET",
-		//   redirect: "follow",
-		// };
-		// fetch("http://localhost:8080/api/vuelo", requestOptions)
-		//   .then((response) => response.json())
-		//   .then((result) => {
-		// this.state.dataVuelo=result
-		// this.setState({ dataVuelo: result });
-		//   })
-		//   .catch((error) => console.log("error", error));
+		var requestOptions = { method: "GET", redirect: "follow" };
+		fetch("http://localhost:8080/api/vuelo", requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				this.state.dataVuelo = result;
+				this.setState({ dataVuelo: result });
+			})
+			.catch((error) => console.log("error", error));
 
 		// fetch("http://localhost:8080/api/aeronave", requestOptions)
 		//   .then((response) => response.json())
@@ -67,52 +64,58 @@ class operaciones extends Component {
 		//   .catch((error) => console.log("error", error));
 	}
 
-	// this.state.aeronaves.push({ key: "", content: "Elegir" })
-	// state.dataAeronave.map((item, index) =>
-	// state.aeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
 
 
+	getAeronaves(sdsd) {
+		// var cargarAeronaves = [];
 
+		var nombre = "nulo wey";
+		this.state.dataAeronave.map((item, index) => {
+			if (item.keyAeronave == sdsd) {
+				console.log("si entro")
+				return item.matricula;
+			}
+		})
+		return nombre;
+	}
 
-	//   test( keyObjtenido) {
-	//     var dataas = this.state.dataAeronave;
-	// 	var resulado="ddd"
-	//     Object.keys(dataas).map((key, index) => {
-	//       let obsj = dataas[key];
-	//       if (obsj.keyAeronave == keyObjtenido)
-	// 	  console.log(obsj.matricula)
-	//         resulado=  obsj.matricula;
-	//     });
+	// test(key) {
+	// 	if (!this.state.dataAeronave) return <SLoad />;
+
+	// 	// const datas = this.state.dataAeronave;
+	// 	// var resulado = "nada"
+	// 	// console.log(key)
+	// 	// console.log(this.state.dataAeronave)
+	// 	this.state.dataAeronave.map((key, index) => {
+	// 		let obj = datas[key];
+	// 		console.log(obj.keyAeronave)
+
+	// 		if (obj.keyAeronave == key)
+	// 			resulado = obj.matricula;
+	// 	});
 	// 	return resulado;
-	//   }
+	// }
 
-	getOrigen() {
-		return [
-			{ key: " ", content: "Elegir lugar Aeronpuerto" },
-			{ key: "sc-vvi", content: "Santa cruz - Viru Viru" },
-			{ key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
-			{ key: "beni", content: "Beni - Magdalena" },
-			{ key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
-			{ key: "lpz", content: "Cochabamba - Jorge Wilsterman" },
-			{ key: "sucre", content: "Sucre" },
-			{ key: "potosi", content: "Potosi" }
-		]
+	lugares(id) {
+		switch (id) {
+			case "sc-vvi": return "Santa cruz - Viru Viru";
+			case "sc-tpll": return "Santa Cruz - Tronpillo";
+			case "beni": return "Beni - Magdalena";
+			case "cbb": return "Cochabamba - Jorge Wilsterman";
+			case "lpz": return "La paz";
+			case "sucre": return "Sucre";
+			case "potosi": return "Potosi";
+		}
 	}
 
 	render() {
-		var aeronaves = this.state.dataAeronave;
-		var tripulacion = this.state.dataTripulacion;
-		if (!aeronaves) return <SLoad />;
-		if (!tripulacion) return <SLoad />;
 
-		// var pollot= aeronaves["686fc732-d731-4b29-beae-1ff15816eedb"];
-		// console.log(pollot);
-		// console.log(aeronaves);
-		// console.log("****")
-		// console.log("aerona", this.state.dataAeronave);
-		// console.log("tripl", this.state.dataTripulacion);
+		if (!this.state.dataVuelo && !this.state.dataAeronave && !this.state.dataTripulacion) return <SLoad />;
+
 		var salida = null;
 		var llegada = null;
+
+		// this.test();
 		return (
 			<SPage title={"Operacion"}>
 				<STable2
@@ -123,17 +126,21 @@ class operaciones extends Component {
 						{
 							key: "keyAeronave", label: "Aeronave", width: 130, center: true,
 							render: (item) => {
-								var obj = aeronaves.find((o) => o.keyAeronave == item);
+								if (!this.state.dataAeronave) return <SLoad />;
+								// return this.getAeronaves(item);
+								// return this.test(item);
+								// console.log(this.state.dataAeronave)
+								// console.log("otros")
 								// var obj = this.state.dataAeronave.find((o) => o.keyAeronave == item);
-								return obj;
+								return item;
 							}
 						},
-						{ key: "origen", label: "origen", width: 130, center: true },
-						{ key: "destino", label: "destino", width: 130, center: true },
-						{ key: "fechaSalida", label: "Fecha Salida", width: 130, center: true, render: (item) => { salida = item; return new SDate(item).toString("yyyy-MM-dd") } },
-						{ key: "horaSalida", label: "Hora Salida", width: 130, center: true, render: (item) => { return new SDate(salida).toString("hh:mm:ss") } },
-						{ key: "fechaArribe", label: "Fecha Lllegada", width: 130, center: true, render: (item) => { llegada = item; return new SDate(item).toString("yyyy-MM-dd") } },
-						{ key: "horaArribe", label: "Hora Lllegada", width: 130, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm:ss") } },
+						{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return this.lugares(item); } },
+						{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return this.lugares(item); } },
+						{ key: "fechaSalida", label: "Fecha Salida", width: 130, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
+						{ key: "horaSalida", label: "Hora Salida", width: 130, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
+						{ key: "fechaArribe", label: "Fecha Lllegada", width: 130, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
+						{ key: "horaArribe", label: "Hora Lllegada", width: 130, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
 						{ key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true },
 						{ key: "observacion", label: "observacion", width: 130, center: true },
 						{ key: "estado", label: "estado", width: 130, center: true, render: (item) => { return item == 1 ? "activo" : "no funciona" } },
@@ -172,13 +179,11 @@ class operaciones extends Component {
 				//     return true;
 				// }}
 				/>
-
 				<FloatButtom
 					onPress={() => {
 						SNavigation.navigate("/vuelo/vuelo/registro");
 					}}
 				/>
-
 			</SPage>
 		);
 	}
