@@ -1,304 +1,237 @@
-import { useEffect, useRef, useState } from "react";
+import { Component } from "react";
+import { connect } from "react-redux";
 import {
-  SForm,
-  SHr,
-  SIcon,
-  SLoad,
-  SNavigation,
-  SPage,
-  SText,
-  STheme,
-  SView,
+	SForm,
+	SHr, SNavigation, SPage, SText, SView
 } from "servisofts-component";
+import Button from "../../../../Components/Button";
+import Config from "../../../../Config";
+import Http from "../../../../Http";
 
-export default (props) => {
-  const formulario = useRef();
+const ControllerVuelo = "vuelo";
+const ControllerAeronave = "aeronave";
+const ControllerTripulacion = "tripulacion";
+const API = Config.apis.vuelo;
 
-  const [state, setState] = useState({
-    key: SNavigation.getParam("key"),
-  });
 
-  useEffect(() => {
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
+class Registro extends Component {
 
-    fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        state.data = result.data;
-        state.form = null;
-        setState({ ...state });
-      })
-      .catch((error) => console.log("error", error));
-  }, []);
+	constructor(props) {
+		super(props);
+		this.state = {
+			key: SNavigation.getParam('key'),
 
-  if (state.key) {
-    if (!state.data) return <SLoad />;
-  }
+			dataVuelo: [],
+			dataAeronave: [],
+			dataTripulacion: [],
+			cargarAeronaves: [],
+			cargarTripulacion: [],
+		};
+	}
 
-  // alert(state.nota);
-  return (
-    <>
-      <SPage title={"Registro"}>
-        <SView col={"xs-12"} backgroundColor={"red"} center row>
-          <SView col={"xs-11 sm-10 md-8 lg-6 xl-6"}>
-            <SHr height={25} />
+	componentDidMount() {
+		this.cargaAPI();
+	}
 
-            <SForm
-              center
-              row
-              ref={(form) => {
-                formulario.current = form;
-              }}
-              style={{
-                justifyContent: "space-between",
-              }}
-              inputProps={{
-                customStyle: "romeo",
-                separation: 16,
-                color: STheme.color.text,
-              }}
-              inputs={{
-                nroVuelo: {
-                  label: "nroVuelo",
-                  type: "number",
-                  isRequired: true,
-                  placeholder: '0000',
-                  defaultValue: state.data?.nroVuelo ?? "10f45",
-                  col: 'lg-12'
 
-                },
-                // aeronave: {
-                //   label: "Aeronaves",
-                //   type: "select",
-                //   isRequired: true,
-                //   placeholder: 'Seleccionar aeronave',
-                //   defaultValue: state.data?.keyAeronave ?? null,
-                //   options: [
-                //     { key: "Boeing737", content: "Boeing 737" },
-                //     { key: "Boeing777", content: "Boeing 777" },
-                //     { key: "Boeing787", content: "Boeing 787" },
-                //     { key: "AirbusA310", content: "Airbus A310" },
-                //     { key: "Avro748", content: "Avro 748" },
-                //   ],
-                // },
-                keyAeronave: {
-                  label: "keyAeronave",
-                  type: "text",
-                  isRequired: true,
-                  placeholder: 'Seleccionar aeronave',
-                  defaultValue: state.data?.keyAeronave ?? null,
-                  col: 'lg-12'
-                },
-                origen: {
-                  label: "keyAeronave",
-                  type: "text",
-                  isRequired: true,
-                  placeholder: 'Seleccionar aeronave',
-                  defaultValue: state.data?.origen ?? null,
-                  col: 'lg-12'
-                },
-                // origen: {
-                //   label: "origen",
-                //   type: "select",
-                //   isRequired: true,
-                //   placeholder: 'Seleccionar aeronave',
-
-                //   defaultValue: state.data?.origen ?? false,
-                //   options: [
-                //     { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
-                //     { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
-                //     { key: "beni-magdalena", content: "Beni - Magdalena" },
-                //     { key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
-                //     { key: "lpz", content: "La Paz -El Alto" },
-                //     { key: "sucre", content: "Sucre" },
-                //     { key: "potosi", content: "Potosi" },
-                //   ],
-                //   col: 'lg-5.5'
-                // },
-
-								destino: {
-                  label: "keyAeronave",
-                  type: "text",
-                  isRequired: true,
-                  placeholder: 'Seleccionar aeronave',
-                  defaultValue: state.data?.destino ?? null,
-                  col: 'lg-12'
-                },
-
-                // destino: {
-                //   label: "destino",
-                //   type: "select",
-                //   isRequired: true,
-                //   placeholder: 'Seleccionar aeronave',
-                //   defaultValue: state.data?.destino ?? false,
-                //   options: [
-                //     { key: "sc-vvi", content: "Santa Cruz - Viru Viru" },
-                //     { key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
-                //     { key: "beni-magdalena", content: "Beni - Magdalena" },
-                //     { key: "cbb", content: "Cochabamba" },
-                //     { key: "lpz", content: "La Paz -El Alto" },
-                //     { key: "sucre", content: "Sucre" },
-                //     { key: "potosi", content: "Potosi" },
-                //   ],
-                //   col: 'lg-5.5'
-                // },
-                fechaSalida: {
-                  label: "fecha Salida",
-                  type: "date",
-                  isRequired: true,
-                  placeholder: 'ingresar fecha',
-                  defaultValue: state.data?.fechaSalida ?? "2022-10-06",
-                  col: 'lg-5.5'
-                },
-                fechaArribe: {
-                  label: "fecha Arribe",
-                  type: "date",
-                  isRequired: true,
-                  defaultValue: state.data?.fechaArribe ?? "2022-10-06",
-                  col: 'lg-5.5'
-                },
-                horaInicio: {
-                  label: "Hora salida",
-                  type: "time",
-                  isRequired: true,
-                  placeholder: 'ingresar Hora inicio',
-                  defaultValue: state.data?.fechaSalida ?? "20:00",
-                  col: 'lg-5.5'
-                },
-                horaFin: {
-                  label: "Hora Fin",
-                  type: "time",
-                  isRequired: true,
-                  placeholder: 'Seleccionar hora fin',
-                  defaultValue: state.data?.fechaArribe ?? "21:00",
-                  col: 'lg-5.5'
-
-                },
-                // tripuylacion: {
-                //   label: "Tripulacion",
-                //   type: "select",
-                //   isRequired: true,
-                //   placeholder: 'Seleccionar Tripulacion',
-                //   defaultValue: state.data?.keyTripulacion ?? false,
-                //   options: [
-                //     { key: "grupoA", content: "Tripulacion Grupo A" },
-                //     { key: "grupoB", content: "Tripulacion Grupo B" },
-                //     { key: "grupoC", content: "Tripulacion Grupo C" },
-                //     { key: "grupoD", content: "Tripulacion Grupo D" },
-
-                //   ],
-                //   col: 'lg-5.5'
-                // },
-                keyTripulacion: {
-                  label: "keyTripulacion",
-                  type: "text",
-                  isRequired: true,
-                  placeholder: 'escribir Tripulacion',
-                  defaultValue: state.data?.keyTripulacion ?? null,
-                },
-              }}
-              // onSubmitName={"Registrar"}
-              onSubmit={(values) => {
-
-                // var date_regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-                // if (!date_regex.test(values.hora_inicio) || !date_regex.test(values.hora_fin)) {
-                //   SPopup.alert("Hora no valida")
-                //   return;
-                // }
-
-                // alert(values);
-                // console.log("hola " + state.nota);
-                var raw = JSON.stringify(values);
-                // console.log(raw);
-
-								var vueloEditado =
-								{
-									"key": "952bcb78-c18a-49ae-b951-32351b5e8900",
-									"nroVuelo": "34784378437834",
-								 "keyAeronave": "a16dc783-85bc-4a24-8d7c-b23eaadb8757",
-
-									 "origen": "bbbbb",
-								 "destino": "bbbb",
-								 "fechaSalida": "2022-08-10T20:30:56.235",
-								 "fechaArribe": "2022-08-10T21:30:56.235",
-								 "keyTripulacion": "c47bc2f8-6f64-4d97-9ad0-3d151cfdb145"
-						 }
+	cargaAPI() {
+		// Http.GET(API + ControllerVuelo + "/" + this.state.key).then(resp => { this.state.dataVuelo = resp.data; setState({ ...state }); })
+		Http.GET(API + ControllerVuelo + "/" + this.state.key).then(resp => { this.setState({ dataVuelo: resp.data }); })
+		Http.GET(API + ControllerAeronave).then(resp => { this.setState({ dataAeronave: resp }); })
+		Http.GET(API + ControllerTripulacion).then(resp => { this.setState({ dataTripulacion: resp }); })
+	}
 
 
 
-						 if (state.key != "") {
-							var requestOptions = {
-									method: 'PUT',
-									body: vueloEditado,
-							};
+	getAeronaves() {
+		this.state.cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
+		this.state.dataAeronave.map((item, index) =>
+			this.state.cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
+		)
+		return this.state.cargarAeronaves;
+	}
 
-							fetch("http://localhost:8080/api/vuelo/" + state.key, requestOptions)
-									.then(response => response.json())
-									.then(result => console.log(result))
-									.then(result => SNavigation.goBack())
-									.catch(error => console.log('error', error));
+	getTripulacion() {
+		this.state.cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
+		this.state.dataTripulacion.map((item, index) =>
+			this.state.cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
+		)
+		return this.state.cargarTripulacion;
+	}
+
+	getOrigen() {
+		return [
+			{ key: " ", content: "Elegir lugar Aeronpuerto" },
+			{ key: "sc-vvi", content: "Santa cruz - Viru Viru" },
+			{ key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
+			{ key: "beni", content: "Beni - Magdalena" },
+			{ key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
+			{ key: "lpz", content: "Cochabamba - Jorge Wilsterman" },
+			{ key: "sucre", content: "Sucre" },
+			{ key: "potosi", content: "Potosi" }
+		]
+	}
+
+	render() {
+		let data = {};
+
+		if (this.state.key) {
+			data = this.state.dataVuelo;
 
 
-                } else {
-                  var requestOptions = {
-                    method: "POST",
-                    body: raw,
-                    redirect: "follow",
-                  };
-                  fetch("http://localhost:8080/api/vuelo/registro",requestOptions)
-                    .then((response) => response.text())
-                    .then((result) => console.log(result))
-										.then(result => SNavigation.goBack())
-                    .catch((error) => console.log("error", error));
-                }
-              }}
-            />
-          </SView>
-        </SView>
-      </SPage>
+			if (!this.state.dataVuelo) return <SLoad />;
+		}
+		// console.log("this.state.dataVuelo")
+		// console.log(data.nroVuelo)
+		// console.log("this.state.dataVuelo")
 
-      <SView col={"xs-12"} center style={{ bottom: 0 }}>
-        <SView
-          col={"xs-11 sm-10 md-8 lg-6 xl-4"}
-          height={50}
-          center
-          backgroundColor={STheme.color.card}
-          style={{ borderRadius: 4 }}
-          onPress={() => {
-            // this.form.submit();
-            formulario.current.submit();
 
-            // var raw = JSON.stringify({
-            //   "nroVuelo": "347843784378988434",
-            //   "keyAeronave": "686fc732-d731-4b29-beae-1ff15816eedb",
-            //   "origen": "Beni",
-            //   "destino": "Santacruz1",
-            //   "fechaSalida": "2022-10-10T20:30:56.235-0400",
-            //   "fechaArribe": "2022-10-10T21:30:56.235-0400",
-            //   "keyTripulacion": "5032fb80-5222-4e0d-a2b6-e3536ad16491",
-            // });
 
-            // var requestOptions = {
-            //   method: "POST",
-            //   body: raw,
-            //   redirect: "follow",
-            // };
+		return (
+			<SPage title={"Registro"}>
 
-            // fetch("http://localhost:8080/api/vuelo/registro", requestOptions)
-            //   .then((response) => response.text())
-            //   .then((result) => console.log(result))
-            //   .catch((error) => console.log("error", error));
-          }}
-        >
-          <SText color={STheme.color.text} font={"Roboto"} fontSize={14} bold>
-            {state.key ? "EDITAR" : "REGISTRAR"}
-          </SText>
-        </SView>
-      </SView>
-      <SHr height={25} />
-    </>
-  );
+				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >
+					<SView col={'xs-11 sm-10 md-8 lg-6 '} center backgroundColor={"white"}>
+
+						<SText> {this.state.dataVuelo.nroVuelo}</SText>
+						<SForm
+							center
+							row
+							col={'xs-11 '}
+							ref={(form) => { this.form = form; }}
+
+							style={{ justifyContent: "space-between", backgroundColor: "#0051c5" + "95" }}
+							inputs={{
+								nroVuelo: {
+									type: "text",
+									label: "nroVuelo",
+									placeholder: 'NroVuelo *',
+									isRequired: true,
+									col: 'xs-12',
+									// defaultValue: this.state.dataVuelo.nroVuelo
+									defaultValue: this.state.dataVuelo?.nroVuelo?.value ?? data.nroVuelo
+									// defaultValue: data["nroVuelo"]
+								},
+								// keyAeronave: {
+								// 	type: "select",
+								// 	label: "keyAeronave",
+								// 	placeholder: 'keyAeronave *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.keyAeronave ?? " ",
+								// 	options: this.getAeronaves(),
+								// 	col: 'xs-12'
+								// },
+
+
+								// origen: {
+								// 	type: "select",
+								// 	label: "origen",
+								// 	placeholder: 'Origen *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.origen ?? " ",
+								// 	options: this.getOrigen(),
+								// 	col: 'xs-5.5'
+								// },
+
+								// destino: {
+								// 	type: "select",
+								// 	label: "destino",
+								// 	isRequired: true,
+								// 	placeholder: 'Seleccionar destino',
+								// 	defaultValue: this.state.dataVuelo?.destino ?? " ",
+								// 	options: this.getOrigen(),
+								// 	col: 'xs-5.5'
+								// },
+								// fechaSalida: {
+								// 	type: "text",
+								// 	label: "fecha salida",
+								// 	placeholder: 'Fecha Salida *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.fechaSalida ?? null,
+								// 	col: 'xs-5'
+								// },
+								// horaSalida: {
+								// 	type: "text",
+								// 	label: "fecha salida",
+								// 	placeholder: 'Fecha Salida *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.fechaSalida ?? null,
+								// 	col: 'xs-5'
+								// },
+								// fechaArribe: {
+								// 	type: "text",
+								// 	label: "fecha Fin",
+								// 	placeholder: 'Fecha LLegada *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.fechaArribe ?? null,
+								// 	col: 'xs-4'
+								// },
+								// horaArribe: {
+								// 	type: "text",
+								// 	label: "fecha Fin",
+								// 	placeholder: 'Fecha LLegada *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.fechaArribe ?? null,
+								// 	col: 'xs-4'
+								// },
+
+
+								// keyTripulacion: {
+								// 	type: "select",
+								// 	label: "keyTripulacion",
+								// 	placeholder: 'KeyTripulacion *',
+								// 	isRequired: true,
+								// 	defaultValue: this.state.dataVuelo?.keyTripulacion ?? " ",
+								// 	options: this.getTripulacion(),
+								// 	col: 'xs-12'
+								// }
+							}}
+							onSubmit={(values) => {
+
+
+								if (this.state.key) {
+									// alert(values.nroVuelo)
+									alert(this.state.dataVuelo.nroVuelo)
+									// Http.PUT(API + ControllerVuelo + "/" + this.state.key, values).then(result => SNavigation.goBack())
+								} else {
+									Http.POST(API + ControllerVuelo + "/registro", values).then(result => SNavigation.goBack);
+
+									// 	var requestOptions = {
+									// 	 method: "POST",
+									// 	 redirect: "follow",
+									// 	 body: JSON.stringify(values)
+									//  };
+									//  fetch("http://localhost:8080/api/vuelo/registro",requestOptions)
+									// 	 .then((response) =>{
+									// 	 console.log("response")
+									// 	 console.log( response.text())
+									// 	})
+									// 	 .then((result) =>{
+									// 	 console.log("resultado")
+									// 	 console.log( result)
+									// 	 })
+									// 	 .catch((error) =>{
+									// 	 console.log("aqui hay error")
+									// 	 console.log( error)
+									// 	 console.log("aqui ---")
+									// 	});
+
+								}
+							}}
+						/>
+						<SHr height={25} />
+
+						<Button onPress={() => { this.form.submit(); }}>{this.state.key ? 'EDITAR' : 'REGISTRAR'}</Button>
+
+					</SView>
+				</SView>
+				<SHr height={25} />
+
+			</SPage>
+		);
+	}
+}
+const initStates = (state) => {
+	return { state };
 };
+export default connect(initStates)(Registro);
