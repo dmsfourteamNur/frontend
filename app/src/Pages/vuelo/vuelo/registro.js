@@ -100,7 +100,6 @@ class registro extends Component {
 		// 	return console.log("Nro vuelo vacio");
 		// }
 
-
 		// var vuelos = [];
 		this.state.dataVuelos.map((item, index) => {
 			if (item.nroVuelo == numero) {
@@ -109,10 +108,7 @@ class registro extends Component {
 			}
 			// vuelos.push({ key: index, content: item.nroVuelo })
 		});
-
 		// console.log(vuelos);
-
-
 	}
 
 	getOrigen() {
@@ -236,9 +232,10 @@ class registro extends Component {
 									return console.log("Nro vuelo vacio");
 								}
 
+								if (!this.state.key) {
+									this.validaNroVuelo(values.nroVuelo);
+								}
 
-
-								this.validaNroVuelo(values.nroVuelo);
 
 								if (values.keyAeronave == " ") {
 									alert("Seleccionar Aeronave");

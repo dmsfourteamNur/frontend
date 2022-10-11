@@ -25,8 +25,6 @@ class operaciones extends Component {
 			dataVuelo: [],
 			dataAeronave: [],
 			dataTripulacion: [],
-			// aeronaves: [],
-			// tripulacion: [],
 		};
 	}
 
@@ -67,29 +65,25 @@ class operaciones extends Component {
 
 
 	getMatricula(key) {
-
-		var nombre;
+		let aux;
 		this.state.dataAeronave.map((item, index) => {
 			if (item.keyAeronave == key) {
-				nombre = item.matricula;
-				return nombre;
+				aux = item.matricula;
+				return aux;
 			}
 		})
-		return nombre;
+		return aux;
 	}
 	getDescripcion(key) {
-		var nombre;
+		let aux;
 		this.state.dataTripulacion.map((item, index) => {
 			if (item.keyTripulacion == key) {
-				nombre = item.descripcion;
-				return nombre;
+				aux = item.descripcion;
+				return aux;
 			}
 		})
-		return nombre;
+		return aux;
 	}
-
-
-
 	lugares(id) {
 		switch (id) {
 			case "sc-vvi": return "Santa cruz - Viru Viru";
@@ -106,10 +100,11 @@ class operaciones extends Component {
 
 		if (!this.state.dataVuelo && !this.state.dataAeronave && !this.state.dataTripulacion) return <SLoad />;
 
-		var salida = null;
-		var llegada = null;
+		var salida;
+		var llegada;
+		// var salida = null;
+		// var llegada = null;
 
-		// this.test();
 		return (
 			<SPage title={"Operacion"}>
 				<STable2
