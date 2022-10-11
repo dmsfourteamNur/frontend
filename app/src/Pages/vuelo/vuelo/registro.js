@@ -4,9 +4,12 @@ import {
 	SForm,
 	SHr, SLoad, SNavigation, SPage, SText, SView
 } from "servisofts-component";
-import Button from "../../../../Components/Button";
-import Config from "../../../../Config";
-import Http from "../../../../Http";
+import Button from "../../../Components/Button";
+import Config from "../../../Config";
+import Http from "../../../Http";
+// import Button from "../../../../Components/Button";
+// import Config from "../../../../Config";
+// import Http from "../../../../Http";
 
 const ControllerVuelo = "vuelo";
 const ControllerAeronave = "aeronave";
@@ -14,7 +17,7 @@ const ControllerTripulacion = "tripulacion";
 const API = Config.apis.vuelo;
 
 
-class Registro extends Component {
+class registro extends Component {
 
 	constructor(props) {
 		super(props);
@@ -230,4 +233,4 @@ class Registro extends Component {
 const initStates = (state) => {
 	return { state };
 };
-export default connect(initStates)(Registro);
+export default connect(initStates)(registro);
