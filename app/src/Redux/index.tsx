@@ -1,17 +1,14 @@
-import React from 'react';
 import Reducer from './Reducer';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider as ProviderRedux } from 'react-redux';
-import reduxThunk from 'redux-thunk';
+import {configureStore} from '@reduxjs/toolkit';
 
-export const store = createStore(
-    combineReducers(Reducer),
-    {},
-    applyMiddleware(reduxThunk),
-);
+export const store = configureStore({
+  reducer: Reducer,
+});
 
 const Redux = (props) => {
-    return (<ProviderRedux store={store} >
+    return (
+    <ProviderRedux store={store}>
         {props.children}
     </ProviderRedux>)
 }

@@ -3,14 +3,14 @@ import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavi
 import ButtonCuadrado from '../../Components/ButtonCuadrado';
 
 export default (props) => {
-    return (
-        <SPage title={'Aeronave'} disableScroll>
-            <SView center col={'xs-12'} height >
-                <SHr height={50} />
-                <SView col={'xs-11 md-10 xl-10'} center row>
-                    <ButtonCuadrado url="/aeronave/marca" name="MARCA" icon="Cargo" />
-                </SView>
-            </SView>
-        </SPage>
-    );
+	return (
+		<SPage title={'Aeronave'} disableScroll>
+			<SView center col={'xs-12'} >
+				<SView col={'xs-12'} row center>
+					<ButtonCuadrado url="/aeronave/marca" name="Marca" icon="Ajustes" />
+					<ButtonCuadrado url="/aeronave/aeronave" name="Aeronave" icon="Ajustes" />
+				</SView>
+			</SView>
+		</SPage>
+	);
 }
