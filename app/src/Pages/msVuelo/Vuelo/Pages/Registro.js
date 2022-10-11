@@ -2,7 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import {
 	SForm,
-	SHr, SNavigation, SPage, SText, SView
+	SHr, SLoad, SNavigation, SPage, SText, SView
 } from "servisofts-component";
 import Button from "../../../../Components/Button";
 import Config from "../../../../Config";
@@ -21,7 +21,7 @@ class Registro extends Component {
 		this.state = {
 			key: SNavigation.getParam('key'),
 
-			dataVuelo: [],
+			dataVuelo: {},
 			dataAeronave: [],
 			dataTripulacion: [],
 			cargarAeronaves: [],
@@ -73,14 +73,10 @@ class Registro extends Component {
 	}
 
 	render() {
-		let data = {};
+		// let data = {};
 
-		if (this.state.key) {
-			data = this.state.dataVuelo;
+		if (this.state.key && !this.state.dataVuelo.key) return <SLoad />;
 
-
-			if (!this.state.dataVuelo) return <SLoad />;
-		}
 		// console.log("this.state.dataVuelo")
 		// console.log(data.nroVuelo)
 		// console.log("this.state.dataVuelo")
@@ -109,7 +105,7 @@ class Registro extends Component {
 									isRequired: true,
 									col: 'xs-12',
 									// defaultValue: this.state.dataVuelo.nroVuelo
-									defaultValue: this.state.dataVuelo?.nroVuelo?.value ?? data.nroVuelo
+									defaultValue: this.state.dataVuelo?.nroVuelo
 									// defaultValue: data["nroVuelo"]
 								},
 								// keyAeronave: {
