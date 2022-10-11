@@ -10,16 +10,15 @@ import {
 	STable2, STheme,
 	SView
 } from "servisofts-component";
-import FloatButtom from "../../../../Components/FloatButtom";
-import Config from "../../../../Config";
-import Http from "../../../../Http";
-
+import FloatButtom from "../../../Components/FloatButtom";
+import Config from "../../../Config";
+import Http from "../../../Http";
 const ControllerVuelo = "vuelo";
 const ControllerAeronave = "aeronave";
 const ControllerTripulacion = "tripulacion";
 const API = Config.apis.vuelo;
 
-class Operacion extends Component {
+class operaciones extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -187,4 +186,4 @@ class Operacion extends Component {
 const initStates = (state) => {
 	return { state };
 };
-export default connect(initStates)(Operacion);
+export default connect(initStates)(operaciones);
