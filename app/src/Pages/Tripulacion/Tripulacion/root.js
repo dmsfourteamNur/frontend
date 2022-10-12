@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
 import Config from '../../../Config';
 import Http from '../../../Http';
+import { getAllTripulacion } from '../../../Redux/tripulacion/tripulacionSlice';
+
 
 export default (props) => {
 
-    const [state, setState] = useState({
-        data: []
-    });
+	const { loading, data, error } = useSelector((state) => state.tripulacion);
+	const dispatch = useDispatch();
+
+    // const [state, setState] = useState({
+    //     data: []
+    // });
 
     useEffect(() => {
-		Http.GET(Config.apis.tripulacion + "tripulacion").then(resp => {
-			setState({ data: resp });
-		})
+		dispatch(getAllTripulacion());
+		// Http.GET(Config.apis.tripulacion + "tripulacion").then(resp => {
+		// 	setState({ data: resp });
+		// })
     }, [])
 
     return ( <SPage title={'Tripulación'} disableScroll>
@@ -115,7 +122,7 @@ export default (props) => {
                                 }
                             },
                         ]}
-                        data={state.data}
+                        data={data}
                     filter={(dta) => {
                         if (dta.Estado == "0") return false;
                         return true;
