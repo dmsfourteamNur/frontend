@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
 import Config from '../../../Config';
-import Configuracion from '../../../configuracion.json'
 import Http from '../../../Http';
 
 export default (props) => {
@@ -64,7 +63,7 @@ export default (props) => {
 										title: 'Eliminar',
 										message: '¿Esta seguro de eliminar?',
 										onPress: () => {
-											Http.DELETE(Config.apis.aeronave + "tripulante/" + obj.key).then(result => {
+											Http.DELETE(Config.apis.tripulacion + "cargo/" + obj.key).then(result => {
 												window.location.reload()
 											})
 										}

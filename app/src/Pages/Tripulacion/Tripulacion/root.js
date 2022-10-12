@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
-import Configuracion from '../../../configuracion.json'
+import Config from '../../../Config';
+import Http from '../../../Http';
 
 export default (props) => {
 
@@ -10,27 +11,13 @@ export default (props) => {
     });
 
     useEffect(() => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
-
-        fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                state.data = result;
-                setState({ ...state })
-                console.log(state.data)
-            })
-            .catch(error => console.log('error', error));
+		Http.GET(Config.apis.tripulacion + "tripulacion").then(resp => {
+			setState({ data: resp });
+		})
     }, [])
 
-    return (
-        <>
-            <SPage title={'Tripulación'} disableScroll>
-                <SView center col={'xs-12'} height>
-                    <SHr height={50} />
-                    <STable2
+    return ( <SPage title={'Tripulación'} disableScroll>
+				<STable2
                         headerColor={STheme.color.info}
                         header={[
                             {
@@ -73,7 +60,7 @@ export default (props) => {
                                     return (
                                         <SView
                                             onPress={() => {
-                                                SNavigation.navigate('/tripulacion/registro', {
+                                                SNavigation.navigate('/tripulacion/tripulacion/registro', {
                                                     key: item
                                                 });
                                             }}>
@@ -98,17 +85,9 @@ export default (props) => {
                                                     title: 'Eliminar',
                                                     message: '¿Esta seguro de eliminar?',
                                                     onPress: () => {
-                                                        var raw = "";
-                                                        var requestOptions = {
-                                                            method: 'DELETE'
-                                                            // body: raw,
-                                                            // redirect: 'follow'
-                                                        };
-
-                                                        fetch(Configuracion.SERVER_URL_TRIPULACION + "tripulacion/" + obj.key, requestOptions)
-                                                            .then(response => response.json())
-                                                            .then(result => console.log(result))
-                                                            .catch(error => console.log('error', error));
+														Http.DELETE(Config.apis.tripulacion + "tripulacion/" + obj.key).then(result => {
+															window.location.reload()
+														})
                                                     }
                                                 });
                                             }}>
@@ -126,7 +105,7 @@ export default (props) => {
                                     return (
                                         <SView
                                             onPress={() => {
-                                                SNavigation.navigate('/tripulacion/addTripulante', {
+                                                SNavigation.navigate('/tripulacion/tripulacion/addTripulante', {
                                                     key: item
                                                 });
                                             }}>
@@ -142,16 +121,11 @@ export default (props) => {
                         return true;
                     }}
                     />
-                    <SView height={40} />
-                </SView>
                 <FloatButtom
                     onPress={() => {
-                        SNavigation.navigate('/tripulacion/registro');
+                        SNavigation.navigate('/tripulacion/tripulacion/registro');
                     }}
                 />
             </SPage>
-
-            <SHr height={20} />
-        </>
     );
 }
