@@ -1,4 +1,4 @@
-import checkInReducer from "../Redux/checkIn/checkInSlinder";
+import checkInReducer from "./checkIn/checkinSlice";
 
 export default {
   checkin: checkInReducer,

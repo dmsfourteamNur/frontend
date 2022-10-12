@@ -10,7 +10,7 @@ export default (props) => {
 					<ButtonCuadrado url="/aeronave" name="Aeronave" icon="Box" fill={"#A9B0B6"} />
 					<ButtonCuadrado url="/vuelo" name="Vuelo" icon="Box" fill={"#BEC5DF"} />
 					<ButtonCuadrado url="/venta" name="Venta" icon="Box" fill={"#F0D2A2"} />
-					<ButtonCuadrado url="/checkIn" name="CheckIn" icon="Box" fill={"#AFD1E9"} />
+					<ButtonCuadrado url="/checkin" name="CheckIn" icon="Box" fill={"#AFD1E9"} />
 				</SView>
 			</SView>
 		</SPage>
