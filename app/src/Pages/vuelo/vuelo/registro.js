@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { connect } from "react-redux";
-import { SDate, SForm, SHr, SLoad, SNavigation, SPage, SText, SView } from "servisofts-component";
+import { SDate, SForm, SHr, SLoad, SNavigation, SPage, SView } from "servisofts-component";
 
 import Button from '../../../Components/Button';
 import Config from '../../../Config';
@@ -155,6 +155,7 @@ class registro extends Component {
 
 	render() {
 		if (this.state.key && !this.state.dataVuelo.key) return <SLoad />;
+		//si esta vacio enviar 1 o sino el ultimo
 		if (!this.ultimo()) return <SLoad />;
 
 		const salidaDate = this.state.dataVuelo.fechaSalida;
@@ -163,7 +164,7 @@ class registro extends Component {
 
 		return (
 			<SPage title={"Registro"}>
-				<SText>ultimo   </SText>
+				{/* <SText>ultimo   </SText> */}
 				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >
 					<SView col={'xs-11 sm-10 md-8 lg-6 '} center backgroundColor={"white"}>
 
