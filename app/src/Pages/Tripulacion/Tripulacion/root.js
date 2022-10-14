@@ -105,8 +105,8 @@ export default (props) => {
                             },
                             {
                                 key: 'key-tripulacion',
-                                label: 'Editar',
-                                width: 50,
+                                label: 'Añadir tripulante',
+                                width: 100,
                                 center: true,
                                 component: (item) => {
                                     return (
