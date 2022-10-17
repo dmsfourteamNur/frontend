@@ -1,189 +1,123 @@
-import { Component } from "react";
-import { connect } from "react-redux";
-import {
-	SDate,
-	SIcon,
-	SLoad,
-	SNavigation,
-	SPage,
-	SPopup,
-	STable2, STheme,
-	SView
-} from "servisofts-component";
-import FloatButtom from "../../../Components/FloatButtom";
-import Config from "../../../Config";
-import Http from "../../../Http";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { SDate, SLoad, SNavigation, SPage, STable2 } from 'servisofts-component';
+import FloatButtom from '../../../Components/FloatButtom';
+import Config from '../../../Config';
+import Http from '../../../Http';
+import { getAllVuelo } from '../../../Redux/vuelo/vueloSlice';
+
 const ControllerVuelo = "vuelo";
 const ControllerAeronave = "aeronave";
 const ControllerTripulacion = "tripulacion";
+
 const API = Config.apis.vuelo;
 
-class operaciones extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			dataVuelo: [],
-			dataAeronave: [],
-			dataTripulacion: [],
-			aeronaves: [],
-			tripulacion: [],
-		};
+export default (props) => {
+
+	const { loading, data, error } = useSelector((state) => state.vuelo);
+	// const { loading, dataTr, error } = useSelector((state) => state.getAllTripulacion);
+	const dispatch = useDispatch();
+
+
+	const [state, setState] = useState({
+		dataAeronave: null,
+		// datatripulaciones: [],
+	});
+
+
+	useEffect(() => {
+		dispatch(getAllVuelo());
+		// dispatch(getAllTripulacion());
+		// dispatch(getAllAeronave());
+
+		Http.GET("http://localhost:8080/api/aeronave").then(resp => {
+			setState({ dataAeronave: resp });
+			console.log(resp)
+		});
+
+		// Http.GET("http://localhost:8080/api/tripulacion").then(resp => {
+		// 	setState({ datatripulaciones: resp });
+		// 	console.log(resp)
+		// })
+
+	}, [])
+
+
+
+
+	const lugares = (id) => {
+		switch (id) {
+			case "sc-vvi": return "Santa cruz - Viru Viru";
+			case "sc-tpll": return "Santa Cruz - Tronpillo";
+			case "beni": return "Beni - Magdalena";
+			case "cbb": return "Cochabamba - Jorge Wilsterman";
+			case "lpz": return "La paz";
+			case "sucre": return "Sucre";
+			case "potosi": return "Potosi";
+		}
 	}
 
-	componentDidMount() {
-		this.cargaAPI();
+	const getMatricula = (key) => {
+		let aux;
+		state.dataAeronave.map((item, index) => {
+			if (item.keyAeronave == key) {
+				aux = item.matricula;
+				return aux;
+			}
+		})
+		return aux;
 	}
 
-
-	cargaAPI() {
-		Http.GET(API + ControllerVuelo).then(resp => { this.setState({ dataVuelo: resp }); })
-		Http.GET(API + ControllerAeronave).then(resp => { this.setState({ dataAeronave: resp }); })
-		Http.GET(API + ControllerTripulacion).then(resp => { this.setState({ dataTripulacion: resp }); })
-
-		// var requestOptions = {
-		//   method: "GET",
-		//   redirect: "follow",
-		// };
-		// fetch("http://localhost:8080/api/vuelo", requestOptions)
-		//   .then((response) => response.json())
-		//   .then((result) => {
-		// this.state.dataVuelo=result
-		// this.setState({ dataVuelo: result });
-		//   })
-		//   .catch((error) => console.log("error", error));
-
-		// fetch("http://localhost:8080/api/aeronave", requestOptions)
-		//   .then((response) => response.json())
-		//   .then((result) => {
-		//     this.setState({ dataAeronave: result });
-		//   })
-		//   .catch((error) => console.log("error", error));
-
-		// fetch("http://localhost:8080/api/tripulacion", requestOptions)
-		//   .then((response) => response.json())
-		//   .then((result) => {
-		//     this.setState({ dataTripulacion: result });
-		//   })
-		//   .catch((error) => console.log("error", error));
-	}
-
-	// this.state.aeronaves.push({ key: "", content: "Elegir" })
-	// state.dataAeronave.map((item, index) =>
-	// state.aeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
+	// const getDescripcion = (key) => {
+	// 	let aux2;
+	// 	state.datatripulaciones.map((item2, index) => {
+	// 		if (item2.keyTripulacion == key) {
+	// 			aux2 = item2.descripcion;
+	// 			return aux2;
+	// 		}
+	// 	})
+	// 	return aux2;
+	// }
 
 
 
+	// if (!data) return <SLoad />;
+	if (!state.dataAeronave) return <SLoad />;
+	// if (!state.datatripulaciones) return <SLoad />;
 
-	//   test( keyObjtenido) {
-	//     var dataas = this.state.dataAeronave;
-	// 	var resulado="ddd"
-	//     Object.keys(dataas).map((key, index) => {
-	//       let obsj = dataas[key];
-	//       if (obsj.keyAeronave == keyObjtenido)
-	// 	  console.log(obsj.matricula)
-	//         resulado=  obsj.matricula;
-	//     });
-	// 	return resulado;
-	//   }
+	var salida = null;
+	var llegada = null;
 
-	getOrigen() {
-		return [
-			{ key: " ", content: "Elegir lugar Aeronpuerto" },
-			{ key: "sc-vvi", content: "Santa cruz - Viru Viru" },
-			{ key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
-			{ key: "beni", content: "Beni - Magdalena" },
-			{ key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
-			{ key: "lpz", content: "Cochabamba - Jorge Wilsterman" },
-			{ key: "sucre", content: "Sucre" },
-			{ key: "potosi", content: "Potosi" }
-		]
-	}
+	return (
+		<>
+			{loading && <SLoad />}
 
-	render() {
-		var aeronaves = this.state.dataAeronave;
-		var tripulacion = this.state.dataTripulacion;
-		if (!aeronaves) return <SLoad />;
-		if (!tripulacion) return <SLoad />;
-
-		// var pollot= aeronaves["686fc732-d731-4b29-beae-1ff15816eedb"];
-		// console.log(pollot);
-		// console.log(aeronaves);
-		// console.log("****")
-		// console.log("aerona", this.state.dataAeronave);
-		// console.log("tripl", this.state.dataTripulacion);
-		var salida = null;
-		var llegada = null;
-		return (
-			<SPage title={"Operacion"}>
+			<SPage title={'Operador'} disableScroll>
 				<STable2
-					headerColor={STheme.color.info}
 					header={[
-						{ key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
-						{ key: "nroVuelo", label: "nroVuelo", width: 130, center: true },
-						{
-							key: "keyAeronave", label: "Aeronave", width: 130, center: true,
-							render: (item) => {
-								var obj = aeronaves.find((o) => o.keyAeronave == item);
-								// var obj = this.state.dataAeronave.find((o) => o.keyAeronave == item);
-								return obj;
-							}
-						},
-						{ key: "origen", label: "origen", width: 130, center: true },
-						{ key: "destino", label: "destino", width: 130, center: true },
-						{ key: "fechaSalida", label: "Fecha Salida", width: 130, center: true, render: (item) => { salida = item; return new SDate(item).toString("yyyy-MM-dd") } },
-						{ key: "horaSalida", label: "Hora Salida", width: 130, center: true, render: (item) => { return new SDate(salida).toString("hh:mm:ss") } },
-						{ key: "fechaArribe", label: "Fecha Lllegada", width: 130, center: true, render: (item) => { llegada = item; return new SDate(item).toString("yyyy-MM-dd") } },
-						{ key: "horaArribe", label: "Hora Lllegada", width: 130, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm:ss") } },
-						{ key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true },
-						{ key: "observacion", label: "observacion", width: 130, center: true },
-						{ key: "estado", label: "estado", width: 130, center: true, render: (item) => { return item == 1 ? "activo" : "no funciona" } },
+						{ key: "index", label: "#", width: 50 },
+						// { key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
+						{ key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
+						{ key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (item) => { return getMatricula(item) } },
+						{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return lugares(item); } },
+						{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return lugares(item); } },
+						{ key: "fechaSalida", label: "Fecha Salida", width: 80, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
+						{ key: "horaSalida", label: "Hora Salida", width: 80, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
+						{ key: "fechaArribe", label: "Fecha Lllegada", width: 80, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
+						{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
+						{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (item) => { return getDescripcion(item) } },
+						// { key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (item) => { return item } },
 
-
-						{
-							key: "key-editar", label: "Editar", width: 50, center: true,
-							component: (item) => {
-								return (<SView onPress={() => { SNavigation.navigate("/vuelo/vuelo/registro", { key: item }); }}><SIcon name={"Edit"} width={35} /> </SView>);
-							},
-						},
-						{
-							key: "key-eliminar",
-							label: "Eliminar",
-							width: 60,
-							center: true,
-							component: (key) => {
-								return (
-									<SView width={35} height={35}
-										onPress={() => {
-											var obj = this.state.dataVuelo.find((o) => o.key == key);
-											SPopup.confirm({
-												title: "Eliminar", message: "¿Esta seguro de eliminar?",
-												onPress: () => { Http.DELETE(API + ControllerVuelo + "/" + obj.key).then(result => { window.location.reload() }) },
-											});
-										}}>
-										<SIcon name={"Delete"} />
-									</SView>
-								);
-							},
-						},
 					]}
-					data={this.state.dataVuelo}
-				// filter={(dta) => {
-				//     if (dta.Estado != "1") return false;
-				//     return true;
-				// }}
-				/>
-
+					data={data} />
+				{/* data={state.dataVuelo} /> */}
 				<FloatButtom
 					onPress={() => {
-						SNavigation.navigate("/vuelo/vuelo/registro");
+						SNavigation.navigate('/vuelo/vuelo/registro');
 					}}
 				/>
-
 			</SPage>
-		);
-	}
+		</>
+	);
 }
-const initStates = (state) => {
-	return { state };
-};
-export default connect(initStates)(operaciones);

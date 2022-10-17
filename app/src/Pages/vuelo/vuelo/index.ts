@@ -9,6 +9,7 @@ import vueloSalidas from "./vueloSalidas";
 export default SPage.combinePages("vuelo", {
     "registro": registro,
     "operaciones": operaciones,
+    // "operaciones": opera,
     "tripulaciones": tripulaciones,
     "aeronaves": aeronaves,
     "vuelollegadas": vueloLLegadas,
