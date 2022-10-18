@@ -1,38 +1,29 @@
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
 import Button from '../../../Components/Button';
 import Config from '../../../Config';
 import Http from '../../../Http';
-import { getAll, delete_, getByKey, create } from '../../../Redux/aeronave/marcaSlice';
 
 const Controller = "marca";
 const API = Config.apis.aeronave
 
 export default (props) => {
-	const { loading, data, error } = useSelector((state) => state.marca);
-	const dispatch = useDispatch();
 	const formulario = useRef();
 	const [state, setState] = useState({
+		data: {},
 		key: SNavigation.getParam('key', "")
 	});
+	console.log(state)
 	useEffect(() => {
 		if (state.key != "") {
-			dispatch(getByKey(state.key));
-			// Http.GET(API + Controller + "/" + state.key).then(resp => {
-			// 	setState({ ...state, data: resp });
-			// })
+			Http.GET(API + Controller + "/" + state.key).then(resp => {
+				setState({ ...state, data: resp });
+			})
 		}
 	}, [])
 
 
-	if (!data && state.key) return <SLoad />
-	var item;
-	if (state.key) {
-		console.log(data);
-		item = data.find(o => o.key == state.key);
-	}
+	if (!state?.data.key && state.key) return <SLoad />
 
 	return (<SPage title={'Registro'}>
 		<SHr height={25} />
@@ -46,16 +37,14 @@ export default (props) => {
 						label: 'Nombre',
 						type: 'text',
 						isRequired: true,
-						defaultValue: item?.nombre
+						defaultValue: state.data?.nombre
 					}
 				}}
 				onSubmit={(values) => {
 					if (state.key != "") {
 						Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
 					} else {
-						dispatch(create(values));
-						SNavigation.goBack();
-						// Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
+						Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
 					}
 				}}
 			/>
