@@ -179,6 +179,7 @@ export default (props) => {
 
 						var vueloFormateado =
 						{
+
 							"nroVuelo": values.nroVuelo,
 							"keyAeronave": values.keyAeronave,
 							"origen": values.origen,

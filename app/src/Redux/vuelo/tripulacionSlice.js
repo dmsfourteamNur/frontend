@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API from '../../services/vuelo/vueloApi';
-const name = "aeronave"
+import * as API from '../../services/vuelo/tripulacionApi';
+const name = "tripulacion"
 const initialState = {
 	data: {},
 	loading: false,
@@ -30,7 +30,7 @@ const getAll_ = (builder) => {
 		state.loading = false;
 		state.data = {};
 		action.payload.map(obj => {
-			state.data[obj.key] = obj;
+			state.data[obj.keyTripulacion] = obj;
 		})
 	});
 	builder.addCase(getAll.rejected, (state, action) => {

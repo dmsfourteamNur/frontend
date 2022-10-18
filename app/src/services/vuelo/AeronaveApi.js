@@ -1,6 +1,6 @@
 import Api from './Api';
 
-const name = "aeroanve";
+const name = "aeronave";
 
 const create = async (data) => {
 	const response = await Api().post(name + "/registro", data, {
@@ -12,7 +12,7 @@ const create = async (data) => {
 };
 
 const edit = async (data) => {
-	const response = await Api().put(name + "/" + data.key, data, {
+	const response = await Api().put("vuelo/" + data.key, data, {
 		// const response = await Api().put(`${name}/` + data.key, data, {
 		timeout: 8000
 	})
@@ -29,7 +29,7 @@ const getAll = async (data) => {
 	return response.data;
 };
 const getByKey = async (data) => {
-	const response = await Api().get(name + "/" + data, {
+	const response = await Api().get("vuelo/" + data, {
 		timeout: 8000
 	})
 	return response.data;
