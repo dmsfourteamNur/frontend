@@ -12,14 +12,7 @@ export default (props) => {
 	const { loading, data, error } = useSelector((state) => state.cargo);
 	const dispatch = useDispatch();
 
-	// const [state, setState] = useState({
-	// 	data: []
-	// });
-
 	useEffect(() => {
-		// Http.GET(Config.apis.tripulacion + "cargo").then(resp => {
-		// 	setState({ data: resp });
-		// })
 		dispatch(getAllCargo());
 	}, [])
 
