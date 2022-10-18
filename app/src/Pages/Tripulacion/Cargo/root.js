@@ -2,19 +2,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup, SLoad } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
-import Config from '../../../Config';
-import Http from '../../../Http';
 import { getAll, remove } from '../../../Redux/tripulacion/cargoSlice';
 
-
 export default (props) => {
-
 	const { loading, data, error } = useSelector((state) => state.cargo);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getAll());
 	}, [])
+	// if (!data) return <SLoad />
+
 
 	return (
 		<>
@@ -61,14 +59,11 @@ export default (props) => {
 										width={35}
 										height={35}
 										onPress={() => {
-											var obj = data.find(o => o.key == key);
+											var obj = data[key];
 											SPopup.confirm({
 												title: 'Eliminar',
 												message: '¿Esta seguro de eliminar?',
 												onPress: () => {
-													// Http.DELETE(Config.apis.tripulacion + "cargo/" + obj.key).then(result => {
-													// 	window.location.reload()
-													// })
 													dispatch(remove(obj))
 												}
 											});
@@ -79,12 +74,7 @@ export default (props) => {
 							}
 						}
 					]}
-					// data={state.data}
 					data={data}
-				// filter={(dta) => {
-				//     if (dta.Estado != "1") return false;
-				//     return true;
-				// }}
 				/>
 				<FloatButtom
 					onPress={() => {

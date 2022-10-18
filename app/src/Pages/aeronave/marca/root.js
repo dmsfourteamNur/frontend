@@ -41,7 +41,7 @@ export default (props) => {
 											width={35}
 											height={35}
 											onPress={() => {
-												var obj = data.find(o => o.key == key);
+												var obj = data[key];
 												SPopup.confirm({
 													title: 'Eliminar',
 													message: '¿Esta seguro de eliminar?',
