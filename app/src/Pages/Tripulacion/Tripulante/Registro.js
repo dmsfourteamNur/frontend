@@ -112,14 +112,14 @@ export default (props) => {
 						style:{display: state.input},
 						label: 'Horas de vuelo',
 						type: 'number',
-						isRequired: true,
+						// isRequired: (state.input == "none") ? false : true,
 						defaultValue: state?.data?.HorasVuelo
 					},
 					NroMillas: {
 						style:{display: state.input},
 						label: 'Número de millas',
 						type: 'number',
-						isRequired: true,
+						// isRequired: (state.input == "none") ? false : true,
 						defaultValue: state?.data.NroMillas
 					},
 

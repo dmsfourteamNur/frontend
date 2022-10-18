@@ -28,4 +28,11 @@ const getByKey = async (data) => {
 	return response.data;
 };
 
-export { getAll, create, remove, getByKey };
+const edit = async (data) => {
+	const response = await Api().put("cargo/" + data.key, data, {
+		timeout: 8000
+	})
+	return response.data
+};
+
+export { getAll, create, remove, getByKey, edit };
