@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-	SHr,
-	SIcon, SNavigation, SPage,
-	SText,
-	STheme,
-	SView
-} from "servisofts-component";
+import { SHr, SIcon, SNavigation, SPage, SText, STheme, SView } from "servisofts-component";
 
 export default (props) => {
 	const [state, setState] = useState({

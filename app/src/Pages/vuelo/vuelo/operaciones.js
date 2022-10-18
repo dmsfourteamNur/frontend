@@ -1,47 +1,51 @@
+
+
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SDate, SLoad, SNavigation, SPage, STable2 } from 'servisofts-component';
+
+import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, SView } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
-import Config from '../../../Config';
 import Http from '../../../Http';
-import { getAllVuelo } from '../../../Redux/vuelo/vueloSlice';
+import { getAll, remove } from '../../../Redux/vuelo/vueloSlice';
 
-const ControllerVuelo = "vuelo";
-const ControllerAeronave = "aeronave";
-const ControllerTripulacion = "tripulacion";
 
-const API = Config.apis.vuelo;
+// const ControllerVuelo = "vuelo";
+// const ControllerAeronave = "aeronave";
+// const ControllerTripulacion = "tripulacion";
+
+// const API = Config.apis.vuelo;
 
 export default (props) => {
 
 	const { loading, data, error } = useSelector((state) => state.vuelo);
-	// const { loading, dataTr, error } = useSelector((state) => state.getAllTripulacion);
 	const dispatch = useDispatch();
 
 
+
 	const [state, setState] = useState({
-		dataAeronave: null,
-		// datatripulaciones: [],
+		dataAeronave: [],
+		datatripulaciones: [],
 	});
 
 
+
 	useEffect(() => {
-		dispatch(getAllVuelo());
+		dispatch(getAll());
 		// dispatch(getAllTripulacion());
 		// dispatch(getAllAeronave());
 
-		Http.GET("http://localhost:8080/api/aeronave").then(resp => {
+		Http.GET("http://127.0.0.1:8080/api/aeronave").then(resp => {
 			setState({ dataAeronave: resp });
 			console.log(resp)
 		});
 
-		// Http.GET("http://localhost:8080/api/tripulacion").then(resp => {
+		// Http.GET("http://127.0.0.1:8080/api/tripulacion").then(resp => {
 		// 	setState({ datatripulaciones: resp });
 		// 	console.log(resp)
 		// })
 
-	}, [])
+	}, []);
 
 
 
@@ -54,13 +58,15 @@ export default (props) => {
 			case "cbb": return "Cochabamba - Jorge Wilsterman";
 			case "lpz": return "La paz";
 			case "sucre": return "Sucre";
+			case "oruro": return "Oruro";
 			case "potosi": return "Potosi";
+			default: return id
 		}
 	}
 
 	const getMatricula = (key) => {
 		let aux;
-		state.dataAeronave.map((item, index) => {
+		Object.values(state.dataAeronave).map((item, index) => {
 			if (item.keyAeronave == key) {
 				aux = item.matricula;
 				return aux;
@@ -71,7 +77,7 @@ export default (props) => {
 
 	// const getDescripcion = (key) => {
 	// 	let aux2;
-	// 	state.datatripulaciones.map((item2, index) => {
+	// 	Object.values(state.datatripulaciones).map((item2, index) => {
 	// 		if (item2.keyTripulacion == key) {
 	// 			aux2 = item2.descripcion;
 	// 			return aux2;
@@ -82,7 +88,6 @@ export default (props) => {
 
 
 
-	// if (!data) return <SLoad />;
 	if (!state.dataAeronave) return <SLoad />;
 	// if (!state.datatripulaciones) return <SLoad />;
 
@@ -92,31 +97,68 @@ export default (props) => {
 	return (
 		<>
 			{loading && <SLoad />}
-
 			<SPage title={'Operador'} disableScroll>
-				<STable2
-					header={[
-						{ key: "index", label: "#", width: 50 },
-						// { key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
-						{ key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
-						{ key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (item) => { return getMatricula(item) } },
-						{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return lugares(item); } },
-						{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return lugares(item); } },
-						{ key: "fechaSalida", label: "Fecha Salida", width: 80, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
-						{ key: "horaSalida", label: "Hora Salida", width: 80, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
-						{ key: "fechaArribe", label: "Fecha Lllegada", width: 80, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
-						{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
-						{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (item) => { return getDescripcion(item) } },
-						// { key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (item) => { return item } },
+				<SView center col={'xs-12'} height>
+					<STable2
+						header={[
+							{ key: "index", label: "#", width: 50 },
+							// { key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
+							{ key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
+							{ key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (item) => { return getMatricula(item) } },
+							{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return lugares(item); } },
+							{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return lugares(item); } },
+							{ key: "fechaSalida", label: "Fecha Salida", width: 80, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
+							{ key: "horaSalida", label: "Hora Salida", width: 80, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
+							{ key: "fechaArribe", label: "Fecha Lllegada", width: 80, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
+							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
+							// { key: "keyTripulacion", label: "Tripulacion", width: 180, center: true },
+							// { key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (item) => { return getDescripcion(item) } },
+							// { key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (item) => { return item } },
 
-					]}
-					data={data} />
-				{/* data={state.dataVuelo} /> */}
-				<FloatButtom
-					onPress={() => {
-						SNavigation.navigate('/vuelo/vuelo/registro');
-					}}
-				/>
+							{
+								key: 'key-editar', label: 'Editar', width: 50, center: true,
+								component: (item) => {
+									return (
+										<SView onPress={() => {
+											SNavigation.navigate('/vuelo/vuelo/registro', { key: item });
+										}}>
+											<SIcon name={'Edit'} width={35} />
+										</SView>
+									);
+								}
+							},
+							{
+								key: 'key-eliminar', label: 'Eliminar', width: 60, center: true,
+								component: (key) => {
+									return (
+										<SView
+											width={35}
+											height={35}
+											onPress={() => {
+												console.log(key)
+												console.log("paso ne")
+												var obj = data[key];
+												SPopup.confirm({
+													title: 'Eliminar',
+													message: '¿Esta seguro de eliminar?',
+													onPress: () => {
+														dispatch(remove(obj))
+													}
+												});
+											}}>
+											<SIcon name={'Delete'} />
+										</SView>
+									);
+								}
+							}
+						]}
+						data={data} />
+					<FloatButtom
+						onPress={() => {
+							SNavigation.navigate('/vuelo/vuelo/registro');
+						}}
+					/>
+				</SView>
 			</SPage>
 		</>
 	);
