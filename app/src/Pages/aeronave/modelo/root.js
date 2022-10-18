@@ -12,6 +12,15 @@ export default (props) => {
 		dispatch(getAll());
 	}, []);
 
+	const formatData = () => {
+		var modelos = []
+		Object.values(data).map(marca => {
+			if (!marca.modelos) return;
+			modelos = [...modelos, ...marca.modelos]
+		})
+		return modelos;
+	}
+
 	return (
 		<SPage title={'Marca'} disableScroll>
 			{loading && <SLoad />}
@@ -19,13 +28,18 @@ export default (props) => {
 				<STable2
 					header={[
 						{ key: "index", label: "#", width: 50 },
-						{ key: "nombre", label: "nombre", width: 150 },
+						{
+							key: "keyMarca", label: "Marca", width: 150, render: (key) => {
+								return data[key].nombre
+							}
+						},
+						{ key: "nombre", label: "Modelo", width: 150 },
 						{
 							key: 'key-editar', label: 'Editar', width: 50, center: true,
 							component: (item) => {
 								return (
 									<SView onPress={() => {
-										SNavigation.navigate('/aeronave/marca/registro', { key: item });
+										SNavigation.navigate('/aeronave/modelo/registro', { key: item });
 									}}>
 										<SIcon name={'Edit'} width={35} />
 									</SView>
@@ -53,24 +67,12 @@ export default (props) => {
 									</SView>
 								);
 							}
-						},
-						{
-							key: 'key-modelo', label: 'Modelo', width: 50, center: true,
-							component: (item) => {
-								return (
-									<SView onPress={() => {
-										SNavigation.navigate('/aeronave/modelo/registro', { keyMarca: item });
-									}}>
-										<SIcon name={'Ajustes'} width={35} />
-									</SView>
-								);
-							}
-						},
+						}
 					]}
-					data={data} />
+					data={formatData()} />
 				<FloatButtom
 					onPress={() => {
-						SNavigation.navigate('/aeronave/marca/registro');
+						SNavigation.navigate('/aeronave/modelo/registro');
 					}}
 				/>
 			</SView>

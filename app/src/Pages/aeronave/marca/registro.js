@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
 import Button from '../../../Components/Button';
+import FloatButtom from '../../../Components/FloatButtom';
 import { getByKey, create, edit } from '../../../Redux/aeronave/marcaSlice';
 export default (props) => {
 	const { loading, data, error } = useSelector((state) => state.marca);
@@ -53,7 +54,7 @@ export default (props) => {
 				formulario.current.submit();
 			}}>{state.key ? 'EDITAR' : 'REGISTRAR'}</Button>
 		</SView>
-		<SHr height={25} />
+
 	</SPage>
 	);
 }
