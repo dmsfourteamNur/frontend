@@ -32,7 +32,7 @@ class registro extends Component {
 		// Http.GET(API + ControllerTripulacion).then(resp => { this.setState({ dataTripulacion: resp }); })
 
 		var requestOptions = { method: "GET", redirect: "follow" };
-		fetch("http://34.125.171.46:80/api/vuelo/" + this.state.key, requestOptions)
+		fetch("http://192.168.3.4:8080/api/vuelo/" + this.state.key, requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				this.state.dataVuelo = result.data;
@@ -40,7 +40,7 @@ class registro extends Component {
 			})
 			.catch((error) => console.log("error", error));
 
-		fetch("http://34.125.171.46:80/api/aeronave", requestOptions)
+		fetch("http://192.168.3.4:8080/api/aeronave", requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				this.state.dataAeronave = result;
@@ -48,7 +48,7 @@ class registro extends Component {
 			})
 			.catch((error) => console.log("error", error));
 
-		fetch("http://34.125.171.46:80/api/tripulacion", requestOptions)
+		fetch("http://192.168.3.4:8080/api/tripulacion", requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				this.state.dataTripulacion = result;
@@ -56,7 +56,7 @@ class registro extends Component {
 			})
 			.catch((error) => console.log("error", error));
 
-		fetch("http://34.125.171.46:80/api/vuelo", requestOptions)
+		fetch("http://192.168.3.4:8080/api/vuelo", requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				this.state.dataVuelos = result;
@@ -83,9 +83,9 @@ class registro extends Component {
 
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
 		this.state.dataTripulacion.map((item, index) => {
-			if (item.estado == "1") {
-				cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
-			}
+			// if (item.estado == "1") {
+			cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
+			// }
 
 		}
 		)
