@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SPopup, SLoad } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
-import Config from '../../../Config';
-import Http from '../../../Http';
 import { getAll, remove } from '../../../Redux/aeronave/marcaSlice';
 
 export default (props) => {
@@ -65,7 +63,6 @@ export default (props) => {
 						}}
 					/>
 				</SView>
-
 			</SPage>
 		</>
 	);
