@@ -1,13 +1,18 @@
 import { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
 import Button from '../../../Components/Button';
 import Config from '../../../Config';
 import Http from '../../../Http';
+import { getAll, delete_, getByKey, create, update } from '../../../Redux/tripulacion/cargoSlice';
+
 
 const Controller = "cargo";
 const API = Config.apis.tripulacion
 
 export default (props) => {
+	const { loading, data, error } = useSelector((state) => state.cargo);
+	const dispatch = useDispatch();
 	const formulario = useRef();
 	const [state, setState] = useState({
 		data: {},
@@ -16,14 +21,16 @@ export default (props) => {
 	console.log(state)
 	useEffect(() => {
 		if (state.key != "") {
-			Http.GET(API + Controller + "/" + state.key).then(resp => {
-				setState({ ...state, data: resp });
-			})
+			dispatch(getByKey(state.key));
 		}
 	}, [])
 
-
-	if (!state?.data.key && state.key) return <SLoad />
+	if (!data && state.key) return <SLoad />
+	var item;
+	if (state.key) {
+		console.log(data);
+		item = data.find(o => o.key == state.key);
+	}
 
 	return (<SPage title={'Registro'}>
 		<SHr height={25} />
@@ -37,14 +44,18 @@ export default (props) => {
 						label: 'Descripcion',
 						type: 'text',
 						isRequired: true,
-						defaultValue: state.data?.Descripcion
+						defaultValue: item?.Descripcion
 					}
 				}}
 				onSubmit={(values) => {
 					if (state.key != "") {
-						Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
+						// Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
+						dispatch(update(state.key, values));
+						SNavigation.goBack();
 					} else {
-						Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
+						// Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
+						dispatch(create(values));
+						SNavigation.goBack();
 					}
 				}}
 			/>
