@@ -8,6 +8,7 @@ export default (props) => {
 			<SView center col={'xs-12'} >
 				<SView col={'xs-12'} row center>
 					<ButtonCuadrado url="/aeronave/marca" name="Marca" icon="Ajustes" />
+					<ButtonCuadrado url="/aeronave/modelo" name="Modelo" icon="Ajustes" />
 					<ButtonCuadrado url="/aeronave/aeronave" name="Aeronave" icon="Ajustes" />
 				</SView>
 			</SView>

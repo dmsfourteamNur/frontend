@@ -1,29 +1,27 @@
 import { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
 import Button from '../../../Components/Button';
-import Config from '../../../Config';
-import Http from '../../../Http';
-
-const Controller = "aeronave";
-const API = Config.apis.aeronave;
-
+import FloatButtom from '../../../Components/FloatButtom';
+import { getByKey, create, edit } from '../../../Redux/aeronave/aeronaveSlice';
 export default (props) => {
+	const { loading, data, error } = useSelector((state) => state.aeronave);
+	const dispatch = useDispatch();
 	const formulario = useRef();
 	const [state, setState] = useState({
-		data: {},
 		key: SNavigation.getParam('key', "")
 	});
-	console.log(state)
 	useEffect(() => {
 		if (state.key != "") {
-			Http.GET(API + Controller + "/" + state.key).then(resp => {
-				setState({ ...state, data: resp });
-			})
+			dispatch(getByKey(state.key));
 		}
 	}, [])
 
-
-	if (!state?.data.key && state.key) return <SLoad />
+	var item;
+	if (state.key) {
+		item = data[state.key]
+		if (!item) return <SLoad />
+	}
 
 	return (<SPage title={'Registro'}>
 		<SHr height={25} />
@@ -33,26 +31,36 @@ export default (props) => {
 				col={'xs-11 sm-10 md-8 lg-6 xl-4'}
 				center
 				inputs={{
-					nombre: {
-						label: 'Nombre',
+					matricula: {
+						label: 'Matricula',
 						type: 'text',
 						isRequired: true,
-						defaultValue: state.data?.nombre
-					}
+						defaultValue: item?.matricula
+					},
+					keyModelo: {
+						label: 'Modelo',
+						type: 'text',
+						isRequired: true,
+						defaultValue: item?.keyModelo
+					},
 				}}
 				onSubmit={(values) => {
 					if (state.key != "") {
-						Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
+						dispatch(edit({
+							...item,
+							...values
+						}));
 					} else {
-						Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
+						dispatch(create(values));
 					}
+					SNavigation.goBack();
 				}}
 			/>
 			<Button onPress={() => {
 				formulario.current.submit();
 			}}>{state.key ? 'EDITAR' : 'REGISTRAR'}</Button>
 		</SView>
-		<SHr height={25} />
+
 	</SPage>
 	);
 }

@@ -28,9 +28,11 @@ const getByKey = async (data) => {
 	return response.data;
 };
 
-const update = async (id, data) => {
-	const response = await Api().put('cargo/' + id, ...data, { timeout: 8000 });
-	return response.data;
+const edit = async (data) => {
+	const response = await Api().put("cargo/" + data.key, data, {
+		timeout: 8000
+	})
+	return response.data
 };
 
-export { getAll, create, remove, getByKey, update };
+export { getAll, create, remove, getByKey, edit };
