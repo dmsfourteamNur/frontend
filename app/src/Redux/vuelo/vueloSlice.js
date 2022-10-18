@@ -55,47 +55,21 @@ const getByKey_ = (builder) => {
 }
 export const remove = createAsyncThunk(name + '/delete', API.remove);
 const remove_ = (builder) => {
-	builder.addCase(remove.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(remove.fulfilled, (state, action) => {
-		state.loading = false;
-		// console.log(action.payload);
-		delete state.data[action.payload.data];
-	});
-	builder.addCase(remove.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
+	builder.addCase(remove.pending, (state, action) => { state.loading = true; });
+	builder.addCase(remove.fulfilled, (state, action) => { state.loading = false; delete state.data[action.payload.data]; });
+	builder.addCase(remove.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
 export const create = createAsyncThunk(name + '/create', API.create);
 const create_ = (builder) => {
-	builder.addCase(create.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(create.fulfilled, (state, action) => {
-		state.loading = false;
-		state.data[action.payload.key] = action.payload;
-		// state.data[action.payload.key] = action.payload;
-	});
-	builder.addCase(create.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
+	builder.addCase(create.pending, (state, action) => { state.loading = true; });
+	builder.addCase(create.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
+	builder.addCase(create.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
 export const edit = createAsyncThunk(name + '/edit', API.edit);
 const edit_ = (builder) => {
-	builder.addCase(edit.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(edit.fulfilled, (state, action) => {
-		state.loading = false;
-		state.data[action.payload.key] = action.payload;
-	});
-	builder.addCase(edit.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
+	builder.addCase(edit.pending, (state, action) => { state.loading = true; });
+	builder.addCase(edit.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
+	builder.addCase(edit.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
 
 export default Slice.reducer;
