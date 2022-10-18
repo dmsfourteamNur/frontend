@@ -229,7 +229,6 @@ export default (props) => {
 
 								var vueloFormateado =
 								{
-
 									"nroVuelo": values.nroVuelo,
 									"keyAeronave": values.keyAeronave,
 									"origen": values.origen,
@@ -242,15 +241,8 @@ export default (props) => {
 								}
 
 								if (state.key != "") {
-
-									console.log(vueloFormateado);
-									dispatch(edit({
-										...item,
-										...vueloFormateado
-									}));
+									dispatch(edit({ ...item, ...vueloFormateado }));
 								} else {
-									console.log(vueloFormateado);
-									console.log("vueloFormateado");
 									dispatch(create(vueloFormateado));
 								}
 								SNavigation.goBack();

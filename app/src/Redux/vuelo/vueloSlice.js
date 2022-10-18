@@ -17,7 +17,6 @@ const Slice = createSlice({
 		remove_(builder)
 		create_(builder)
 		edit_(builder)
-
 	}
 });
 
@@ -45,11 +44,26 @@ const create_ = (builder) => {
 	builder.addCase(create.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
 	builder.addCase(create.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
+
 export const edit = createAsyncThunk(name + '/edit', API.edit);
 const edit_ = (builder) => {
-	builder.addCase(edit.pending, (state, action) => { state.loading = true; });
-	builder.addCase(edit.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
-	builder.addCase(edit.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
+	builder.addCase(edit.pending, (state, action) => {
+		state.loading = true;
+	});
+	builder.addCase(edit.fulfilled, (state, action) => {
+		state.loading = false;
+		state.data[action.payload.key] = action.payload;
+	});
+	builder.addCase(edit.rejected, (state, action) => {
+		state.loading = false;
+		state.error = action.payload;
+	});
 }
 
+// export const edit = createAsyncThunk(name + '/edit', API.edit);
+// const edit_ = (builder) => {
+// 	builder.addCase(edit.pending, (state, action) => { state.loading = true; });
+// 	builder.addCase(edit.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
+// 	builder.addCase(edit.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
+// }
 export default Slice.reducer;

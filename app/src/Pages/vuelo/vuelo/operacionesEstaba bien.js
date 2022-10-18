@@ -2,11 +2,19 @@
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, STheme, SView } from 'servisofts-component';
+
+
+import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, SView } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
 import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
 import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
 import { getAll, remove } from '../../../Redux/vuelo/vueloSlice';
+
+
+// const ControllerVuelo = "vuelo";
+// const ControllerAeronave = "aeronave";
+// const ControllerTripulacion = "tripulacion";
+// const API = Config.apis.vuelo;
 
 export default (props) => {
 
@@ -15,10 +23,31 @@ export default (props) => {
 	const tripulacion = useSelector((state) => state.tripulaciones)
 	const dispatch = useDispatch();
 
+
+
+	// const [state, setState] = useState({
+	// 	// dataAeronave: null,
+	// 	// datatripulaciones: null,
+	// });
+
+
+
 	useEffect(() => {
 		dispatch(getAll());
 		dispatch(aeronaveSlice.getAll());
 		dispatch(tripulacionSlice.getAll());
+
+
+		// Http.GET("http://127.0.0.1:8080/api/aeronave").then(resp => {
+		// 	setState({ dataAeronave: resp });
+		// 	console.log(resp)
+		// });
+
+		// Http.GET("http://127.0.0.1:8080/api/tripulacion").then(resp => {
+		// 	setState({ datatripulaciones: resp });
+		// 	console.log(resp)
+		// });
+
 	}, []);
 
 
@@ -32,9 +61,32 @@ export default (props) => {
 			case "sucre": return "Sucre";
 			case "oruro": return "Oruro";
 			case "potosi": return "Potosi";
-			default: return id;
+			default: return id
 		}
 	}
+
+	// const getMatricula = (key) => {
+	// 	let aux;
+	// 	Object.values(state.dataAeronave).map((item, index) => {
+	// 		if (item.keyAeronave == key) {
+	// 			aux = item.matricula;
+	// 			return aux;
+	// 		}
+	// 	})
+	// 	return aux;
+	// }
+
+	// const getDescripcion = (key) => {
+	// 	let aux2;
+	// 	Object.values(state.datatripulaciones).map((item2, index) => {
+	// 		if (item2.keyTripulacion == key) {
+	// 			aux2 = item2.descripcion;
+	// 			return aux2;
+	// 		}
+	// 	})
+	// 	return aux2;
+	// }
+
 
 
 	if (!aeronave.data || aeronave.loading) return <SLoad />;
@@ -45,12 +97,13 @@ export default (props) => {
 
 	return (
 		<>
+			{loading && <SLoad />}
 			<SPage title={'Operador'} disableScroll>
-				{loading && <SLoad />}
 				<SView center col={'xs-12'} height>
 					<STable2
 						header={[
-							{ key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
+							{ key: "index", label: "#", width: 50 },
+							// { key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
 							{ key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
 							{ key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (keyAeronave) => { if (!aeronave.data) return; var aux = aeronave.data[keyAeronave]; return aux?.matricula; } },
 							{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return lugares(item); } },
