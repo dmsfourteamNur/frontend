@@ -90,9 +90,8 @@ export default (props) => {
 							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
 							{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (keyTripulacion) => { var aux = tripulacion.data[keyTripulacion]; return aux?.descripcion; } },
 							{ key: "estado-view", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
-
 							{
-								key: 'key-eliminar', label: 'Cancelar', width: 60, center: true,
+								key: 'key-cancelar', label: 'Cancelar', width: 60, center: true,
 								component: (key) => {
 									return (
 										<SView width={35} height={35} onPress={() => {
@@ -108,7 +107,7 @@ export default (props) => {
 							},
 
 							{
-								key: 'key-eliminar', label: 'Arrive', width: 60, center: true,
+								key: 'key-arrive', label: 'Arrive', width: 60, center: true,
 								component: (key) => {
 									return (
 										<SView width={35} height={35} onPress={() => {
@@ -117,7 +116,7 @@ export default (props) => {
 												title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(remove(obj)) }
 											});
 										}}>
-											<SIcon name={'Delete'} />
+											<SIcon name={'BtnOperaciones'} />
 										</SView>
 									);
 								}
