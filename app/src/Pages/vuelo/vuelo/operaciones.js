@@ -90,6 +90,39 @@ export default (props) => {
 							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
 							{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (keyTripulacion) => { var aux = tripulacion.data[keyTripulacion]; return aux?.descripcion; } },
 							{ key: "estado-view", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
+
+							{
+								key: 'key-eliminar', label: 'Cancelar', width: 60, center: true,
+								component: (key) => {
+									return (
+										<SView width={35} height={35} onPress={() => {
+											var obj = data[key];
+											SPopup.confirm({
+												title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(remove(obj)) }
+											});
+										}}>
+											<SIcon name={'Delete'} />
+										</SView>
+									);
+								}
+							},
+
+							{
+								key: 'key-eliminar', label: 'Arrive', width: 60, center: true,
+								component: (key) => {
+									return (
+										<SView width={35} height={35} onPress={() => {
+											var obj = data[key];
+											SPopup.confirm({
+												title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(remove(obj)) }
+											});
+										}}>
+											<SIcon name={'Delete'} />
+										</SView>
+									);
+								}
+							},
+
 							{
 								key: 'key-editar', label: 'Editar', width: 50, center: true,
 								component: (item) => {
@@ -102,21 +135,21 @@ export default (props) => {
 								}
 							},
 
-							{
-								key: 'key-eliminar', label: 'Eliminar', width: 60, center: true,
-								component: (key) => {
-									return (
-										<SView width={35} height={35} onPress={() => {
-											var obj = data[key];
-											SPopup.confirm({
-												title: 'Eliminar', message: '¿Esta seguro de eliminar?', onPress: () => { dispatch(remove(obj)) }
-											});
-										}}>
-											<SIcon name={'Delete'} />
-										</SView>
-									);
-								}
-							}
+							// {
+							// 	key: 'key-eliminar', label: 'Eliminar', width: 60, center: true,
+							// 	component: (key) => {
+							// 		return (
+							// 			<SView width={35} height={35} onPress={() => {
+							// 				var obj = data[key];
+							// 				SPopup.confirm({
+							// 					title: 'Eliminar', message: '¿Esta seguro de eliminar?', onPress: () => { dispatch(remove(obj)) }
+							// 				});
+							// 			}}>
+							// 				<SIcon name={'Delete'} />
+							// 			</SView>
+							// 		);
+							// 	}
+							// }
 						]}
 						data={data}
 					/>
