@@ -1,139 +1,107 @@
-import { Component } from "react";
-import { connect } from "react-redux";
-import {
-	SDate, SLoad,
-	SNavigation,
-	SPage, STable2, STheme
-} from "servisofts-component";
-import FloatButtom from "../../../Components/FloatButtom";
-import Config from "../../../Config";
-import Http from "../../../Http";
-const ControllerVuelo = "vuelo";
-const ControllerAeronave = "aeronave";
-const ControllerTripulacion = "tripulacion";
-const API = Config.apis.vuelo;
-
-class vueloSalidas extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			dataVuelo: [],
-			dataAeronave: [],
-			dataTripulacion: [],
-		};
-	}
-
-	componentDidMount() {
-		this.cargaAPI();
-	}
 
 
-	cargaAPI() {
-		// Http.GET(API + ControllerVuelo).then(resp => { this.setState({ dataVuelo: resp }); })
-		Http.GET(API + ControllerAeronave).then(resp => { this.setState({ dataAeronave: resp }); })
-		Http.GET(API + ControllerTripulacion).then(resp => { this.setState({ dataTripulacion: resp }); })
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { SDate, SLoad, SPage, STable2, STheme, SView } from 'servisofts-component';
+import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
+import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
+import { getAll } from '../../../Redux/vuelo/vueloSlice';
 
-		var requestOptions = { method: "GET", redirect: "follow" };
-		fetch("http://localhost:8080/api/vuelo", requestOptions)
-			.then((response) => response.json())
-			.then((result) => {
-				this.state.dataVuelo = result;
-				this.setState({ dataVuelo: result });
-			})
-			.catch((error) => console.log("error", error));
+export default (props) => {
 
-		// fetch("http://localhost:8080/api/aeronave", requestOptions)
-		//   .then((response) => response.json())
-		//   .then((result) => {
-		//     this.setState({ dataAeronave: result });
-		//   })
-		//   .catch((error) => console.log("error", error));
+	const { loading, data, error } = useSelector((state) => state.vuelo);
+	const aeronave = useSelector((state) => state.aeronaves)
+	const tripulacion = useSelector((state) => state.tripulaciones)
+	const dispatch = useDispatch();
 
-		// fetch("http://localhost:8080/api/tripulacion", requestOptions)
-		//   .then((response) => response.json())
-		//   .then((result) => {
-		//     this.setState({ dataTripulacion: result });
-		//   })
-		//   .catch((error) => console.log("error", error));
-	}
+	useEffect(() => {
+		dispatch(getAll());
+		dispatch(aeronaveSlice.getAll());
+		dispatch(tripulacionSlice.getAll());
+	}, []);
 
 
-
-	getMatricula(key) {
-		let aux;
-		this.state.dataAeronave.map((item, index) => {
-			if (item.keyAeronave == key) {
-				aux = item.matricula;
-				return aux;
-			}
-		})
-		return aux;
-	}
-	getDescripcion(key) {
-		let aux;
-		this.state.dataTripulacion.map((item, index) => {
-			if (item.keyTripulacion == key) {
-				aux = item.descripcion;
-				return aux;
-			}
-		})
-		return aux;
-	}
-	lugares(id) {
+	const lugares = (id) => {
 		switch (id) {
 			case "sc-vvi": return "Santa cruz - Viru Viru";
-			case "sc-tpll": return "Santa Cruz - Tronpillo";
 			case "beni": return "Beni - Magdalena";
+			case "pando": return "Pando - Ciudad";
 			case "cbb": return "Cochabamba - Jorge Wilsterman";
-			case "lpz": return "La paz";
-			case "sucre": return "Sucre";
-			case "potosi": return "Potosi";
+			case "lpz": return "La paz - El Alto";
+			case "sucre": return "Sucre - Ciudad";
+			case "oruro": return "Oruro - Ciudad";
+			case "potosi": return "Potosi - Ciudad";
+			default: return id;
 		}
 	}
 
-	render() {
 
-		if (!this.state.dataVuelo && !this.state.dataAeronave && !this.state.dataTripulacion) return <SLoad />;
+	const observacionEstado = (id) => {
 
-		var salida;
-		var llegada;
-		// tiene que mostrar por fecha
-		// buscador por origen de salidas
+		switch (id) {
+			case "1":
+				return "En horario";
+			// return (<SView col={"xs-12"} row style={{ alignItems: 'center', }}>
+			// 	<SView width={10} backgroundColor={"#9CFF2E"} style={{ borderRadius: 28 }} center />
+			// 	<SText fontSize={12} center >En horario</SText>
+			// </SView >);
+			case "2":
+				return "Confirmado";
 
-		return (
-			<SPage title={"Operacion"}>
-				<STable2
-					headerColor={STheme.color.info}
-					header={[
-						{ key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
-						{ key: "keyAeronave", label: "Aeronave", width: 130, center: true, render: (item) => { return this.getMatricula(item) } },
-						{ key: "fechaSalida", label: "Fecha Salida", width: 130, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
-						{ key: "horaSalida", label: "Hora Salida", width: 130, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
-						// { key: "fechaArribe", label: "Fecha Lllegada", width: 130, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
-						// { key: "horaArribe", label: "Hora Lllegada", width: 130, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
-						{ key: "nroVuelo", label: "nroVuelo", width: 130, center: true },
-						// { key: "origen", label: "Procedencia", width: 130, center: true, render: (item) => { return this.lugares(item); } },
-						{ key: "destino", label: "Destino", width: 130, center: false, render: (item) => { return this.lugares(item); } },
-						// { key: "keyTripulacion", label: "keyTripulacion", width: 130, center: true, render: (item) => { return this.getDescripcion(item) } },
-						{ key: "observacion", label: "observacion", width: 130, center: true },
-						// { key: "estado", label: "estado", width: 130, center: true, render: (item) => { return item == 1 ? "activo" : "no funciona" } },
-					]}
-					data={this.state.dataVuelo}
-				// filter={(dta) => {
-				//     if (dta.Estado != "1") return false;
-				//     return true;
-				// }}
-				/>
-				<FloatButtom
-					onPress={() => {
-						SNavigation.navigate("/vuelo/vuelo/registro");
-					}}
-				/>
-			</SPage>
-		);
+			// return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+			// 	<SView width={10} height={10} backgroundColor={"#FFB72B"} style={{ borderRadius: 28 }} center />
+			// 	<SText fontSize={12} center height>Confirmado</SText>
+			// </SView >);
+			case "0":
+				return "Cancelado";
+
+			// return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+			// 	<SView width={10} height={10} backgroundColor={"#FFE61B"} style={{ borderRadius: 28 }} center />
+			// 	<SText fontSize={12} center height>Cancelado</SText>
+			// </SView >);
+			default: return id;
+		}
 	}
+
+
+
+	if (!aeronave.data || aeronave.loading) return <SLoad />;
+	if (!tripulacion.data || tripulacion.loading) return <SLoad />;
+
+	var salida = null;
+	var llegada = null;
+
+	return (
+		<>
+			<SPage title={'Operador'} disableScroll>
+				{loading && <SLoad />}
+				<SView center col={'xs-12'} height>
+					<STable2
+						headerColor={STheme.color.info}
+						// Color={STheme.color.primary}
+						header={[
+							{ key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
+							{ key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (keyAeronave) => { if (!aeronave.data) return; var aux = aeronave.data[keyAeronave]; return aux?.matricula; } },
+							{ key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
+							{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return lugares(item); } },
+							{ key: "fechaSalida", label: "Fecha Salida", width: 80, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
+							{ key: "horaSalida", label: "Hora Salida", width: 80, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
+
+							{ key: "estado", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
+
+							{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return lugares(item); } },
+							{ key: "fechaArribe", label: "Fecha Lllegada", width: 100, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
+							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
+
+						]}
+						data={data}
+						filter={(data) => {
+							if (data.estado != "1") return false;
+							return true;
+						}}
+					/>
+				</SView>
+			</SPage>
+		</>
+	);
 }
-const initStates = (state) => {
-	return { state };
-};
-export default connect(initStates)(vueloSalidas);

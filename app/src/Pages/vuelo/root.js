@@ -87,7 +87,7 @@ export default (props) => {
 							<SText>TRIPULACIONES</SText>
 						</SView>
 
-						<SView
+						{/* <SView
 							width={110}
 							height={110}
 							backgroundColor={"#20a6d8"}
@@ -134,7 +134,7 @@ export default (props) => {
 								Vuelos LLegadas
 							</SText>
 						</SView>
-						<SView width={10} />
+						<SView width={10} /> */}
 
 						<SView height={40} />
 					</SView>

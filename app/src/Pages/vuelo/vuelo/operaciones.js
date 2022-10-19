@@ -25,16 +25,45 @@ export default (props) => {
 	const lugares = (id) => {
 		switch (id) {
 			case "sc-vvi": return "Santa cruz - Viru Viru";
-			case "sc-tpll": return "Santa Cruz - Tronpillo";
 			case "beni": return "Beni - Magdalena";
+			case "pando": return "Pando - Ciudad";
 			case "cbb": return "Cochabamba - Jorge Wilsterman";
-			case "lpz": return "La paz";
-			case "sucre": return "Sucre";
-			case "oruro": return "Oruro";
-			case "potosi": return "Potosi";
+			case "lpz": return "La paz - El Alto";
+			case "sucre": return "Sucre - Ciudad";
+			case "oruro": return "Oruro - Ciudad";
+			case "potosi": return "Potosi - Ciudad";
 			default: return id;
 		}
 	}
+
+
+	const observacionEstado = (id) => {
+
+		switch (id) {
+			case "1":
+				return "En horario";
+			// return (<SView col={"xs-12"} row style={{ alignItems: 'center', }}>
+			// 	<SView width={10} backgroundColor={"#9CFF2E"} style={{ borderRadius: 28 }} center />
+			// 	<SText fontSize={12} center >En horario</SText>
+			// </SView >);
+			case "2":
+				return "Confirmado";
+
+			// return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+			// 	<SView width={10} height={10} backgroundColor={"#FFB72B"} style={{ borderRadius: 28 }} center />
+			// 	<SText fontSize={12} center height>Confirmado</SText>
+			// </SView >);
+			case "0":
+				return "Cancelado";
+
+			// return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
+			// 	<SView width={10} height={10} backgroundColor={"#FFE61B"} style={{ borderRadius: 28 }} center />
+			// 	<SText fontSize={12} center height>Cancelado</SText>
+			// </SView >);
+			default: return id;
+		}
+	}
+
 
 
 	if (!aeronave.data || aeronave.loading) return <SLoad />;
@@ -60,16 +89,19 @@ export default (props) => {
 							{ key: "fechaArribe", label: "Fecha Lllegada", width: 80, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
 							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
 							{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (keyTripulacion) => { var aux = tripulacion.data[keyTripulacion]; return aux?.descripcion; } },
+							{ key: "estado-view", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
 							{
 								key: 'key-editar', label: 'Editar', width: 50, center: true,
 								component: (item) => {
 									return (
+
 										<SView onPress={() => { SNavigation.navigate('/vuelo/vuelo/registro', { key: item }); }}>
 											<SIcon name={'Edit'} width={35} />
 										</SView>
 									);
 								}
 							},
+
 							{
 								key: 'key-eliminar', label: 'Eliminar', width: 60, center: true,
 								component: (key) => {

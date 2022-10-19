@@ -1,6 +1,6 @@
 import { SPage } from "servisofts-component";
 import addTripulante from "./addTripulante";
-import Registro from "./registro";
+import Registro from "./Registro";
 import root from "./root";
  export default SPage.combinePages("tripulacion", {
     "": root,
