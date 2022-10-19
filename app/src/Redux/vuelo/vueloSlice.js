@@ -38,6 +38,7 @@ const remove_ = (builder) => {
 	builder.addCase(remove.fulfilled, (state, action) => { state.loading = false; delete state.data[action.payload.data]; });
 	builder.addCase(remove.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
+
 export const create = createAsyncThunk(name + '/create', API.create);
 const create_ = (builder) => {
 	builder.addCase(create.pending, (state, action) => { state.loading = true; });
