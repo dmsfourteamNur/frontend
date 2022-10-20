@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SDate, SForm, SHr, SLoad, SNavigation, SPage, SView } from "servisofts-component";
 import Button from '../../../Components/Button';
-import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
-import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
 import { create, edit, getByKey } from '../../../Redux/vuelo/vueloSlice';
 
 export default (props) => {
@@ -11,16 +9,28 @@ export default (props) => {
 	const aeronave = useSelector((state) => state.aeronaves);
 	const tripulacion = useSelector((state) => state.tripulaciones);
 	const dispatch = useDispatch();
+
 	const formulario = useRef();
 
 	const [state, setState] = useState({
 		key: SNavigation.getParam('key', "")
 	});
+
+
 	useEffect(() => {
+
+		// console.log(state.key);
+		// console.log(JSON.stringify(aeronave).length)
+		// if (JSON.stringify(aeronave.data).length == 2) {
+		// 	SNavigation.goBack();
+		// }
+
+		// console.log(aeronave.data)
+
 		if (state.key != "") {
 			dispatch(getByKey(state.key));
-			dispatch(aeronaveSlice.getAll());
-			dispatch(tripulacionSlice.getAll());
+			// dispatch(aeronaveSlice.getAll());
+			// dispatch(tripulacionSlice.getAll());
 		}
 	}, [])
 
@@ -53,7 +63,7 @@ export default (props) => {
 		var cargarAeronaves = [];
 
 		cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
-		Object.values(aeronave.data).map((item, index) => {
+		Object.values(aeronave?.data).map((item, index) => {
 			if (item.estado == "1") {
 				cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
 			}
@@ -67,7 +77,7 @@ export default (props) => {
 
 		var cargarTripulacion = [];
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
-		Object.values(tripulacion.data).map((item, index) => {
+		Object.values(tripulacion?.data).map((item, index) => {
 			if (item.estado == "1") {
 				cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
 			}
@@ -80,7 +90,7 @@ export default (props) => {
 
 		let numero = 0;
 		Object.values(data).map((item, index) => {
-			var obj = index[data.length - 1];
+			var obj = index[data?.length - 1];
 			numero = parseInt(item.nroVuelo) + 1;
 			return numero;
 		});
@@ -90,9 +100,9 @@ export default (props) => {
 
 
 
-	if (!data || loading) return <SLoad />;
-	if (!aeronave.data || aeronave.loading) return <SLoad />;
-	if (!tripulacion.data || tripulacion.loading) return <SLoad />;
+	// if (!data || loading) return <SLoad />;
+	// if (!aeronave.data || aeronave.loading) return <SLoad />;
+	// if (!tripulacion.data || tripulacion.loading) return <SLoad />;
 
 
 	const salidaDate = item?.fechaSalida;
@@ -101,9 +111,9 @@ export default (props) => {
 	return (
 		<>
 			<SPage title={'Registro'}>
-				{loading && <SLoad />}
-				{aeronave.loading && <SLoad />}
-				{tripulacion.loading && <SLoad />}
+				{/* {loading && <SLoad />} */}
+				{/* {aeronave.loading && <SLoad />} */}
+				{/* {tripulacion.loading && <SLoad />} */}
 
 				<SHr height={25} />
 				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >

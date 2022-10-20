@@ -17,6 +17,8 @@ const Slice = createSlice({
 		remove_(builder)
 		create_(builder)
 		edit_(builder)
+		cancel_(builder)
+		arrive_(builder)
 	}
 });
 
@@ -46,20 +48,19 @@ const create_ = (builder) => {
 	builder.addCase(create.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
 
-// export const edit = createAsyncThunk(name + '/edit', API.edit);
-// const edit_ = (builder) => {
-// 	builder.addCase(edit.pending, (state, action) => {
-// 		state.loading = true;
-// 	});
-// 	builder.addCase(edit.fulfilled, (state, action) => {
-// 		state.loading = false;
-// 		state.data[action.payload.key] = action.payload;
-// 	});
-// 	builder.addCase(edit.rejected, (state, action) => {
-// 		state.loading = false;
-// 		state.error = action.payload;
-// 	});
-// }
+export const cancel = createAsyncThunk(name + '/cancel', API.cancel);
+const cancel_ = (builder) => {
+	builder.addCase(cancel.pending, (state, action) => { state.loading = true; });
+	builder.addCase(cancel.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.data]; });
+	builder.addCase(cancel.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
+}
+export const arrive = createAsyncThunk(name + '/arrive', API.arrive);
+const arrive_ = (builder) => {
+	builder.addCase(arrive.pending, (state, action) => { state.loading = true; });
+	builder.addCase(arrive.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.data]; });
+	builder.addCase(arrive.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
+}
+
 
 export const edit = createAsyncThunk(name + '/edit', API.edit);
 const edit_ = (builder) => {
