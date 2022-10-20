@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SDate, SForm, SHr, SLoad, SNavigation, SPage, SView } from "servisofts-component";
 import Button from '../../../Components/Button';
+import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
+import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
 import { create, edit, getByKey } from '../../../Redux/vuelo/vueloSlice';
 
 export default (props) => {
@@ -25,12 +27,12 @@ export default (props) => {
 		// 	SNavigation.goBack();
 		// }
 
-		// console.log(aeronave.data)
+		console.log(aeronave.data)
 
 		if (state.key != "") {
 			dispatch(getByKey(state.key));
-			// dispatch(aeronaveSlice.getAll());
-			// dispatch(tripulacionSlice.getAll());
+			dispatch(aeronaveSlice.getAll());
+			dispatch(tripulacionSlice.getAll());
 		}
 	}, [])
 
@@ -59,7 +61,7 @@ export default (props) => {
 
 		// { key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (keyAeronave) => { if (!aeronave.data) return; var aux = aeronave.data[keyAeronave]; return aux?.matricula; } },
 
-		if (!aeronave.data) return;
+		// if (!aeronave.data) return;
 		var cargarAeronaves = [];
 
 		cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
@@ -73,7 +75,7 @@ export default (props) => {
 
 
 	const getTripulacion = () => {
-		if (!tripulacion.data) return;
+		// if (!tripulacion.data) return;
 
 		var cargarTripulacion = [];
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
@@ -100,9 +102,9 @@ export default (props) => {
 
 
 
-	// if (!data || loading) return <SLoad />;
-	// if (!aeronave.data || aeronave.loading) return <SLoad />;
-	// if (!tripulacion.data || tripulacion.loading) return <SLoad />;
+	if (!data || loading) return <SLoad />;
+	if (!aeronave.data || aeronave.loading) return <SLoad />;
+	if (!tripulacion.data || tripulacion.loading) return <SLoad />;
 
 
 	const salidaDate = item?.fechaSalida;
@@ -111,9 +113,9 @@ export default (props) => {
 	return (
 		<>
 			<SPage title={'Registro'}>
-				{/* {loading && <SLoad />} */}
-				{/* {aeronave.loading && <SLoad />} */}
-				{/* {tripulacion.loading && <SLoad />} */}
+				{/* {loading && <SLoad />}
+				{aeronave.loading && <SLoad />}
+				{tripulacion.loading && <SLoad />} */}
 
 				<SHr height={25} />
 				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >
@@ -127,15 +129,16 @@ export default (props) => {
 							inputs={{
 
 								nroVuelo: {
+									// style: { disabled: true },
+									// disable,
 									type: "text",
 									label: "nroVuelo",
 									placeholder: 'NroVuelo *',
 									isRequired: true,
-									disable: false,
+									// disable,
 									col: 'xs-12',
 									// defaultValue: item?.nroVuelo,
 									defaultValue: item?.nroVuelo ?? ultimo(),
-
 								},
 								keyAeronave: {
 									type: "select",
