@@ -8,8 +8,8 @@ import { create, edit, getByKey } from '../../../Redux/vuelo/vueloSlice';
 
 export default (props) => {
 	const { loading, data, error } = useSelector((state) => state.vuelo);
-	const aeronave = useSelector((state) => state.aeronaves)
-	const tripulacion = useSelector((state) => state.tripulaciones)
+	const aeronave = useSelector((state) => state.aeronaves);
+	const tripulacion = useSelector((state) => state.tripulaciones);
 	const dispatch = useDispatch();
 	const formulario = useRef();
 
@@ -34,37 +34,50 @@ export default (props) => {
 		return [
 			{ key: " ", content: "Elegir lugar Aeronpuerto" },
 			{ key: "sc-vvi", content: "Santa cruz - Viru Viru" },
-			{ key: "sc-tpll", content: "Santa Cruz - Tronpillo" },
 			{ key: "beni", content: "Beni - Magdalena" },
+			{ key: "pando", content: "Pando - Ciudad" },
 			{ key: "cbb", content: "Cochabamba - Jorge Wilsterman" },
-			{ key: "lpz", content: "La paz" },
-			{ key: "sucre", content: "Sucre" },
-			{ key: "potosi", content: "Potosi" }
+			{ key: "lpz", content: "La paz - El Alto" },
+			{ key: "sucre", content: "Sucre - Ciudad" },
+			{ key: "oruro", content: "Oruro - Ciudad" },
+			{ key: "potosi", content: "Potosi - Ciudad" }
 		]
 	}
 
+
 	const getAeronaves = () => {
+
+		// { key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (keyAeronave) => { if (!aeronave.data) return; var aux = aeronave.data[keyAeronave]; return aux?.matricula; } },
+
+		if (!aeronave.data) return;
 		var cargarAeronaves = [];
+
 		cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
 		Object.values(aeronave.data).map((item, index) => {
-			cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
+			if (item.estado == "1") {
+				cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
+			}
 		});
 		return cargarAeronaves;
 	}
 
 
 	const getTripulacion = () => {
+		if (!tripulacion.data) return;
+
 		var cargarTripulacion = [];
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
 		Object.values(tripulacion.data).map((item, index) => {
-			// if (item.estado == "1") {
-			cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
-			// }
+			if (item.estado == "1") {
+				cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
+			}
 		}); return cargarTripulacion;
 	}
 
 
 	var ultimo = () => {
+		if (!data) return;
+
 		let numero = 0;
 		Object.values(data).map((item, index) => {
 			var obj = index[data.length - 1];
@@ -88,6 +101,10 @@ export default (props) => {
 	return (
 		<>
 			<SPage title={'Registro'}>
+				{loading && <SLoad />}
+				{aeronave.loading && <SLoad />}
+				{tripulacion.loading && <SLoad />}
+
 				<SHr height={25} />
 				<SView col={'xs-12'} center backgroundColor={"#0051c5"} >
 
@@ -173,7 +190,7 @@ export default (props) => {
 									label: "hora llegada",
 									placeholder: 'hora LLegada *',
 									isRequired: true,
-									defaultValue: new SDate(llegadaDate).toString("hh:mm") ?? " ",
+									defaultValue: new SDate(llegadaDate).toString("hh:mm"),
 									col: 'xs-5.5'
 								},
 								keyTripulacion: {
@@ -214,7 +231,7 @@ export default (props) => {
 									return console.log("origen y destino son iguales");
 								}
 								if (values.dateDeparture > values.dateArrival) {
-									alert("fecha llegada incorrectas");
+									alert("fecha llegada incorrecta");
 									return console.log("fecha llegada incorrecta");
 								}
 

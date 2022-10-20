@@ -8,16 +8,13 @@ const create = async (data) => {
 
 };
 
+
 const edit = async (data) => {
-	const response = await Api().put(name + "/" + data.key, data, {
-		timeout: 8000
-	})
-	return response.data
+	const response = await Api().put(name + "/" + data.key, data, { timeout: 8000 });
+	return response.data;
+	// return await getByKey(response.data);
+
 };
-// const edit = async (data) => {
-// 	const response = await Api().put("vuelo/" + data.key, data, { timeout: 8000 });
-// 	return response.data;
-// };
 const remove = async (data) => {
 	const response = await Api().delete("vuelo/" + data.key, { timeout: 8000 });
 	return response.data;

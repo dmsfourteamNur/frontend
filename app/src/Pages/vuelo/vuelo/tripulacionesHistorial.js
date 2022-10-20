@@ -1,13 +1,18 @@
 
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SDate, SLoad, SPage, STable2, STheme, SView } from 'servisofts-component';
+import { SDate, SLoad, SNavigation, SPage, STable2, STheme, SView } from 'servisofts-component';
 import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
 import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
 import { getAll } from '../../../Redux/vuelo/vueloSlice';
 
 export default (props) => {
+
+	const [state, setState] = useState({
+		// data: [],
+		key: SNavigation.getParam('key')
+	});
 
 	const { loading, data, error } = useSelector((state) => state.vuelo);
 	const aeronave = useSelector((state) => state.aeronaves)
@@ -71,12 +76,9 @@ export default (props) => {
 	var salida = null;
 	var llegada = null;
 
-	//TODO falta poner un filtro de origen, para que muestre
-
-
 	return (
 		<>
-			<SPage title={'Vuelos Llegadas'} disableScroll>
+			<SPage title={'Operador'} disableScroll>
 				{loading && <SLoad />}
 				<SView center col={'xs-12'} height>
 					<STable2
@@ -84,25 +86,27 @@ export default (props) => {
 						// Color={STheme.color.primary}
 						header={[
 							{ key: "index", label: "#", width: 50, color: STheme.color.danger, fontSize: 16, font: "Roboto", center: true },
+							{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (keyTripulacion) => { var aux = tripulacion.data[keyTripulacion]; return aux?.descripcion; } },
+							// { key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
 							{ key: "keyAeronave", label: "Aeronave", width: 100, center: true, render: (keyAeronave) => { if (!aeronave.data) return; var aux = aeronave.data[keyAeronave]; return aux?.matricula; } },
-							{ key: "nroVuelo", label: "Nro Vuelo", width: 70, center: true },
 							{ key: "origen", label: "origen", width: 130, center: true, render: (item) => { return lugares(item); } },
-							{ key: "fechaSalida", label: "Fecha Salida", width: 80, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
-							{ key: "horaSalida", label: "Hora Salida", width: 80, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
-
-							{ key: "estado", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
-
 							{ key: "destino", label: "destino", width: 130, center: true, render: (item) => { return lugares(item); } },
-							{ key: "fechaArribe", label: "Fecha Lllegada", width: 100, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
+							{ key: "fechaSalida", label: "Fecha", width: 80, center: true, render: (item) => { salida = item; return new SDate(item).toString("dd-MM-yyyy") } },
+
+							{ key: "horaSalida", label: "Hora Salida", width: 80, center: true, render: (item) => { return new SDate(salida).toString("hh:mm") } },
+							// { key: "fechaArribe", label: "Fecha Lllegada", width: 80, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
 							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
+							// { key: "estado", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
+
 
 						]}
 						data={data}
 						filter={(data) => {
-							if (data.estado != "2") return false;
+							if (data.keyTripulacion != state.key) return false;
 							return true;
 						}}
 					/>
+
 				</SView>
 			</SPage>
 		</>
