@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API from '../../services/vuelo/tripulacionApi';
+import * as API from '../../services/vuelo/TripulacionApi';
 const name = "tripulacion"
 const initialState = {
 	data: {},

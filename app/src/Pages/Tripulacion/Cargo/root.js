@@ -11,12 +11,10 @@ export default (props) => {
 	useEffect(() => {
 		dispatch(getAll());
 	}, [])
-	// if (!data) return <SLoad />
-
+	if (!data || loading) return <SLoad />;
 
 	return (
 		<>
-			{loading && <SLoad />}
 			<SPage title={'Cargos'} disableScroll>
 				<STable2
 					headerColor={STheme.color.info}
