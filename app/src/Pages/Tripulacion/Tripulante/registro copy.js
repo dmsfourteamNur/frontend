@@ -1,49 +1,48 @@
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SLoad, SNavigation } from 'servisofts-component';
 import Button from '../../../Components/Button';
-import * as tripulanteSlice from '../../../Redux/tripulacion/tripulanteSlice';
-import * as cargoSlice from '../../../Redux/tripulacion/cargoSlice';
+import Config from '../../../Config';
+import Http from '../../../Http';
 
+const Controller = "tripulante";
+const API = Config.apis.tripulacion;
 
 export default (props) => {
-	const { loading, data, error } = useSelector((state) => state.tripulante);
-	const cargo = useSelector((state) => state.cargo);
-	const dispatch = useDispatch();
 	const formulario = useRef();
 
 	const [state, setState] = useState({
+		data: [],
+		dataCargo: [],
 		dataCargoOk: [],
 		key: SNavigation.getParam('key', ""),
-		input: "none"
+		input:"none"
 	});
+
 	useEffect(() => {
 		//LIST CARGOS
-		dispatch(cargoSlice.getAll());
-		console.log("entro getAll cargo");
+		Http.GET(API + "cargo").then(resp2 => {
+			setState({ ...state, dataCargo: resp2 });
+
+		})
 
 		if (state.key != "") {
 			//LIST TRIPULANTE
-			dispatch(tripulanteSlice.getByKey(state.key));
-			console.log("entro key");
+			Http.GET(API + Controller + "/" + state.key).then(resp => {
+				setState({ ...state, data: resp });
 
+			})
 		}
 	}, [])
 
-	var item = "";
-	if (state.key) {
-		item = data[state.key]
-		if (!item) return <SLoad />
-	}
 
+	//CAMBIANDO IDENTIFICADOR CARGO PARA SELECT
 	state.dataCargoOk.push({ key: "", content: "Elegir" })
-	var dataCargo = cargo.data;
-	Object.keys(dataCargo).map((item2, index) =>
-		state.dataCargoOk[index + 1] = { key: dataCargo[item2].key, content: dataCargo[item2].Descripcion }
+	state.dataCargo.map((item, index) =>
+		state.dataCargoOk[index + 1] = { key: item.key, content: item.Descripcion }
 	)
 
-	if (!data || loading) return <SLoad />;
-	if (!cargo.data || cargo.loading) return <SLoad />;
+	if (!state?.data.key && state.key) return <SLoad />
+	console.log(state)
 
 	return (<SPage title={'Registro Tripulante'}>
 		<SHr height={25} />
@@ -51,6 +50,7 @@ export default (props) => {
 			col={'xs-12'}
 			backgroundColor={'transparent'} center>
 			<SHr height={25} />
+
 			<SForm
 				center
 				row
@@ -71,19 +71,19 @@ export default (props) => {
 						label: 'Nombres',
 						type: 'text',
 						isRequired: true,
-						defaultValue: item?.Nombre
+						defaultValue: state?.data?.Nombre
 					},
 					Apellido: {
 						label: 'Apellidos',
 						type: 'text',
 						isRequired: true,
-						defaultValue: item?.Apellido
+						defaultValue: state.data?.Apellido
 					},
 					EmailAddress: {
 						label: 'Correo',
 						type: 'email',
 						isRequired: true,
-						defaultValue: item?.EmailAddress
+						defaultValue: state.data?.EmailAddress
 					},
 					KeyCargo: {
 						label: 'Cargo',
@@ -91,7 +91,8 @@ export default (props) => {
 						// STheme: 'dark',
 						options: state.dataCargoOk,
 						isRequired: true,
-						defaultValue: item["KeyCargo"]
+						// defaultValue: objCargo?.key
+						defaultValue: state.data["KeyCargo"]
 					},
 					Tipo: {
 						label: 'Personal de',
@@ -99,26 +100,27 @@ export default (props) => {
 						// STheme: 'dark',
 						options: [{ key: "", content: <SText color={"#f0f"}>Elegir</SText> }, { key: "TIERRA", content: "TIERRA" }, { key: "AIRE", content: "AIRE" }],
 						isRequired: true,
-						defaultValue: item["Tipo"],
-						onChangeText: (dato) => {
+						defaultValue: state.data["Tipo"],
+						onChangeText:(dato) => {
 							console.log(dato);
 							// state.input= "block"
 							(dato == "AIRE") ? setState({ ...state, input: "block" }) : setState({ ...state, input: "none" })
 						}
+
 					},
 					HorasVuelo: {
-						style: { display: state.input },
+						style:{display: state.input},
 						label: 'Horas de vuelo',
 						type: 'number',
 						// isRequired: (state.input == "none") ? false : true,
-						defaultValue: item?.HorasVuelo
+						defaultValue: state?.data?.HorasVuelo
 					},
 					NroMillas: {
-						style: { display: state.input },
+						style:{display: state.input},
 						label: 'Número de millas',
 						type: 'number',
 						// isRequired: (state.input == "none") ? false : true,
-						defaultValue: item?.NroMillas
+						defaultValue: state?.data.NroMillas
 					},
 
 				}}
@@ -126,14 +128,10 @@ export default (props) => {
 				onSubmit={(values) => {
 					console.log(values);
 					if (state.key != "") {
-						dispatch(tripulanteSlice.edit({
-							...item,
-							...values
-						}));
+						Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
 					} else {
-						dispatch(tripulanteSlice.create(values));
+						Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
 					}
-					SNavigation.goBack();
 				}}
 			/>
 			<SHr height={15} />
@@ -141,6 +139,7 @@ export default (props) => {
 				formulario.current.submit();
 			}}>{state.key ? 'EDITAR' : 'REGISTRAR'}</Button>
 		</SView>
+
 		<SHr height={25} />
 	</SPage>
 	);

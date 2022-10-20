@@ -1,6 +1,6 @@
 import Api from './Api';
 
-const name = "cargo";
+const name = "tripulante";
 const create = async (data) => {
 	const response = await Api().post(name + "/registro", data, {
 		timeout: 8000
