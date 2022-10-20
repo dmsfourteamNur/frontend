@@ -6,7 +6,7 @@ import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, STheme, SView
 import FloatButtom from '../../../Components/FloatButtom';
 import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
 import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
-import { getAll, remove } from '../../../Redux/vuelo/vueloSlice';
+import { arrive, cancel, getAll } from '../../../Redux/vuelo/vueloSlice';
 
 export default (props) => {
 
@@ -97,7 +97,7 @@ export default (props) => {
 										<SView width={35} height={35} onPress={() => {
 											var obj = data[key];
 											SPopup.confirm({
-												title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(remove(obj)) }
+												title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(cancel(obj)) }
 											});
 										}}>
 											<SIcon name={'Delete'} />
@@ -113,7 +113,7 @@ export default (props) => {
 										<SView width={35} height={35} onPress={() => {
 											var obj = data[key];
 											SPopup.confirm({
-												title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(remove(obj)) }
+												title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(arrive(obj)) }
 											});
 										}}>
 											<SIcon name={'BtnOperaciones'} />
