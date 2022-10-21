@@ -19,6 +19,9 @@ export default (props) => {
 				<STable2
 					header={[
 						{ key: 'index', label: '#', width: 50 },
+						{ key: 'origen', label: 'Origen', width: 60 },
+						{ key: 'destino', label: 'Destino', width: 60 },
+
 						{ key: 'fechaSalida', label: 'Fecha Salida', width: 150 },
 						{ key: 'fechaArribe', label: 'Fecha Arribe', width: 150 },
 

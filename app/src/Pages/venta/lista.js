@@ -24,7 +24,8 @@ export default (props) => {
 						{ key: 'keyVuelo', label: 'keyVuelo', width: 150 },
 						{ key: 'keyTarifa', label: 'keyTarifa', width: 150 },
 						{ key: 'monto', label: 'Monto', width: 100 },
-						{ key: 'key-ver', label: 'ver', width: 100, center: true, component: (key) => <SView onPress={() => { SNavigation.navigate("/venta/registro", { key: key }) }}><SText>Ver</SText></SView> },
+						{ key: 'key-ver', label: 'Ver', width: 100, center: true, component: (key) => <SView onPress={() => { SNavigation.navigate("/venta/registro", { key: key }) }}><SText>Ver</SText></SView> },
+						{ key: 'key-pago', label: 'Pagar', width: 100, center: true, component: (key) => <SView onPress={() => { SNavigation.navigate("/venta/pago/registro", { key: key }) }}><SText>Ver</SText></SView> },
 
 					]}
 					data={data}
