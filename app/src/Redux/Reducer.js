@@ -2,6 +2,7 @@ import checkInReducer from "./checkIn/checkinSlice";
 
 import aeronaveSlice from "./aeronave/aeronaveSlice";
 import marcaSlice from "./aeronave/marcaSlice";
+import ventaSlice from "./venta/ventaSlice";
 import cargonReducer from "./tripulacion/cargoSlice";
 import tripulacionReducer from "./tripulacion/tripulacionSlice";
 import tripulanteReducer from "./tripulacion/tripulanteSlice";
@@ -17,5 +18,6 @@ export default {
 	aeronaves: aeronavesReducer,
 	tripulaciones: tripulacionesReducer,
 	aeronave: aeronaveSlice,
-	marca: marcaSlice
+	marca: marcaSlice,
+	venta: ventaSlice
 };

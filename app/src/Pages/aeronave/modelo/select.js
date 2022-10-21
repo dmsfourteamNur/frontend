@@ -12,7 +12,6 @@ export default (props) => {
 		dispatch(getAll());
 	}, []);
 
-	if (!data) return <SLoad />
 	const formatData = () => {
 		var modelos = []
 		Object.values(data).map(marca => {
@@ -23,7 +22,7 @@ export default (props) => {
 	}
 
 	return (
-		<SPage title={'Modelos'} disableScroll>
+		<SPage title={'Marca'} disableScroll>
 			{loading && <SLoad />}
 			<SView center col={'xs-12'} height>
 				<STable2
@@ -35,40 +34,21 @@ export default (props) => {
 							}
 						},
 						{ key: "nombre", label: "Modelo", width: 150 },
-						// {
-						// 	key: 'key-editar', label: 'Editar', width: 50, center: true,
-						// 	component: (item) => {
-						// 		return (
-						// 			<SView onPress={() => {
-						// 				SNavigation.navigate('/aeronave/modelo/registro', { key: item });
-						// 			}}>
-						// 				<SIcon name={'Edit'} width={35} />
-						// 			</SView>
-						// 		);
-						// 	}
-						// },
-						// {
-						// 	key: 'key-eliminar', label: 'Eliminar', width: 60, center: true,
-						// 	component: (key) => {
-						// 		return (
-						// 			<SView
-						// 				width={35}
-						// 				height={35}
-						// 				onPress={() => {
-						// 					var obj = data[key];
-						// 					SPopup.confirm({
-						// 						title: 'Eliminar',
-						// 						message: '¿Esta seguro de eliminar?',
-						// 						onPress: () => {
-						// 							dispatch(remove(obj))
-						// 						}
-						// 					});
-						// 				}}>
-						// 				<SIcon name={'Delete'} />
-						// 			</SView>
-						// 		);
-						// 	}
-						// }
+						{
+							key: 'key-editar', label: 'Editar', width: 50, center: true,
+							component: (key) => {
+								return (
+									<SView onPress={() => {
+										const callback = SNavigation.getParam("callback");
+										if (callback) callback(key);
+
+										SNavigation.goBack();
+									}}>
+										<SIcon name={'Salir'} width={35} />
+									</SView>
+								);
+							}
+						},
 					]}
 					data={formatData()} />
 				<FloatButtom

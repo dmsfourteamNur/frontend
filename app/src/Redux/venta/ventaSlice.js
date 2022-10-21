@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API from '../../services/aeronave/marcaApi';
-const name = "marca"
+import * as API from '../../services/venta/ventaApi';
+const name = "venta"
 const initialState = {
 	data: null,
 	loading: false,
@@ -17,7 +17,6 @@ const Slice = createSlice({
 		remove_(builder)
 		create_(builder)
 		edit_(builder)
-		AddModelo_(builder)
 
 	}
 });
@@ -79,6 +78,7 @@ const create_ = (builder) => {
 	});
 	builder.addCase(create.rejected, (state, action) => {
 		state.loading = false;
+		console.log(action.payload)
 		state.error = action.payload;
 	});
 }
@@ -89,23 +89,10 @@ const edit_ = (builder) => {
 	});
 	builder.addCase(edit.fulfilled, (state, action) => {
 		state.loading = false;
+		console.log(action.payload)
 		state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(edit.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
-}
-export const AddModelo = createAsyncThunk(name + '/AddModelo', API.AddModelo);
-const AddModelo_ = (builder) => {
-	builder.addCase(AddModelo.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(AddModelo.fulfilled, (state, action) => {
-		state.loading = false;
-		// state.data[action.payload.key] = action.payload;
-	});
-	builder.addCase(AddModelo.rejected, (state, action) => {
 		state.loading = false;
 		state.error = action.payload;
 	});

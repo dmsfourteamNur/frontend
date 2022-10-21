@@ -11,7 +11,7 @@ export default (props) => {
 	useEffect(() => {
 		dispatch(getAll());
 	}, []);
-
+	if (!data) return <SLoad />
 	return (
 		<SPage title={'Marca'} disableScroll>
 			{loading && <SLoad />}
