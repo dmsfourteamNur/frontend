@@ -16,8 +16,8 @@ export default (props) => {
 
 	return (
 		<>
-		{loading && <SLoad />}
-		{!data && <SLoad />}
+			{loading && <SLoad />}
+			{!data && <SLoad />}
 			<SPage title={'Tripulación'} disableScroll>
 				<STable2
 					headerColor={STheme.color.info}
@@ -112,6 +112,27 @@ export default (props) => {
 										<SIcon name={'AddTripulante'} width={35} />
 									</SView>
 								);
+							}
+						},
+						{
+							key: 'key-tripulacio',
+							label: 'Lista Tripulante',
+							width: 100,
+							center: true,
+							component: (item) => {
+								console.log(data?.Tripulantes?.length+" dd")
+								if (data?.Tripulantes?.length > 0) {
+									return (
+										<SView
+											onPress={() => {
+												SNavigation.navigate('/tripulacion/tripulacion/addTripulante', {
+													key: item
+												});
+											}}>
+											<SIcon name={'AddTripulante'} width={35} />
+										</SView>
+									);
+								}
 							}
 						},
 					]}
