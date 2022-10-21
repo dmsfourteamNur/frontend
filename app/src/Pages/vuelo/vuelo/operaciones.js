@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, STheme, SView } from 'servisofts-component';
+import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, SText, STheme, SView } from 'servisofts-component';
 import FloatButtom from '../../../Components/FloatButtom';
 import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
 import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
@@ -37,32 +37,7 @@ export default (props) => {
 	}
 
 
-	const observacionEstado = (id) => {
 
-		switch (id) {
-			case "1":
-				return "En horario";
-			// return (<SView col={"xs-12"} row style={{ alignItems: 'center', }}>
-			// 	<SView width={10} backgroundColor={"#9CFF2E"} style={{ borderRadius: 28 }} center />
-			// 	<SText fontSize={12} center >En horario</SText>
-			// </SView >);
-			case "2":
-				return "Confirmado";
-
-			// return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
-			// 	<SView width={10} height={10} backgroundColor={"#FFB72B"} style={{ borderRadius: 28 }} center />
-			// 	<SText fontSize={12} center height>Confirmado</SText>
-			// </SView >);
-			case "0":
-				return "Cancelado";
-
-			// return (<SView col={"xs-12"} height row style={{ alignItems: 'center', }}>
-			// 	<SView width={10} height={10} backgroundColor={"#FFE61B"} style={{ borderRadius: 28 }} center />
-			// 	<SText fontSize={12} center height>Cancelado</SText>
-			// </SView >);
-			default: return id;
-		}
-	}
 
 
 
@@ -71,6 +46,7 @@ export default (props) => {
 
 	var salida = null;
 	var llegada = null;
+	var estado = null;
 
 	return (
 		<>
@@ -89,48 +65,90 @@ export default (props) => {
 							{ key: "fechaArribe", label: "Fecha Lllegada", width: 80, center: true, render: (item) => { llegada = item; return new SDate(item).toString("dd-MM-yyyy") } },
 							{ key: "horaArribe", label: "Hora Lllegada", width: 80, center: true, render: (item) => { return new SDate(llegada).toString("hh:mm") } },
 							{ key: "keyTripulacion", label: "Tripulacion", width: 180, center: true, render: (keyTripulacion) => { var aux = tripulacion.data[keyTripulacion]; return aux?.descripcion; } },
-							{ key: "estado-view", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
+							// { key: "estado-view", label: "Estado", width: 130, center: true, render: (item) => { return observacionEstado(item); } },
+							{
+								key: 'estado', label: 'Estado', width: 130, center: true,
+								component: (estados) => {
+									// var obj = data[key];
+									estado = estados;
+									if (estados == "0") {
+										return (
+											<SView col={'xs-12'} height row center>
+												<SView width={10} height={10} backgroundColor={"red"} style={{ borderRadius: 28 }} center />
+												<SText fontSize={12} center height>  Cancelado</SText>
+											</SView>
+										);
+									}
+									if (estados == "1") {
+										return (
+											<SView col={'xs-12'} height row center>
+												<SView width={10} height={10} backgroundColor={"#9CFF2E"} style={{ borderRadius: 28 }} center />
+												<SText fontSize={12} center >  En horario</SText>
+											</SView>
+										);
+									}
+									if (estados == "2") {
+										return (
+											<SView col={'xs-12'} height row center>
+												<SView width={10} height={10} backgroundColor={"#FFB72B"} style={{ borderRadius: 28 }} center />
+												<SText fontSize={12} center height>  Confirmado</SText>
+											</SView>
+										);
+									}
+								}
+							},
+
 							{
 								key: 'key-cancelar', label: 'Cancelar', width: 60, center: true,
-								component: (key) => {
-									return (
-										<SView width={35} height={35} onPress={() => {
-											var obj = data[key];
-											SPopup.confirm({
-												title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(cancel(obj)) }
-											});
-										}}>
-											<SIcon name={'Delete'} />
-										</SView>
-									);
+								component: (item) => {
+									// var obj = data[key];
+
+									// console.log(key)
+									if (estado == "1") {
+										return (
+											<SView width={35} height={35} onPress={() => {
+												// var obj = data[key];
+												SPopup.confirm({ title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(cancel(item)) } });
+											}}>
+												<SIcon name={'Delete'} />
+											</SView>
+										);
+									}
 								}
 							},
 
 							{
 								key: 'key-arrive', label: 'Arrive', width: 60, center: true,
-								component: (key) => {
-									return (
-										<SView width={35} height={35} onPress={() => {
-											var obj = data[key];
-											SPopup.confirm({
-												title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(arrive(obj)) }
-											});
-										}}>
-											<SIcon name={'BtnOperaciones'} />
-										</SView>
-									);
+								component: (item) => {
+									if (estado == "1") {
+										return (
+											<SView width={35} height={35} onPress={() => {
+												// var obj = data[key];
+												SPopup.confirm({ title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(arrive(item)) } });
+											}}>
+												<SIcon name={'BtnOperaciones'} />
+											</SView>
+										);
+									}
 								}
 							},
 
 							{
 								key: 'key-editar', label: 'Editar', width: 50, center: true,
-								component: (item) => {
-									return (
+								component: (key) => {
+									if (estado == "1") {
 
-										<SView onPress={() => { SNavigation.navigate('/vuelo/vuelo/registro', { key: item }); }}>
-											<SIcon name={'Edit'} width={35} />
-										</SView>
-									);
+										return (
+											<SView onPress={() => {
+												// var obj = data[key];
+
+												SNavigation.navigate('/vuelo/vuelo/registro', { key: key });
+											}}>
+												<SIcon name={'Edit'} width={35} />
+											</SView>
+
+										);
+									}
 								}
 							},
 
