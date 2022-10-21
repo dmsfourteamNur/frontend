@@ -6,6 +6,8 @@ import tripulacionReducer from "./tripulacion/tripulacionSlice";
 import vueloReducer from "./vuelo/vueloSlice";
 import aeronaveSlice from "./aeronave/aeronaveSlice";
 import marcaSlice from "./aeronave/marcaSlice";
+import ventaSlice from "./venta/ventaSlice";
+
 export default {
 	checkin: checkInReducer,
 	tripulante: tripulanteReducer,
@@ -13,5 +15,6 @@ export default {
 	cargo: cargonReducer,
 	vuelo: vueloReducer,
 	aeronave: aeronaveSlice,
-	marca: marcaSlice
+	marca: marcaSlice,
+	venta: ventaSlice
 };

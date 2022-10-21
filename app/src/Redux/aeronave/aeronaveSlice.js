@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as API from '../../services/aeronave/aeronaveApi';
 const name = "aeronave"
 const initialState = {
-	data: {},
+	data: null,
 	loading: false,
 	error: false
 };
@@ -17,6 +17,7 @@ const Slice = createSlice({
 		remove_(builder)
 		create_(builder)
 		edit_(builder)
+		AddAsiento_(builder)
 
 	}
 });
@@ -81,6 +82,26 @@ const create_ = (builder) => {
 		state.error = action.payload;
 	});
 }
+export const AddAsiento = createAsyncThunk(name + '/AddAsiento', API.AddAsiento);
+const AddAsiento_ = (builder) => {
+	builder.addCase(AddAsiento.pending, (state, action) => {
+		state.loading = true;
+	});
+	builder.addCase(AddAsiento.fulfilled, (state, action) => {
+		state.loading = false;
+		console.log(action);
+		if (state.data[action.meta.arg.keyAeronave]) {
+			state.data[action.meta.arg.keyAeronave].asientos.push({
+				...action.meta.arg,
+				key: action.payload
+			})
+		}
+	});
+	builder.addCase(AddAsiento.rejected, (state, action) => {
+		state.loading = false;
+		state.error = action.payload;
+	});
+}
 export const edit = createAsyncThunk(name + '/edit', API.edit);
 const edit_ = (builder) => {
 	builder.addCase(edit.pending, (state, action) => {
@@ -88,6 +109,7 @@ const edit_ = (builder) => {
 	});
 	builder.addCase(edit.fulfilled, (state, action) => {
 		state.loading = false;
+		console.log(action.payload)
 		state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(edit.rejected, (state, action) => {

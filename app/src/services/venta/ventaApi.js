@@ -1,6 +1,6 @@
 import Api from './Api';
 
-const name = "marca";
+const name = "venta";
 const create = async (data) => {
 	const response = await Api().post(name + "/registro", data, {
 		timeout: 8000
@@ -11,12 +11,6 @@ const create = async (data) => {
 
 const edit = async (data) => {
 	const response = await Api().put(name + "/" + data.key, data, {
-		timeout: 8000
-	})
-	return response.data
-};
-const AddModelo = async ( data) => {
-	const response = await Api().put(name + "/AddModelo/" + data.keyMarca, data, {
 		timeout: 8000
 	})
 	return response.data
@@ -38,4 +32,4 @@ const getByKey = async (data) => {
 	return response.data;
 };
 
-export { getAll, create, remove, getByKey, edit, AddModelo };
+export { getAll, create, remove, getByKey, edit };

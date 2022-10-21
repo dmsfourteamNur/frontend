@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
-import Button from '../../../Components/Button';
-import FloatButtom from '../../../Components/FloatButtom';
-import { getByKey, create, edit } from '../../../Redux/aeronave/aeronaveSlice';
+import Button from '../../../../Components/Button';
+import FloatButtom from '../../../../Components/FloatButtom';
+import { getByKey, AddAsiento, edit } from '../../../../Redux/aeronave/aeronaveSlice';
 
 export default (props) => {
 	const { loading, data, error } = useSelector((state) => state.aeronave);
@@ -11,6 +11,7 @@ export default (props) => {
 	const formulario = useRef();
 	const [state, setState] = useState({
 		key: SNavigation.getParam('key', ""),
+		keyAeronave: SNavigation.getParam('keyAeronave', ""),
 		data: {}
 	});
 	useEffect(() => {
@@ -36,37 +37,26 @@ export default (props) => {
 				col={'xs-11 sm-10 md-8 lg-6 xl-4'}
 				center
 				inputs={{
-					matricula: {
-						label: 'Matricula',
+					clase: {
+						label: 'Clase',
+						type: 'select',
+						isRequired: true,
+						defaultValue: item?.clase ?? "Economica",
+						options: ["Economica", "Primera", "Ejecutiva", "VIP"]
+					},
+					numero: {
+						label: 'Numero asiento',
 						type: 'text',
 						isRequired: true,
 						defaultValue: item?.matricula,
 
 					},
-					keyModelo: {
-						label: 'Modelo',
-						type: 'text',
-						isRequired: true,
-						value: state.data?.keyModelo,
-						onPress: () => {
-							SNavigation.navigate("/aeronave/modelo/select", {
-								callback: (key) => {
-									state.data.keyModelo = key;
-									setState({ ...state })
-								}
-							})
-						}
-					},
+
 				}}
 				onSubmit={(values) => {
-					if (state.key != "") {
-						dispatch(edit({
-							...item,
-							...values
-						}));
-					} else {
-						dispatch(create(values));
-					}
+					values["keyAeronave"] = state.keyAeronave
+					console.log(values)
+					dispatch(AddAsiento(values));
 					SNavigation.goBack();
 				}}
 			/>

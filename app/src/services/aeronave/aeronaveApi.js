@@ -15,6 +15,12 @@ const edit = async (data) => {
 	})
 	return response.data
 };
+const AddAsiento = async (data) => {
+	const response = await Api().put(name + "/AddAsiento/" + data.keyAeronave, data, {
+		timeout: 8000
+	})
+	return response.data
+};
 const remove = async (data) => {
 	const response = await Api().delete(name + "/" + data.key, {
 		timeout: 8000
@@ -32,4 +38,4 @@ const getByKey = async (data) => {
 	return response.data;
 };
 
-export { getAll, create, remove, getByKey, edit };
+export { getAll, create, remove, getByKey, edit, AddAsiento };
