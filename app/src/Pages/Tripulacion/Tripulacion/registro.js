@@ -1,31 +1,32 @@
 import { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad } from 'servisofts-component';
 import Configuracion from '../../../configuracion.json'
 import Button from '../../../Components/Button';
-import Config from '../../../Config';
-import Http from '../../../Http';
-
-const Controller = "tripulacion";
-const API = Config.apis.tripulacion
+import { getAll, delete_, getByKey, create, edit } from '../../../Redux/tripulacion/tripulacionSlice';
 
 export default (props) => {
-
+	const { loading, data, error } = useSelector((state) => state.tripulacion);
+	const dispatch = useDispatch();
 	const formulario = useRef();
 	const [state, setState] = useState({
-		data: {},
 		key: SNavigation.getParam('key', "")
 	});
 	console.log(state)
 
 	useEffect(() => {
 		if (state.key != "") {
-			Http.GET(API + Controller + "/" + state.key).then(resp => {
-				setState({ ...state, data: resp });
-			})
+			dispatch(getByKey(state.key));
 		}
 	}, [])
 
-	if (!state?.data.key && state.key) return <SLoad />
+	var item;
+	if (state.key) {
+		item = data[state.key]
+		if (!item) return <SLoad />
+	}
+
+	if (!data || loading) return <SLoad />;
 
 	return (<SPage title={'Registro Tripulación'}>
 				<SView col={'xs-12'} center >
@@ -54,7 +55,7 @@ export default (props) => {
 								label: 'Descripción',
 								type: 'text',
 								isRequired: true,
-								defaultValue: state.data?.Descripcion
+								defaultValue: item?.Descripcion
 							},
 
 						}}
@@ -62,10 +63,14 @@ export default (props) => {
 						onSubmit={(values) => {
 
 							if (state.key != "") {
-								Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
+								dispatch(edit({
+									...item,
+									...values
+								}));
 							} else {
-								Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
+								dispatch(create(values));
 							}
+							SNavigation.goBack();
 						}}
 					/>
 					<Button onPress={() => {

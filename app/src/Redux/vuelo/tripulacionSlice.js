@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API  from '../../services/tripulacion/tripulanteApi';
-const name = "tripulante"
+import * as API from '../../services/vuelo/TripulacionApi';
+const name = "tripulacion"
 const initialState = {
 	data: {},
 	loading: false,
@@ -17,6 +17,7 @@ const Slice = createSlice({
 		remove_(builder)
 		create_(builder)
 		edit_(builder)
+
 	}
 });
 
@@ -29,7 +30,7 @@ const getAll_ = (builder) => {
 		state.loading = false;
 		state.data = {};
 		action.payload.map(obj => {
-			state.data[obj.key] = obj;
+			state.data[obj.keyTripulacion] = obj;
 		})
 	});
 	builder.addCase(getAll.rejected, (state, action) => {
@@ -39,41 +40,22 @@ const getAll_ = (builder) => {
 }
 export const getByKey = createAsyncThunk(name + '/getByKey', API.getByKey);
 const getByKey_ = (builder) => {
-	builder.addCase(getByKey.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(getByKey.fulfilled, (state, action) => {
-		state.loading = false;
-		state.data[action.payload.key] = action.payload;
-	});
-	builder.addCase(getByKey.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
+	builder.addCase(getByKey.pending, (state, action) => { state.loading = true; });
+	builder.addCase(getByKey.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
+	builder.addCase(getByKey.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 
 }
 export const remove = createAsyncThunk(name + '/delete', API.remove);
 const remove_ = (builder) => {
-	builder.addCase(remove.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(remove.fulfilled, (state, action) => {
-		state.loading = false;
-		delete state.data[action.payload];
-	});
-	builder.addCase(remove.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
+	builder.addCase(remove.pending, (state, action) => { state.loading = true; });
+	builder.addCase(remove.fulfilled, (state, action) => { state.loading = false; delete state.data[action.payload.data]; });
+	builder.addCase(remove.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
 export const create = createAsyncThunk(name + '/create', API.create);
 const create_ = (builder) => {
-	builder.addCase(create.pending, (state, action) => {
-		state.loading = true;
-	});
+	builder.addCase(create.pending, (state, action) => { state.loading = true; });
 	builder.addCase(create.fulfilled, (state, action) => {
-		state.loading = false;
-		state.data[action.payload.key] = action.payload;
+		state.loading = false; state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(create.rejected, (state, action) => {
 		state.loading = false;
@@ -94,4 +76,5 @@ const edit_ = (builder) => {
 		state.error = action.payload;
 	});
 }
+
 export default Slice.reducer;

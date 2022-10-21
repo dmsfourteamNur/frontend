@@ -47,7 +47,7 @@ class operaciones extends Component {
 		Http.GET(API + ControllerTripulacion).then(resp => { this.setState({ dataTripulacion: resp }); })
 
 		var requestOptions = { method: "GET", redirect: "follow" };
-		fetch("http://localhost:8080/api/vuelo", requestOptions)
+		fetch("http://34.125.171.46:80/api/vuelo", requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				this.state.dataVuelo = result;

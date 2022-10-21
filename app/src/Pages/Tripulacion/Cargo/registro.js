@@ -18,12 +18,13 @@ export default (props) => {
 		}
 	}, [])
 
-	// if (!data && state.key) return <SLoad />
 	var item;
 	if (state.key) {
 		item = data[state.key]
 		if (!item) return <SLoad />
 	}
+
+	if (!data || loading) return <SLoad />;
 
 	return (<SPage title={'Registro'}>
 		<SHr height={25} />
@@ -42,13 +43,11 @@ export default (props) => {
 				}}
 				onSubmit={(values) => {
 					if (state.key != "") {
-						// Http.PUT(API + Controller + "/" + state.key, values).then(result => SNavigation.goBack())
 						dispatch(edit({
 							...item,
 							...values
 						}));
 					} else {
-						// Http.POST(API + Controller + "/registro", values).then(result => SNavigation.goBack())
 						dispatch(create(values));
 					}
 					SNavigation.goBack();

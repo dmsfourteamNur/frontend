@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API  from '../../services/tripulacion/tripulacionApi';
-const name = "tripulacion"
+import * as API from '../../services/vuelo/AeronaveApi';
+const name = "aeronave"
 const initialState = {
 	data: {},
 	loading: false,
@@ -17,8 +17,7 @@ const Slice = createSlice({
 		remove_(builder)
 		create_(builder)
 		edit_(builder)
-		add_(builder)
-		removeAdd_(builder)
+
 	}
 });
 
@@ -31,7 +30,7 @@ const getAll_ = (builder) => {
 		state.loading = false;
 		state.data = {};
 		action.payload.map(obj => {
-			state.data[obj.key] = obj;
+			state.data[obj.keyAeronave] = obj;
 		})
 	});
 	builder.addCase(getAll.rejected, (state, action) => {
@@ -61,7 +60,8 @@ const remove_ = (builder) => {
 	});
 	builder.addCase(remove.fulfilled, (state, action) => {
 		state.loading = false;
-		delete state.data[action.payload];
+		// console.log(action.payload);
+		delete state.data[action.payload.data];
 	});
 	builder.addCase(remove.rejected, (state, action) => {
 		state.loading = false;
@@ -76,6 +76,7 @@ const create_ = (builder) => {
 	builder.addCase(create.fulfilled, (state, action) => {
 		state.loading = false;
 		state.data[action.payload.key] = action.payload;
+		// state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(create.rejected, (state, action) => {
 		state.loading = false;
@@ -96,32 +97,5 @@ const edit_ = (builder) => {
 		state.error = action.payload;
 	});
 }
-export const add = createAsyncThunk(name + '/add', API.add);
-const add_ = (builder) => {
-	builder.addCase(add.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(add.fulfilled, (state, action) => {
-		state.loading = false;
-		state.data[action.payload.key] = action.payload;
-	});
-	builder.addCase(add.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
-}
-export const removeAdd = createAsyncThunk(name + '/removeAdd', API.removeAdd);
-const removeAdd_ = (builder) => {
-	builder.addCase(removeAdd.pending, (state, action) => {
-		state.loading = true;
-	});
-	builder.addCase(removeAdd.fulfilled, (state, action) => {
-		state.loading = false;
-		state.data[action.payload.key] = action.payload;
-	});
-	builder.addCase(removeAdd.rejected, (state, action) => {
-		state.loading = false;
-		state.error = action.payload;
-	});
-}
+
 export default Slice.reducer;
