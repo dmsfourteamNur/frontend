@@ -44,13 +44,13 @@ export default (props) => {
               {key: 'KeyVuelo', label: 'KeyVuelo', width: 130},
               {key: 'NumeroAsiento', label: 'NumeroAsiento', width: 130},
               {
-                key: 'equipaje/0/Descripcion',
-                label: 'Descripcion E.',
+                key: 'equipaje/0/PesoEquipaje',
+                label: 'Peso equipaje',
                 width: 130
               },
               {
-                key: 'equipaje/0/PesoEquipaje',
-                label: 'Peso equipaje',
+                key: 'equipaje/0/Descripcion',
+                label: 'Descripcion E.',
                 width: 130
               }
             ]}

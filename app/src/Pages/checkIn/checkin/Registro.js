@@ -2,16 +2,11 @@ import {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   SButtom,
-  SForm,
-  SHr,
   SIcon,
   SPage,
   SText,
-  STheme,
   SView,
-  STable2,
   SNavigation,
-  SLoad,
   SInput,
   SList,
   SPopup,
@@ -19,27 +14,65 @@ import {
   SDate
 } from 'servisofts-component';
 import {getByIdPersona} from '../../../Redux/checkIn/personaByIdSlice';
+import {checkInregistro} from '../../../Redux/checkIn/registroSlice';
 
 export default (props) => {
   const {loading, data, error} = useSelector((state) => state.persona);
+  //   const {dataRegistro} = useSelector((state) => state.registro);
   const dispatch = useDispatch();
   const formulario = useRef();
   const checkbox = useRef();
-  const [selectAsiento, setSelectAsiento] = useState('');
+  const descripcion = useRef();
+  const etiqueta = useRef();
+  const peso = useRef();
+  const desc = useRef();
+  const [selectAsiento, setSelectAsiento] = useState({
+    key: '',
+    numero: 0
+  });
   const [checkboxSelect, setCheckboxSelect] = useState(true);
+  const [descripcionPaciente, setDescripcionPaciente] = useState('');
 
-  useEffect(() => {
-    console.log(JSON.stringify(data));
-    // dispatch(getAllCheckIn());
-  }, [data]);
+  //   useEffect(() => {
+  //     console.log(dataRegistro);
+  //     if (JSON.stringify(dataRegistro) != {}) {
+  //       console.log(JSON.stringify(dataRegistro));
+  //       SNavigation.goBack();
+  //     }
+  //   }, [dataRegistro]);
 
   const getPasajero = (id) => {
     console.log(id);
     dispatch(getByIdPersona(id));
   };
 
+  const handleSubmit = () => {
+    if (selectAsiento.key == '') {
+      SPopup.alert('debe elejir un asiento');
+    }
+
+    const params = {
+      EstadoPaciente: checkbox.current.getValue(),
+      Descripcion: descripcionPaciente,
+      NumeroAsiento: selectAsiento.numero,
+      KeyVenta: data.keyVenta,
+      KeyVuelo: data.keyVuelo,
+      KeyAsiento: selectAsiento.key,
+      EquipajeDto: [
+        {
+          PesoEquipaje: peso.current.getValue(),
+          NumeroEtiqueta: etiqueta.current.getValue(),
+          Descripcion: desc.current.getValue()
+        }
+      ]
+    };
+    console.log(params);
+    dispatch(checkInregistro(params));
+    SNavigation.goBack();
+  };
+
   return (
-    <SPage hidden>
+    <SPage hidden height>
       <SView col={'xs-12'} row height={100} center>
         <SInput
           icon={
@@ -65,6 +98,7 @@ export default (props) => {
           col={'xs-12 md-3'}
           border={'#ddd'}
           style={{borderRadius: 30}}
+          height={400}
           center>
           <SText style={{margin: 10}}>Pasajero</SText>
           <SInput
@@ -155,9 +189,41 @@ export default (props) => {
                     style={{padding: 4}}
                     type={'textArea'}
                     customStyle={'EStyle'}
+                    ref={descripcion}
+                    onChangeText={() =>
+                      setDescripcionPaciente(descripcion.current.getValue())
+                    }
                   />
                 </>
               )}
+              <SView col={'xs-12'} row>
+                <SText col={'xs-12'} style={{marginTop: 10}}>
+                  Registro de Equipaje
+                </SText>
+                <SInput
+                  col={'xs-5'}
+                  style={{padding: 4}}
+                  customStyle={'EStyle'}
+                  placeholder={'peso'}
+                  type={'number'}
+                  ref={peso}
+                />
+                <SInput
+                  col={'xs-7'}
+                  style={{padding: 4}}
+                  customStyle={'EStyle'}
+                  placeholder={'Etiqueta'}
+                  ref={etiqueta}
+                />
+                <SInput
+                  col={'xs-12s'}
+                  style={{padding: 4}}
+                  placeholder={'descripción'}
+                  type={'textArea'}
+                  customStyle={'EStyle'}
+                  ref={desc}
+                />
+              </SView>
             </SView>
             <SView col={'xs-6'} row height={200}>
               <SScrollView2 disableHorizontal>
@@ -171,10 +237,7 @@ export default (props) => {
                         col={'xs-2'}
                         center
                         card
-                        style={{margin: 4, backgroundColor: '#fe0000'}}
-                        onPress={() => {
-                          setSelectAsiento({key: data.key});
-                        }}>
+                        style={{margin: 4, backgroundColor: '#fe0000'}}>
                         <SText>{data.numeroAsiento}</SText>
                       </SView>
                     ) : (
@@ -183,7 +246,7 @@ export default (props) => {
                         center
                         card
                         style={
-                          selectAsiento == data.key
+                          selectAsiento.key == data.key
                             ? {
                                 margin: 4,
                                 backgroundColor: '#ff0'
@@ -194,7 +257,10 @@ export default (props) => {
                               }
                         }
                         onPress={() => {
-                          setSelectAsiento(data.key);
+                          setSelectAsiento({
+                            key: data.key,
+                            numero: data.numeroAsiento
+                          });
                         }}>
                         <SText>{data.numeroAsiento}</SText>
                       </SView>
@@ -204,23 +270,9 @@ export default (props) => {
               </SScrollView2>
             </SView>
             <SButtom
-              onPress={() =>
-                SPopup.open({
-                  key: 'pop',
-                  content: (
-                    <SView
-                      borderRadius={30}
-                      col={'xs-12'}
-                      height={300}
-                      width={300}
-                      center={200}
-                      backgroundColor={'#929292'}>
-                      <SText>ahsa</SText>
-                    </SView>
-                  )
-                })
-              }>
-              mostrar
+              style={{backgroundColor: '#0f0', borderRadius: 20, height: 40}}
+              onPress={() => handleSubmit()}>
+              Guardar
             </SButtom>
           </SView>
         </SView>
