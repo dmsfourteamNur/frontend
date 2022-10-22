@@ -27,15 +27,17 @@ export default (props) => {
 		// 	SNavigation.goBack();
 		// }
 
-		console.log(aeronave.data)
-
+		dispatch(aeronaveSlice.getAll());
+		dispatch(tripulacionSlice.getAll());
 		if (state.key != "") {
 			dispatch(getByKey(state.key));
-			dispatch(aeronaveSlice.getAll());
-			dispatch(tripulacionSlice.getAll());
+
 		}
 	}, [])
+	if (!tripulacion.data) return <SLoad />
+	if (!aeronave.data) return <SLoad />
 
+	console.log(data);
 	var item;
 	if (state.key) {
 		item = data[state.key]
@@ -66,9 +68,9 @@ export default (props) => {
 
 		cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
 		Object.values(aeronave?.data).map((item, index) => {
-			if (item.estado == "1") {
-				cargarAeronaves[index + 1] = { key: item.keyAeronave, content: item.matricula }
-			}
+			// if (item.estado == "1") {
+			cargarAeronaves.push({ key: item.keyAeronave, content: item.matricula })
+			// }
 		});
 		return cargarAeronaves;
 	}
@@ -80,10 +82,11 @@ export default (props) => {
 		var cargarTripulacion = [];
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
 		Object.values(tripulacion?.data).map((item, index) => {
-			if (item.estado == "1") {
-				cargarTripulacion[index + 1] = { key: item.keyTripulacion, content: item.descripcion }
-			}
-		}); return cargarTripulacion;
+			// if (item.estado == "1") {
+			cargarTripulacion.push({ key: item.keyTripulacion, content: item.descripcion })
+			// }
+		});
+		return cargarTripulacion;
 	}
 
 
@@ -145,7 +148,6 @@ export default (props) => {
 									label: "keyAeronave",
 									placeholder: 'keyAeronave *',
 									isRequired: true,
-
 									defaultValue: item?.keyAeronave ?? " ",
 									// defaultValue: aeronave.data[item?.keyAeronave].matricula ?? " ",
 									options: getAeronaves(),
@@ -266,16 +268,17 @@ export default (props) => {
 									"fechaSalida": values.dateDeparture + "T" + values.timeDeparture + ":00.000",
 									"fechaArribe": values.dateArrival + "T" + values.timeArrival + ":00.000",
 									"keyTripulacion": values.keyTripulacion,
-									"observacion": "partida",
-									"estado": "2"
 								}
 
 								if (state.key != "") {
 									dispatch(edit({ ...item, ...vueloFormateado }));
 								} else {
+									vueloFormateado["estado"] = "1";
+									vueloFormateado["observacion"] = "En horario";
 									dispatch(create(vueloFormateado));
 								}
-								SNavigation.goBack();
+								window.location.href = "/vuelo/vuelo/operaciones";
+								// SNavigation.goBack();
 							}}
 						/>
 						<Button onPress={() => {

@@ -5,8 +5,10 @@ const create = async (data) => {
 	const response = await Api().post(name + "/registro", data, {
 		timeout: 8000
 	})
-	console.log(response.data);
-	return await getByKey(response.data);
+	if (response.status == 200) {
+		return await getByKey(response.data);
+	}
+	return response.data;
 };
 
 const edit = async (data) => {

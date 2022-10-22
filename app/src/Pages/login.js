@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { SButtom, SForm, SHr, SIcon, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
 import Http from '../Http';
+import JWT from '../JWT';
 
 
 
@@ -95,14 +96,10 @@ export default (props) => {
 								}
 							}}
 							onSubmit={(data) => {
-								console.log(data);
-								fetch("https://jtoken.azurewebsites.net/api/token/admin/1234", {
-									method: 'GET',
-									redirect: 'follow',
-								}).then(result => result.text()).then(result => {
-									console.log(result)
+								JWT.login({ usr: data.usuario, pass: data.password }).then(result => {
+									window.location.href = "/";
 								}).catch(error => {
-									console.log("ASdas")
+									SPopup.alert(error);
 								});
 							}}
 						/>

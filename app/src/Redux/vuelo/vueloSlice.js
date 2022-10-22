@@ -31,7 +31,11 @@ const getAll_ = (builder) => {
 export const getByKey = createAsyncThunk(name + '/getByKey', API.getByKey);
 const getByKey_ = (builder) => {
 	builder.addCase(getByKey.pending, (state, action) => { state.loading = true; });
-	builder.addCase(getByKey.fulfilled, (state, action) => { state.loading = false; state.data[action.payload.key] = action.payload; });
+	builder.addCase(getByKey.fulfilled, (state, action) => {
+		state.loading = false;
+		if (!state.data) state.data = {};
+		state.data[action.payload.data.key] = action.payload.data;
+	});
 	builder.addCase(getByKey.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
 }
 export const remove = createAsyncThunk(name + '/delete', API.remove);

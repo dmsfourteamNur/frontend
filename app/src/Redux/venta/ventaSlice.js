@@ -45,6 +45,8 @@ const getByKey_ = (builder) => {
 	});
 	builder.addCase(getByKey.fulfilled, (state, action) => {
 		state.loading = false;
+		if (!state.data) state.data = {}
+		console.log(action.payload)
 		state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(getByKey.rejected, (state, action) => {
@@ -60,6 +62,7 @@ const remove_ = (builder) => {
 	});
 	builder.addCase(remove.fulfilled, (state, action) => {
 		state.loading = false;
+		if (!state.data) state.data = {}
 		delete state.data[action.payload];
 	});
 	builder.addCase(remove.rejected, (state, action) => {
@@ -71,15 +74,16 @@ export const create = createAsyncThunk(name + '/create', API.create);
 const create_ = (builder) => {
 	builder.addCase(create.pending, (state, action) => {
 		state.loading = true;
+		state.error = "";
 	});
 	builder.addCase(create.fulfilled, (state, action) => {
 		state.loading = false;
+		if (!state.data) state.data = {}
 		state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(create.rejected, (state, action) => {
 		state.loading = false;
-		console.log(action.payload)
-		state.error = action.payload;
+		state.error = action.payload ?? "Error el dni ya se encuentra en este vuelo.";
 	});
 }
 export const edit = createAsyncThunk(name + '/edit', API.edit);
@@ -89,7 +93,7 @@ const edit_ = (builder) => {
 	});
 	builder.addCase(edit.fulfilled, (state, action) => {
 		state.loading = false;
-		console.log(action.payload)
+		if (!state.data) state.data = {}
 		state.data[action.payload.key] = action.payload;
 	});
 	builder.addCase(edit.rejected, (state, action) => {

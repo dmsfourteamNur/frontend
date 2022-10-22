@@ -7,8 +7,9 @@ export default (props) => {
 		<SPage title={'Aeronave'} disableScroll>
 			<SView center col={'xs-12'} >
 				<SView col={'xs-12'} row center>
-					<ButtonCuadrado url="/venta/vuelo/lista" name="Vuelos" icon="Ajustes" />
-					<ButtonCuadrado url="/venta/lista" name="Ventas" icon="Ajustes" />
+					<ButtonCuadrado url="/venta/vuelo" name="Tarifas" icon="Ajustes" />
+					{/* <ButtonCuadrado url="/venta/vuelo/select" name="v. Select" icon="Ajustes" /> */}
+					<ButtonCuadrado url="/venta/lista" name="Ventas" icon="Money" />
 					<ButtonCuadrado url="/venta/registro" name="Vender" icon="Carrito" />
 				</SView>
 			</SView>

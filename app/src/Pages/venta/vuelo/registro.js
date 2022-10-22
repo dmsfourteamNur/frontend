@@ -40,6 +40,7 @@ export default (props) => {
 					<SForm
 						ref={formulario}
 						col={'xs-11 sm-10 md-8 lg-6 xl-4'}
+						row
 						center
 						inputs={{
 							descripcion: {
@@ -49,12 +50,14 @@ export default (props) => {
 								defaultValue: item?.descripcion,
 							},
 							cantidad: {
+								col:"xs-6",
 								label: 'Cantidad',
 								type: 'number',
 								isRequired: true,
 								defaultValue: item?.cantidad,
 							},
 							precio: {
+								col:"xs-6",
 								label: 'Precio',
 								type: 'money',
 								isRequired: true,
@@ -67,7 +70,7 @@ export default (props) => {
 
 							console.log(values)
 							dispatch(add({
-								...{ keyVuelo: state.key },
+								keyVuelo: state.key,
 								...values
 							}));
 
@@ -77,7 +80,7 @@ export default (props) => {
 					/>
 					<Button onPress={() => {
 						formulario.current.submit();
-					}}>{state.key ? 'EDITAR' : 'REGISTRAR'}</Button>
+					}}>{'REGISTRAR'}</Button>
 				</SView>
 
 			</SPage>

@@ -12,7 +12,7 @@ export default (props) => {
 	}, []);
 
 	if (!data) return <SLoad />
-	console.log(data)
+
 	return (
 		<SPage title={'Ventas'} disableScroll>
 			<SView center col={'xs-12'} height>
@@ -44,7 +44,17 @@ export default (props) => {
 								return TarifasStr;
 							}
 						},
-						{ key: 'key', label: 'Adicionar tarifa', width: 100, center: true, component: (key_) => <SView onPress={() => { SNavigation.navigate("/venta/vuelo/registro", { key: key_ }) }}><SText>Añadir</SText></SView> },
+						{
+							key: 'key', label: 'Seleccionar', width: 100, center: true,
+							component: (key_) => <SView onPress={() => {
+								var callback = SNavigation.getParam("callback");
+								if (callback) {
+									callback(key_)
+								}
+								SNavigation.goBack();
+							}}><SText>Añadir</SText>
+							</SView>
+						},
 
 					]}
 					data={data}

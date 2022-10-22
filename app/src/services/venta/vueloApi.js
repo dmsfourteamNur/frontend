@@ -35,6 +35,7 @@ const add = async (data) => {
 	const response = await Api().put(name + "/AddTarifa/" + data.keyVuelo, data, {
 		timeout: 8000
 	})
+	console.log(response.data);
 	return response.data
 };
 

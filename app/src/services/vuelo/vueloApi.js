@@ -29,7 +29,7 @@ const cancel = async (data) => {
 	return response.data;
 };
 const arrive = async (data) => {
-	const response = await Api().put("vuelo/arrive/" + data.key, { timeout: 8000 });
+	const response = await Api().put("vuelo/arrive/" + data, { timeout: 8000 });
 	return response.data;
 };
 

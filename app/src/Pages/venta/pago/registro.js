@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad, SPopup } from 'servisofts-component';
 import Button from '../../../Components/Button';
 import FloatButtom from '../../../Components/FloatButtom';
+import Config from '../../../Config';
+import Http from '../../../Http';
 import { getByKey, create, edit, add } from '../../../Redux/venta/ventaSlice';
 
 export default (props) => {
@@ -18,21 +20,25 @@ export default (props) => {
 			dispatch(getByKey(state.key));
 		}
 	}, [])
+	useEffect(() => {
+		if(!error) return;
+		SPopup.alert(error);
+
+	}, [error])
 
 	var item;
 	if (state.key) {
+		if (!data) return <SLoad />
 		item = data[state.key]
 		if (!item) return <SLoad />
 		// if (!state.data.keyModelo) state.data.keyModelo = item.keyModelo;
 
 	}
-	if (error) {
-		SPopup.alert("error")
-	}
+
 
 	return (
 		<>
-			{loading && <SLoad />}
+			{/* {loading && <SLoad />} */}
 			{!data && <SLoad />}
 			<SPage title={'Registro'}>
 				<SHr height={25} />
@@ -42,46 +48,51 @@ export default (props) => {
 						col={'xs-11 sm-10 md-8 lg-6 xl-4'}
 						center
 						inputs={{
-							descripcion: {
-								label: 'Descripción',
-								type: 'text',
-								isRequired: true,
-								defaultValue: item?.descripcion,
-							},
-							keyVenta: {
-								label: 'keyVenta',
-								type: 'text',
-								isRequired: true,
-								defaultValue: item?.keyVenta,
-							},
+							// descripcion: {
+							// 	label: 'Descripción',
+							// 	type: 'text',
+							// 	isRequired: true,
+							// },
+							// keyVenta: {
+							// 	label: 'keyVenta',
+							// 	type: 'text',
+							// 	isRequired: true,
+							// 	defaultValue: item?.keyVenta,
+							// },
 							monto: {
 								label: 'Monto',
 								type: 'money',
 								isRequired: true,
-								defaultValue: item?.precio,
 							},
 							tipo: {
-								label: 'Tipo',
+								label: 'Tipo de pago',
 								type: 'select',
 								// STheme: 'dark',
 								options: [{ key: "", content: <SText color={"#f0f"}>Elegir</SText> }, { key: "QR", content: "QR" }, { key: "EFECTIVO", content: "EFECTIVO" }],
 								isRequired: true,
-								defaultValue: item?.tipo,
+								defaultValue: "EFECTIVO",
 							},
 
 
 						}}
 						onSubmit={(values) => {
+							Http.POST(Config.apis.venta + "pago/registro", {
+								keyVenta: state.key,
+								descripcion: "Pago de pasaje ",
+								...values,
+							}).then(e => {
+								window.location.href = "/venta/lista"
+							}).catch((e) => {
+								SPopup.alert("Error al realizar el pago")
+								console.error(e);
+							})
 
-
-
-
-							SNavigation.goBack();
+							// SNavigation.goBack();
 						}}
 					/>
 					<Button onPress={() => {
 						formulario.current.submit();
-					}}>{state.key ? 'EDITAR' : 'REGISTRAR'}</Button>
+					}}>{'PAGAR'}</Button>
 				</SView>
 
 			</SPage>

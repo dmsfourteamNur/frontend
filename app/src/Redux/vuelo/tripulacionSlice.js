@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as API from '../../services/vuelo/TripulacionApi';
-const name = "tripulacion"
+const name = "vuelo_tripulacion"
 const initialState = {
-	data: {},
+	data: null,
 	loading: false,
 	error: false
 };

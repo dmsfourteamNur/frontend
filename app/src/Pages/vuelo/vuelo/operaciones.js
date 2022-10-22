@@ -118,13 +118,14 @@ export default (props) => {
 							},
 
 							{
-								key: 'key-arrive', label: 'Arrive', width: 60, center: true,
-								component: (item) => {
-									if (estado == "1") {
+								key: '-arrive', label: 'Arrive', width: 60, center: true,
+								component: (obj) => {
+									if (obj.estado == "1") {
+										console.log(obj)
 										return (
 											<SView width={35} height={35} onPress={() => {
 												// var obj = data[key];
-												SPopup.confirm({ title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(arrive(item)) } });
+												SPopup.confirm({ title: 'Eliminar', message: '¿Esta seguro que vuelo arribo?', onPress: () => { dispatch(arrive(obj.key)) } });
 											}}>
 												<SIcon name={'BtnOperaciones'} />
 											</SView>

@@ -110,6 +110,42 @@ const inputs = () => {
                 borderColor: STheme.color.danger,
                 borderRadius: 8
             },
+		},
+		"ricky": {
+			"LabelStyle": {
+				position: "absolute",
+				top: -10,
+				left: 2,
+				fontSize: 12,
+				font: "Roboto",
+				width: "110%",
+				// fontWeight: "bold"
+				// color: STheme.color.text,
+			}, "View": {
+                height: 40,
+                marginTop: 30,
+                // paddingEnd: 10,
+                // color: STheme.color.text,
+            },
+            "InputText": {
+                fontSize: 16,
+                paddingStart: 16,
+                // color: STheme.color.text,
+                backgroundColor: "#E0E0E0" + "55",
+                borderRadius: 8
+            },
+            "Select": {
+                fontSize: 16,
+                paddingStart: 16,
+                // color: STheme.color.text,
+                backgroundColor: "#E0E0E0" + "55",
+                borderRadius: 8
+            },
+            "error": {
+                borderWidth: 2,
+                borderColor: STheme.color.danger,
+                borderRadius: 8
+            },
 		}
     }
 }
