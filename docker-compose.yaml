@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  builder:
+    image: dmsfourteam/builder
+    build: ./app
+    volumes:
+      - ./html:/app/build
+  web:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./html:/usr/share/nginx/html
+      - ./nginx/conf.d:/etc/nginx/conf.d

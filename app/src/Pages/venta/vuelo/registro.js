@@ -67,7 +67,6 @@ export default (props) => {
 
 						}}
 						onSubmit={(values) => {
-
 							console.log(values)
 							dispatch(add({
 								keyVuelo: state.key,
