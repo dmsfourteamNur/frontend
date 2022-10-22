@@ -55,13 +55,13 @@ export default (props) => {
 							}
 						},
 						{
-							key: 'key-modelo', label: 'Modelo', width: 50, center: true,
+							key: 'key-modelo', label: 'Add Modelo', width: 70, center: true,
 							component: (item) => {
 								return (
 									<SView onPress={() => {
 										SNavigation.navigate('/aeronave/modelo/registro', { keyMarca: item });
 									}}>
-										<SIcon name={'Ajustes'} width={35} />
+										<SIcon name={'Add'} width={35} />
 									</SView>
 								);
 							}

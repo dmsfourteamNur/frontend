@@ -6,7 +6,7 @@ import FloatButtom from '../../../Components/FloatButtom';
 import { getByKey, create, edit, add } from '../../../Redux/venta/vueloSlice';
 
 export default (props) => {
-	const { loading, data, error } = useSelector((state) => state.vuelo);
+	const { loading, data, error } = useSelector((state) => state.ventaVuelo);
 	const dispatch = useDispatch();
 	const formulario = useRef();
 	const [state, setState] = useState({
@@ -74,8 +74,7 @@ export default (props) => {
 								...values
 							}));
 
-
-							SNavigation.goBack();
+							window.location.href="/venta/vuelo";
 						}}
 					/>
 					<Button onPress={() => {

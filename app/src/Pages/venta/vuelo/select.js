@@ -4,7 +4,7 @@ import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavi
 import { getAll } from '../../../Redux/venta/vueloSlice';
 
 export default (props) => {
-	const { loading, data, error } = useSelector((state) => state.vuelo);
+	const { loading, data, error } = useSelector((state) => state.ventaVuelo);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -33,16 +33,6 @@ export default (props) => {
 						{
 							key: 'asiento', label: 'Asientos', width: 70,
 							render: o => o.length
-						},
-						{
-							key: 'tarifas', label: 'Tarifas', width: 200,
-							render: o => {
-								var TarifasStr = ""
-								o.map(i => {
-									TarifasStr += `${i.decripcion} - Bs. ${SMath.formatMoney(i.precio)} \n`
-								})
-								return TarifasStr;
-							}
 						},
 						{
 							key: 'key', label: 'Seleccionar', width: 100, center: true,

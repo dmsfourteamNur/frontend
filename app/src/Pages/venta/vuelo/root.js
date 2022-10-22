@@ -4,7 +4,7 @@ import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavi
 import { getAll } from '../../../Redux/venta/vueloSlice';
 
 export default (props) => {
-	const { loading, data, error } = useSelector((state) => state.vuelo);
+	const { loading, data, error } = useSelector((state) => state.ventaVuelo);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -17,7 +17,7 @@ export default (props) => {
 		<SPage title={'Ventas'} disableScroll>
 			<SView center col={'xs-12'} height>
 				<STable2
-					rowHeight={50}
+					rowHeight={70}
 					header={[
 						{ key: 'index', label: '#', width: 50 },
 						{ key: 'origen', label: 'Origen', width: 60 },
@@ -38,6 +38,7 @@ export default (props) => {
 							key: 'tarifas', label: 'Tarifas', width: 200,
 							render: o => {
 								var TarifasStr = ""
+								if(!o) return "";
 								o.map(i => {
 									TarifasStr += `${i.decripcion} - Bs. ${SMath.formatMoney(i.precio)} \n`
 								})

@@ -4,7 +4,9 @@ import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavi
 import Button from '../../../../Components/Button';
 import FloatButtom from '../../../../Components/FloatButtom';
 import { getByKey, AddAsiento, edit } from '../../../../Redux/aeronave/aeronaveSlice';
-
+const timeout = (ms) => {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 export default (props) => {
 	const { loading, data, error } = useSelector((state) => state.aeronave);
 	const dispatch = useDispatch();
@@ -51,13 +53,27 @@ export default (props) => {
 						defaultValue: item?.matricula,
 
 					},
+					cantidad: {
+						label: 'cantidad',
+						type: 'number',
+						isRequired: true,
+						defaultValue: 1,
+
+					},
 
 				}}
-				onSubmit={(values) => {
+				onSubmit={async (values) => {
 					values["keyAeronave"] = state.keyAeronave
-					console.log(values)
-					dispatch(AddAsiento(values));
-					SNavigation.goBack();
+					for (let i = 0; i < values.cantidad; i++) {
+						await timeout(200);
+						dispatch(AddAsiento({
+							...values,
+							numero: parseInt(values.numero) + parseInt(i)
+						}));
+					}
+					await timeout(200);
+					window.location.href = "/aeronave/aeronave/asientos?keyAeronave=" + state.keyAeronave
+					// SNavigation.goBack();
 				}}
 			/>
 			<Button onPress={() => {

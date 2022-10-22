@@ -24,8 +24,8 @@ export default (props) => {
 			<SView center col={'xs-12'} height>
 				<STable2
 					header={[
-						{ key: 'index', label: '#', width: 50 },
-						{ key: 'numero', label: 'Numero', width: 70, center: true },
+						// { key: 'index', label: '#', width: 50 },
+						{ key: 'numero', label: 'Numero', order:"desc", width: 70, center: true },
 						{ key: 'clase', label: 'Clase', width: 170, center: true },
 
 					]}
