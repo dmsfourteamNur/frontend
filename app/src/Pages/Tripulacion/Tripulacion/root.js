@@ -48,7 +48,7 @@ export default (props) => {
 											backgroundColor={item == 1 ? STheme.color.success : STheme.color.error}
 											style={{ borderRadius: 25 }}>
 										</SView>
-										<SText fontSize={10}>{item == 1 ? "Disponible" : "No disponible"} {item}</SText>
+										<SText fontSize={10}>{item == 1 ? "Disponible" : "No disponible"} </SText>
 									</SView>
 								);
 							}
@@ -114,27 +114,27 @@ export default (props) => {
 								);
 							}
 						},
-						{
-							key: 'key-tripulacio',
-							label: 'Lista Tripulante',
-							width: 100,
-							center: true,
-							component: (item) => {
-								console.log(data?.Tripulantes?.length+" dd")
-								if (data?.Tripulantes?.length > 0) {
-									return (
-										<SView
-											onPress={() => {
-												SNavigation.navigate('/tripulacion/tripulacion/addTripulante', {
-													key: item
-												});
-											}}>
-											<SIcon name={'AddTripulante'} width={35} />
-										</SView>
-									);
-								}
-							}
-						},
+						// {
+						// 	key: 'key-tripulacio',
+						// 	label: 'Lista Tripulante',
+						// 	width: 100,
+						// 	center: true,
+						// 	component: (item) => {
+						// 		console.log(data?.Tripulantes?.length+" dd")
+						// 		if (data?.Tripulantes?.length > 0) {
+						// 			return (
+						// 				<SView
+						// 					onPress={() => {
+						// 						SNavigation.navigate('/tripulacion/tripulacion/addTripulante', {
+						// 							key: item
+						// 						});
+						// 					}}>
+						// 					<SIcon name={'AddTripulante'} width={35} />
+						// 				</SView>
+						// 			);
+						// 		}
+						// 	}
+						// },
 					]}
 					data={data}
 					filter={(dta) => {
