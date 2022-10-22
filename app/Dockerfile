@@ -9,9 +9,9 @@ COPY ["package.json", "package-lock.json*", "./"]
 COPY . .
 
 RUN npm install
-RUN npm run build
+# RUN npm run build
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD [ "cp" , "-r", "/app/build" ,"/app/release" ]
-# CMD [ "npm" , "run","build" ]
+# CMD [ "echo" , "Build ready" ]
+CMD [ "npm" , "start" ]

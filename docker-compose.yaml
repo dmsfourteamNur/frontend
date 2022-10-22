@@ -1,16 +1,18 @@
 version: "3.7"
 services:
-  builder:
+  page:
     image: dmsfourteam/builder
     build: ./app
-    volumes:
-      - ./html:/app/release
-  web:
-    image: nginx:latest
-    depends_on: 
-      - "builder"
     ports:
-      - 80:80
-    volumes:
-      - ./html/build:/usr/share/nginx/html
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - 80:3000
+    # volumes:
+      # - ./html:/app/release
+  # web:
+  #   image: nginx:latest
+  #   depends_on: 
+  #     - "builder"
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./html/build:/usr/share/nginx/html
+  #     - ./nginx/conf.d:/etc/nginx/conf.d
