@@ -36,7 +36,7 @@ export default (props) => {
 		if (!item) return <SLoad />
 	}
 
-	state.dataCargoOk.push({ key: "", content: "Elegir" })
+	// state.dataCargoOk.push({ key: "", content: "Elegir" })
 	var dataCargo = cargo.data;
 	Object.keys(dataCargo).map((item2, index) =>
 		state.dataCargoOk[index + 1] = { key: dataCargo[item2].key, content: dataCargo[item2].Descripcion }
