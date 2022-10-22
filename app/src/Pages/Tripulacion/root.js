@@ -6,6 +6,7 @@ export default (props) => {
     return (
         <SPage title={'Tripulación'} disableScroll>
             <SView center col={'xs-12'} height >
+			<SText center col={"xs-12"} style={{ fontSize: 48, }}> Microservicio Tripulación</SText>
                 <SHr height={50} />
                 <SView col={'xs-11 md-10 xl-10'} center row>
                     <ButtonCuadrado url="/tripulacion/cargo" name="CARGO" icon="Cargo" />

@@ -7,6 +7,8 @@ export default (props) => {
 		<SPage title={'Aeronave'} disableScroll>
 			<SView center col={'xs-12'} >
 				<SView col={'xs-12'} row center>
+					<SText center col={"xs-12"} style={{ fontSize: 48, }}> Microservicio Aeronave</SText>
+					<SHr height={50} />
 					<ButtonCuadrado url="/venta/vuelo" name="Tarifas" icon="Ajustes" />
 					{/* <ButtonCuadrado url="/venta/vuelo/select" name="v. Select" icon="Ajustes" /> */}
 					<ButtonCuadrado url="/venta/lista" name="Ventas" icon="Money" />
