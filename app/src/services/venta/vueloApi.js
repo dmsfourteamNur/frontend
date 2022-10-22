@@ -32,7 +32,7 @@ const getByKey = async (data) => {
 	return response.data;
 };
 const add = async (data) => {
-	const response = await Api().put(name + "/addTripulante/" + data.keyCargo, {key: data.key}, {
+	const response = await Api().put(name + "/AddTarifa/" + data.keyVuelo, data, {
 		timeout: 8000
 	})
 	return response.data

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SPage, SText, STheme, SView, STable2, SNavigation, SLoad, SPopup } from 'servisofts-component';
 import Button from '../../../Components/Button';
 import FloatButtom from '../../../Components/FloatButtom';
-import { getByKey, create, edit, add } from '../../../Redux/venta/vueloSlice';
+import { getByKey, create, edit, add } from '../../../Redux/venta/ventaSlice';
 
 export default (props) => {
-	const { loading, data, error } = useSelector((state) => state.vuelo);
+	const { loading, data, error } = useSelector((state) => state.venta);
 	const dispatch = useDispatch();
 	const formulario = useRef();
 	const [state, setState] = useState({
@@ -48,28 +48,32 @@ export default (props) => {
 								isRequired: true,
 								defaultValue: item?.descripcion,
 							},
-							cantidad: {
-								label: 'Cantidad',
-								type: 'number',
+							keyVenta: {
+								label: 'keyVenta',
+								type: 'text',
 								isRequired: true,
-								defaultValue: item?.cantidad,
+								defaultValue: item?.keyVenta,
 							},
-							precio: {
-								label: 'Precio',
+							monto: {
+								label: 'Monto',
 								type: 'money',
 								isRequired: true,
 								defaultValue: item?.precio,
+							},
+							tipo: {
+								label: 'Tipo',
+								type: 'select',
+								// STheme: 'dark',
+								options: [{ key: "", content: <SText color={"#f0f"}>Elegir</SText> }, { key: "QR", content: "QR" }, { key: "EFECTIVO", content: "EFECTIVO" }],
+								isRequired: true,
+								defaultValue: item?.tipo,
 							},
 
 
 						}}
 						onSubmit={(values) => {
 
-							console.log(values)
-							dispatch(add({
-								...{ keyVuelo: state.key },
-								...values
-							}));
+
 
 
 							SNavigation.goBack();
