@@ -68,9 +68,9 @@ export default (props) => {
 
 		cargarAeronaves.push({ key: " ", content: "Elegir Aeronave" })
 		Object.values(aeronave?.data).map((item, index) => {
-			// if (item.estado == "1") {
+			if (item.estado == "1") {
 			cargarAeronaves.push({ key: item.keyAeronave, content: item.matricula })
-			// }
+			}
 		});
 		return cargarAeronaves;
 	}
@@ -82,9 +82,9 @@ export default (props) => {
 		var cargarTripulacion = [];
 		cargarTripulacion.push({ key: " ", content: "Elegir Tripulación" })
 		Object.values(tripulacion?.data).map((item, index) => {
-			// if (item.estado == "1") {
+			if (item.estado == "1") {
 			cargarTripulacion.push({ key: item.keyTripulacion, content: item.descripcion })
-			// }
+			}
 		});
 		return cargarTripulacion;
 	}

@@ -6,7 +6,7 @@ import { SDate, SIcon, SLoad, SNavigation, SPage, SPopup, STable2, SText, STheme
 import FloatButtom from '../../../Components/FloatButtom';
 import * as aeronaveSlice from '../../../Redux/vuelo/aeronaveSlice';
 import * as tripulacionSlice from '../../../Redux/vuelo/tripulacionSlice';
-import { arrive, cancel, getAll } from '../../../Redux/vuelo/vueloSlice';
+import { arrive, getAll } from '../../../Redux/vuelo/vueloSlice';
 
 export default (props) => {
 
@@ -98,24 +98,24 @@ export default (props) => {
 								}
 							},
 
-							{
-								key: 'key-cancelar', label: 'Cancelar', width: 60, center: true,
-								component: (item) => {
-									// var obj = data[key];
+							// {
+							// 	key: 'key-cancelar', label: 'Cancelar', width: 60, center: true,
+							// 	component: (item) => {
+							// 		// var obj = data[key];
 
-									// console.log(key)
-									if (estado == "1") {
-										return (
-											<SView width={35} height={35} onPress={() => {
-												// var obj = data[key];
-												SPopup.confirm({ title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(cancel(item)) } });
-											}}>
-												<SIcon name={'Delete'} />
-											</SView>
-										);
-									}
-								}
-							},
+							// 		// console.log(key)
+							// 		if (estado == "1") {
+							// 			return (
+							// 				<SView width={35} height={35} onPress={() => {
+							// 					// var obj = data[key];
+							// 					SPopup.confirm({ title: 'Eliminar', message: '¿Esta seguro de cancelar vuelo?', onPress: () => { dispatch(cancel(item)) } });
+							// 				}}>
+							// 					<SIcon name={'Delete'} />
+							// 				</SView>
+							// 			);
+							// 		}
+							// 	}
+							// },
 
 							{
 								key: '-arrive', label: 'Arrive', width: 60, center: true,

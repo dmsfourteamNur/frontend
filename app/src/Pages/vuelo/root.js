@@ -22,7 +22,7 @@ export default (props) => {
 						</SView>
 					</SView>
 
-					{/* <SView col={"xs-11 md-10 xl-10"} center row>
+					<SView col={"xs-11 md-10 xl-10"} center row>
 						<SView width={150} height={150} center onPress={() => { SNavigation.navigate("/vuelo/vuelo/aeronaves"); }}>
 							<SHr height={20} />
 							<SIcon name={"BtnAeronave"} color={STheme.color.primary}></SIcon>
@@ -35,9 +35,9 @@ export default (props) => {
 							<SHr height={5} />
 							<SText>TRIPULACIONES</SText>
 						</SView>
-					</SView> */}
+					</SView>
 
-					{/* <SView col={"xs-11 md-10 xl-10"} center row>
+					<SView col={"xs-11 md-10 xl-10"} center row>
 						<SView width={150} height={150} center onPress={() => { SNavigation.navigate("/vuelo/vuelo/vuelosalidas"); }}>
 							<SHr height={20} />
 							<SIcon name={"BtnOperaciones"} color={STheme.color.primary}></SIcon>
@@ -50,7 +50,7 @@ export default (props) => {
 							<SHr height={5} />
 							<SText>VUELO LLEGADA</SText>
 						</SView>
-					</SView> */}
+					</SView>
 					<SView height={50} />
 				</SView>
 			</SPage>
